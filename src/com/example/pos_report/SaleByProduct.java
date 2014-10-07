@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import com.example.flatui_library.FButton;
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.GlobalProperty;
@@ -16,19 +15,10 @@ import com.example.pos_peport.database.model.ProductModel;
 import com.example.pos_peport.database.model.ProductModel.ProductNameModel;
 import com.example.pos_peport.database.model.SaleProductShop;
 import com.example.pos_peport.database.model.ShopProperty;
-import com.example.pos_peport.database.model.SumPaymentShop;
 import com.example.pos_peport.database.model.SumProductShop;
-import com.example.pos_peport.database.model.SumPromotionShop;
-import com.example.pos_peport.database.model.SumTransactionShop;
 import com.example.pos_peport.database.model.TopProductShop;
-import com.example.pos_report.SaleByDate.PaymentlistAdapter;
-import com.example.pos_report.SaleByDate.PromotionlistAdapter;
-import com.example.pos_report.SaleByDate.SaleListAdapter;
 import com.example.pos_report.database.GetSaleProductShopDao;
-import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
-import com.example.pos_report.database.GetSumPromotionShopDao;
-import com.example.pos_report.database.GetSumTransactionShopDao;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.ProductGroupDao;
@@ -158,7 +148,6 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 		 
 		 Productgroup = pg.getProductGroup();
 		 Productgroup.add(0,item);
-		final GetSumProductShopDao gss = new GetSumProductShopDao(getActivity());
 		shopSelect.setAdapter(new ShopSpinner(Shoplist));
 		
 		topProduct_productSelect.setAdapter(new GroupSpinner(Productgroup));
@@ -305,16 +294,6 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 		return rootView;
 	
 }
-	 /*@Override
-	public void onStart() {
-			super.onStart();
-			
-			new ShopDataLoader(getActivity(), "123").execute(URL);
-			new AllProductDataLoader(getActivity(), "123").execute(URL);
-			final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-			final List<ShopProperty> Shoplist = sp.getShopList();
-			shopSelect.setAdapter(new ShopSpinner(Shoplist));
-		}*/
 	 
 	 @Override
 	 public void onAttach(Activity activity) {
@@ -378,28 +357,40 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 				// 
 				return position;
 			}
-			
+			private class ViewHolder {
+				TextView textView;
+			}
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
+				ViewHolder  holder;
 				LayoutInflater inflater = getActivity().getLayoutInflater();
+				
+				if(convertView == null){
 				convertView = inflater.inflate(R.layout.spinner_product, parent,false);
-				TextView textView = (TextView)convertView.findViewById(R.id.textView1);
+				holder = new ViewHolder();
+				holder.textView = (TextView)convertView.findViewById(R.id.textView1);
+				convertView.setTag(holder);
+				}else{
+					holder=(ViewHolder)convertView.getTag();
+				}
 				ProductGroup pg = Productgroup.get(position);
-				textView.setText(pg.getProductGroupName());
+				holder.textView.setText(pg.getProductGroupName());
 				return convertView;
 			}
 }
 public void onDataChange(){
 	 
-	//final GetSumProductShopDao gp = new GetSumProductShopDao(getActivity());
 	final GetSaleProductShopDao gs = new GetSaleProductShopDao(getActivity());
-	//Send Parameter to Web Service
+	
 	new GetSumProductShop(getActivity(),ShopID , month, year, "123").execute(URL);
 	new GetSaleProductShop(getActivity(), ShopID, month, year, ProductGroupCode, "123").execute(URL);
-	//Set ListViewAdapter Salebyproduct
-	List<ProductModel> Salebyproduct = gs.getSaleProduct();
-	//listProduct.setAdapter(new SalebyProductListAdapter(Salebyproduct));
+	
+	List<ProductModel> Salebyproduct = new ArrayList<ProductModel>();
+	
+	Salebyproduct = gs.getSaleProduct();
+
 	elv.setAdapter(new ProductExpandableListAdapter(Salebyproduct));
+	
      int count = elv.getCount();
      for(int i = 0;i < count; i++ )
      elv.expandGroup(i);
@@ -692,6 +683,17 @@ public void onRefresh() {
 							}
 				}
 				public class ProductExpandableListAdapter extends BaseExpandableListAdapter {
+					 private class ViewHolder {
+						  
+						  FlatTextView productGroupName;
+						  FlatTextView productDeptName;
+						  FlatTextView itemValue;
+						  FlatTextView qtyValue;
+						  FlatTextView priceValue;
+						  FlatTextView percentValue;
+						  
+						}
+					 
 					  List<ProductModel> product;
 					  ProductExpandableListAdapter(List<ProductModel> ps) {
 						  product = ps;
@@ -713,15 +715,28 @@ public void onRefresh() {
 					  public long getGroupId(int groupPosition) {
 						  return 0;
 					  }
-					  private class ViewHolder {
-						  FlatTextView productGroupName;
-						  FlatTextView productDeptName;
-						  FlatTextView itemValue;
-						  FlatTextView qtyValue;
-						  FlatTextView priceValue;
-						  FlatTextView percentValue;
-						}
-					  @Override
+					 
+					  
+					@Override
+					public int getChildrenCount(int groupPosition) {
+						return product.get(groupPosition).productNameModel != null ? product.get(groupPosition).productNameModel.size() : 0;
+					}
+
+					@Override
+					public Object getChild(int groupPosition, int childPosition) {
+						return product.get(groupPosition).productNameModel.get(childPosition);
+					}
+					
+					@Override
+					public long getChildId(int groupPosition, int childPosition) {
+						return 0;
+					}
+
+					@Override
+					public boolean hasStableIds() {
+						return(true);
+					}
+					@Override
 					  public View getGroupView(int groupPosition, boolean isExpanded,
 					                           View convertView, ViewGroup parent) {
 						  ViewHolder  holder;
@@ -744,27 +759,7 @@ public void onRefresh() {
 					    
 					    return(convertView);
 					  }
-
 					
-					@Override
-					public int getChildrenCount(int groupPosition) {
-						return product.get(groupPosition).productNameModel != null ? product.get(groupPosition).productNameModel.size() : 0;
-					}
-
-					@Override
-					public Object getChild(int groupPosition, int childPosition) {
-						return product.get(groupPosition).productNameModel.get(childPosition);
-					}
-					
-					@Override
-					public long getChildId(int groupPosition, int childPosition) {
-						return childPosition;
-					}
-
-					@Override
-					public boolean hasStableIds() {
-						return(true);
-					}
 					@Override
 					public View getChildView(int groupPosition,int childPosition, boolean isLastChild,
 							View convertView, ViewGroup parent) {
@@ -789,11 +784,13 @@ public void onRefresh() {
 						}
 						GetSaleProductShopDao gsp = new GetSaleProductShopDao(getActivity());
 						ProductNameModel ss = product.get(groupPosition).productNameModel.get(childPosition);
+						
 						final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 						//final GetSaleProductShopDao gss = new GetSaleProductShopDao(getActivity());
 						GlobalProperty format = gpd.getglobalproperty();
 						String formatnumber = format.getCurrencyFormat();
 						NumberFormat formatter = new DecimalFormat(formatnumber);
+						
 						holder.itemValue.setText(""+ss.getProductName());
 						holder.qtyValue.setText(""+ss.getSumAmount());
 						holder.priceValue.setText(""+Double.toString(ss.getSumSalePrice()));

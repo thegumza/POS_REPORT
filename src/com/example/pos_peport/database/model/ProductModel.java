@@ -8,7 +8,7 @@ public class ProductModel {
 	 String productGroupCode;
 	  public String productGroupName;
 	 public String productDeptName;
-	 public static List<ProductNameModel> productNameModel;
+	 public List<ProductNameModel> productNameModel;
 	
 
 	public String getProductGroupCode() {
