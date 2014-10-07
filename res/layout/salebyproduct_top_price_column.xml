@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tableinfoDate"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/number_PriceValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="2014/07/14"
+        android:textColor="#000000"
+        android:textSize="18dp" />
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/item_PriceValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:gravity="left"
+        android:singleLine="true"
+        android:text="21"
+        android:textColor="#000000"
+        android:textSize="18dp" />
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/qty_PriceValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="7500"
+        android:textColor="#000000"
+        android:textSize="18dp" />
+    
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/salePrice_PriceValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="25"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:paddingRight="5dp" />
+ 
+
+</LinearLayout>

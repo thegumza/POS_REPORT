@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="left" >
+ <LinearLayout
+        android:id="@+id/boxReportShow_Sumsale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@color/candy_primary" >
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/saledate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="SaleDate"
+        android:textSize="18dp" />
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:padding="10dp"
+        android:layout_gravity="left"
+        android:orientation="horizontal" >
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txtSaledate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="Sale Date: "
+                android:textSize="18dp"  />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txttotalbill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="Total Bill: "
+                android:textSize="18dp" />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txttotalcust"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="Total Customer: "
+                android:textSize="18dp" />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txttotalvat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="TransactionVAT: "
+                android:textSize="18dp" />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txttotalretail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="TotalRetailPrice: "
+                android:textSize="18dp" />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txttotaldis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="TotalDiscount: "
+                android:textSize="18dp" />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txttotalsale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:padding="5dp"
+                android:text="TotalSalePrice: "
+                android:textSize="18dp" />
+
+          
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+                
+                <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/SaledateValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="Sale Date Value"
+                android:textSize="18dp" />
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/TotalBillValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="Total Bill Value"
+                android:textSize="18dp"  />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/ToTalCustValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="Total Customer Value"
+                android:textSize="18dp"  />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/TotalVatValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="TransactionVAT Value"
+                android:textSize="18dp"  />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/TotalRetailValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="TotalRetailPrice Value"
+                android:textSize="18dp"  />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/TotalDisValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="TotalDiscount Value"
+                android:textSize="18dp"  />
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/TotalSaleValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:padding="5dp"
+                android:text="TotalSalePrice Value"
+                android:textSize="18dp"  />
+                
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

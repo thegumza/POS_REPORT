@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+<LinearLayout 
+              android:id="@+id/promotion_detail_layout"
+              android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="left"
+    android:background="#ffffff">
+
+ 
+<LinearLayout
+        android:id="@+id/boxReportShow_promotion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center" >
+	        
+	        <TextView
+	            android:id="@+id/text_tablePromotionName"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:paddingBottom="3dp"
+	            android:paddingTop="2dp"
+	            android:text="Promotion"
+	            android:textColor="#ffffff"
+	            android:textSize="25dp"
+	            android:background="@color/fbutton_color_turquoise"
+	            android:textStyle="bold"
+	            android:layout_marginBottom="2dp" />
+        
+        <LinearLayout
+            android:id="@+id/headTablePromotion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_turquoise"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+	        
+	        <TextView
+	            android:id="@+id/text_head_promotion"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.4"
+	            android:text="Promotion"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20sp" />
+	        
+	        <TextView
+	            android:id="@+id/text_head_promo_amount"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text="Amount"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20sp"/>
+	        
+	        <TextView
+	            android:id="@+id/text_head_promo_percent"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text="%"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20sp"/>
+        
+        </LinearLayout>
+        
+        <ListView
+            android:id="@+id/listPromotion"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+        </ListView>
+        
+        
+        <LinearLayout
+            android:id="@+id/summaryTablePromotion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:background="@color/fbutton_color_turquoise" >
+	        
+	        <TextView
+	            android:id="@+id/text_sum_promotion"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.4"
+	            android:text="Summary"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20sp" />
+	        
+	        <TextView
+	            android:id="@+id/text_sum_promo_amount"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text="38457"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20sp" />
+	        
+	        <TextView
+	            android:id="@+id/text_sum_promo_percent"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text="100%"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20sp" />
+        
+        </LinearLayout>
+        <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+ <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"/>
+</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

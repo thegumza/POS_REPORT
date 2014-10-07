@@ -1,0 +1,157 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/setting_layout_id"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minHeight="400dp"
+    android:minWidth="650dp"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:background="@color/snow_primary" >
+
+    <LinearLayout
+        android:id="@+id/headsetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/dark_darker"
+        android:orientation="vertical" >
+
+        <com.example.flatuilibrary.FlatTextView
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Setting"
+            android:textSize="25dp"
+            android:textColor="#ffffff"
+	        flatui:fl_fontWeight="regular" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <com.example.flatuilibrary.FlatTextView
+            android:id="@+id/txtUDID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UDID : "
+            android:padding="10dp" 
+            android:textSize="18dp"
+        	android:textColor="#000000"
+	        flatui:fl_fontWeight="regular" />
+            
+
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/value_udid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="SHOW UDID CODE"
+                android:textSize="18dp"
+                android:textColor="#000000"
+	        	flatui:fl_fontWeight="regular" />
+            
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txtIP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:padding="10dp"
+                android:layout_marginRight="12dp"
+                android:text="IP : " 
+                android:textSize="18dp" 
+        		android:textColor="#000000"
+	        	flatui:fl_fontWeight="regular"/>
+
+            <com.example.flatuilibrary.FlatEditText
+                android:id="@+id/value_ip"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+              	android:layout_weight="1"
+                android:ems="10"
+                android:gravity="left" 
+                android:textSize="18dp"
+        		android:textColor="#000000"
+        		flatui:fl_theme="@array/dark"
+        		flatui:fl_fieldStyle="box"
+	        	flatui:fl_fontWeight="regular" />
+            
+            
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+            <com.example.flatuilibrary.FlatTextView
+                android:id="@+id/txtPath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:text="Visual : " 
+                android:textSize="18dp"
+        		android:textColor="#000000"
+	        	flatui:fl_fontWeight="regular" />
+            
+            <com.example.flatuilibrary.FlatEditText
+                android:id="@+id/value_visual"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="left"
+                android:textSize="18dp"
+        		android:textColor="#000000"
+        		flatui:fl_theme="@array/dark"
+        	 	flatui:fl_fieldStyle="box"
+	        	flatui:fl_fontWeight="regular"	/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.example.flatuilibrary.FlatButton
+        android:id="@+id/reset"
+       	android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Reset and Restart" 
+        android:layout_margin="15dp"
+        android:textColor="@android:color/white"
+        flatui:fl_theme="@array/dark"
+        flatui:fl_blockButtonEffectHeight="3dp"
+        flatui:fl_fontWeight="regular"
+        
+        />
+
+</LinearLayout>
