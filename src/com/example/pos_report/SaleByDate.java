@@ -8,6 +8,7 @@ import java.util.List;
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.GlobalProperty;
+import com.example.pos_peport.database.model.LastSaleDate;
 import com.example.pos_peport.database.model.ProductGroup;
 import com.example.pos_peport.database.model.ShopProperty;
 import com.example.pos_peport.database.model.SumPaymentShop;
@@ -25,6 +26,7 @@ import com.example.pos_report.graph.SalebyDate_Promotion_PieGraph;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,25 +45,29 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.SpinnerAdapter;
 
 
 public class SaleByDate extends Fragment implements OnRefreshListener {
+	
 	private static final String ARG_SECTION_NUMBER = "section_number";
-	Spinner shopSelect,monthSelect, yearSelect;
-	ReportDatabase Database;
-	FlatButton showReport;
-	FlatButton showChart_sale,showChart_payment,showChart_promotion;
-	int ShopID,month,year;
-	static String Date;
-	static int TotalBill,TotalCust;
-	static double TotalVat,TotalRetail,TotalDis,TotalSale;
-	FlatTextView text_sum_totalBill,text_sum_discount,text_sum_salePrice;
-	FlatTextView text_sum_payment_amount,text_sum_payment_percent;
-	FlatTextView text_sum_promo_amount,text_sum_promo_percent;
+	private Spinner shopSelect,monthSelect, yearSelect;
+	private ReportDatabase Database;
+	private FlatButton showReport;
+	private FlatButton showChart_sale,showChart_payment,showChart_promotion;
+	private int ShopID = 3 ,month,year;
+	private static String Date;
+	private static int TotalBill,TotalCust;
+	private static double TotalVat,TotalRetail,TotalDis,TotalSale;
+	private FlatTextView text_sum_totalBill,text_sum_discount,text_sum_salePrice;
+	private FlatTextView text_sum_payment_amount,text_sum_payment_percent;
+	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
 	public static String URL;
-	ListView listSale,listPayment,listPromotion;
-	SwipeRefreshLayout swipeLayout;
+	private ListView listSale,listPayment,listPromotion;
+	private SwipeRefreshLayout swipeLayout;
+	private ProgressDialog pdia;
+	private String lastsaledate;
+	
 	 public static SaleByDate newInstance(int sectionNumber) {
 		 SaleByDate fragment = new SaleByDate();
 			Bundle args = new Bundle();
@@ -75,7 +81,6 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 	 
 	 }
 	 
-	@SuppressWarnings("deprecation")
 	@Override
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	   Bundle savedInstanceState) {
@@ -112,35 +117,41 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 		shopSelect = (Spinner)rootView.findViewById(R.id.shopspinner);
 		monthSelect = (Spinner)rootView.findViewById(R.id.monthspinner);
 		yearSelect = (Spinner)rootView.findViewById(R.id.yearspinner);
+		//FlatTextView txtmonth = (FlatTextView)rootView.findViewById(R.id.txtmonth);
+		 String[] years = new String[]{"2012", "2013", "2014"};
+		 final String[] months = new String[]{"January", "February", "March","April","May","June","July","August","September","October","November","December"};
+		 monthSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, months));
+		 yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		
-		final GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
-		final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
-		final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());
-		//Send Parameter to Web Service
-    	new GetSumTransactionShop(getActivity(),ShopID , month, year, "123").execute(URL);
-    	new GetSumPaymentShop(getActivity(),ShopID , month, year, "123").execute(URL);
-    	new GetSumPromotionShop(getActivity(),ShopID , month, year, "123").execute(URL);
-		//Set ListViewAdapter Salebydate
-    	List<SumTransactionShop> Salebydate = gt.getSaleDate();
-		listSale.setAdapter(new SaleListAdapter(Salebydate));
-		
-		
-		//Set ListViewAdapter Payment
-		List<SumPaymentShop> Paymentlist = gp.getPaymentlist();
-		listPayment.setAdapter(new PaymentlistAdapter(Paymentlist));
-		
-		
-		//Set ListViewAdapter Promotion 
-		List<SumPromotionShop> Promotionlist = gpr.getSumPromoList();
-		listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
-		
-		 
+		onChangeData();
+		new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+			
+			@Override
+			public void onSuccess(String result) {
+				lastsaledate = result;
+				int currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
+				String currentyear = lastsaledate.substring(0,4);
+				monthSelect.setSelection(currentmonth-1);
+				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
+				int position = yearadapter.getPosition(currentyear);
+				yearSelect.setSelection(position);
+				pdia.dismiss();
+				
+			}
 
-			Database = new ReportDatabase(getActivity());
-			final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-			final List<ShopProperty> Shoplist = sp.getShopList();
-			shopSelect.setAdapter(new KeySpinner(Shoplist));
-			/*onChangeData();*/
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+				pdia = new ProgressDialog(getActivity());
+		        pdia.setMessage("Loading...");
+		        pdia.show();
+			}
+		}).execute(URL);
+		
+		Database = new ReportDatabase(getActivity());
+		final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+		final List<ShopProperty> Shoplist = sp.getShopList();
+		shopSelect.setAdapter(new KeySpinner(Shoplist));
 		listSale.setOnTouchListener(new ListView.OnTouchListener() {
 			   
 			@Override
@@ -148,7 +159,7 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 				   v.getParent().requestDisallowInterceptTouchEvent(true);
 				return false;
 			}
-		});
+			});
 		
 		listSale.setOnItemClickListener(new OnItemClickListener() {
 			   @Override
@@ -163,15 +174,6 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 				   	TotalDis = Saledate.getDiscount();
 				   	TotalSale = Saledate.getSalePrice();
 				   	Intent IntentMain = new Intent(getActivity(), SaleByDateDetail.class);
-				   /*	Intent IntentSale = new Intent(getActivity(), GetSumPaymentShopDao.class);
-				   	IntentSale.putExtra("Date",Date.toString());
-				   	IntentMain.putExtra("Date",Date.toString());
-				   	IntentMain.putExtra("TotalBill",TotalBill);
-				   	IntentMain.putExtra("TotalCust",TotalCust);
-				   	IntentMain.putExtra("TotalVat",TotalVat);
-				   	IntentMain.putExtra("TotalRetail",TotalRetail);
-				   	IntentMain.putExtra("TotalDis",TotalDis);
-				   	IntentMain.putExtra("TotalSale",TotalSale);*/
 				   	
 	              startActivity(IntentMain);
 			   } 
@@ -193,12 +195,6 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 				return false;
 			}
 		});
-		
-		 //FlatTextView txtmonth = (FlatTextView)rootView.findViewById(R.id.txtmonth);
-		 String[] years = new String[]{"2012", "2013", "2014"};
-		 final String[] months = new String[]{"January", "February", "March","April","May","June","July","August","September","October","November","December"};
-		 monthSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, months));
-		 yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		
 		 
 		shopSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -341,6 +337,7 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 	 }
 	 
 		public void onChangeData(){
+			
 			final GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
 			final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
 			final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());
@@ -367,6 +364,7 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 	    	
 			
 		}
+	 
 	 public void onRefresh() {
 	        new Handler().postDelayed(new Runnable() {
 	            @Override public void run() {

@@ -42,63 +42,6 @@ public class GetSaleProductShopDao extends ReportDatabase{
 		}
 	}
 	
-		
-	//Insert Data to List From SQLite Database
-		/*public List<ProductModel> getSaleProduct(){
-			List<ProductModel> getproductgroup = null;
-			String SPSql = "Select * From "+ SaleData_ProductReportTable.TABLE_SALE_DATA_PRODUCTREPORT+" GROUP BY "+SaleData_ProductReportTable.COLUMN_PRODUCT_DEPT_NAME+" ORDER BY "+SaleData_ProductReportTable.COLUMN_PRODUCT_GROUP_NAME;
-			Cursor groupCursor =  getReadableDatabase().rawQuery(SPSql, null);
-			if (groupCursor.moveToFirst()){
-				getproductgroup = new ArrayList<ProductModel>();
-				do{
-					ProductModel sp = new ProductModel();
-					String productgroupName = sp.productGroupName = groupCursor.getString(groupCursor.getColumnIndex(SaleData_ProductReportTable.COLUMN_PRODUCT_GROUP_NAME));
-					String productdeptName = sp.productDeptName = groupCursor.getString(groupCursor.getColumnIndex(SaleData_ProductReportTable.COLUMN_PRODUCT_DEPT_NAME));
-					
-							
-					String SPql = "Select * From "+ SaleData_ProductReportTable.TABLE_SALE_DATA_PRODUCTREPORT+" WHERE "
-							+SaleData_ProductReportTable.COLUMN_PRODUCT_GROUP_NAME+" ='"+sp.productGroupName+"' AND "
-									+SaleData_ProductReportTable.COLUMN_PRODUCT_DEPT_NAME+"='"+sp.productDeptName+"';";
-					
-					String SSql = "Select sum(SumAmount)as SumAmount, sum(SumSalePrice)as SumSalePrice From "+ SaleData_ProductReportTable.TABLE_SALE_DATA_PRODUCTREPORT+" WHERE "
-							+SaleData_ProductReportTable.COLUMN_PRODUCT_GROUP_NAME+" ='"+productgroupName+"' AND "
-									+SaleData_ProductReportTable.COLUMN_PRODUCT_DEPT_NAME+"='"+productdeptName+"';";
-					
-					Cursor itemCursor =  getReadableDatabase().rawQuery(SPql, null);
-					Cursor sumCursor =  getReadableDatabase().rawQuery(SSql, null);
-					if (itemCursor.moveToFirst()){
-						sp.productNameModel  = new ArrayList <ProductNameModel>();
-						do{
-							ProductNameModel pn = new ProductNameModel();
-							pn.ProductName = itemCursor.getString(itemCursor.getColumnIndex(SaleData_ProductReportTable.COLUMN_PRODUCT_NAME));
-							pn.SumAmount = itemCursor.getInt(itemCursor.getColumnIndex(SaleData_ProductReportTable.COLUMN_SUM_AMOUNT));
-							pn.SumSalePrice = itemCursor.getDouble(itemCursor.getColumnIndex(SaleData_ProductReportTable.COLUMN_SUM_SALE_PRICE));
-							
-							sp.productNameModel.add(pn);
-							
-							
-						}while(itemCursor.moveToNext());
-					}
-					
-					if(sumCursor.moveToFirst()){
-						do{
-							ProductNameModel pn = new ProductNameModel();
-							pn.ProductName = "Summary";
-							pn.SumAmount = sumCursor.getInt(sumCursor.getColumnIndex(SaleData_ProductReportTable.COLUMN_SUM_AMOUNT));
-							pn.SumSalePrice = sumCursor.getDouble(sumCursor.getColumnIndex(SaleData_ProductReportTable.COLUMN_SUM_SALE_PRICE));
-							sp.productNameModel.add(pn);
-						}while(sumCursor.moveToNext());
-					}
-					itemCursor.close();
-					sumCursor.close();
-					getproductgroup.add(sp);
-					
-					
-				}while(groupCursor.moveToNext());
-			}
-			groupCursor.close();
-			return getproductgroup;
-		}*/
 	public List<ProductModel> getSaleProduct(){
 		List<ProductModel> getproductgroup = null;
 		String SPSql = "Select * From "+ SaleData_ProductReportTable.TABLE_SALE_DATA_PRODUCTREPORT+" GROUP BY "+SaleData_ProductReportTable.COLUMN_PRODUCT_DEPT_NAME+" ORDER BY "+SaleData_ProductReportTable.COLUMN_PRODUCT_GROUP_NAME;

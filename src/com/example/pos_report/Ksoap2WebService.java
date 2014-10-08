@@ -10,6 +10,7 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,7 +24,8 @@ public abstract class Ksoap2WebService extends AsyncTask<String, String, String>
 	protected String mWebMethod;
 	protected Context mContext;
 	protected PropertyInfo mProperty;
-
+	
+	
 	public Ksoap2WebService(Context c, String method, int timeOut) {
 		mContext = c;
 		mWebMethod = method;
@@ -72,4 +74,7 @@ public abstract class Ksoap2WebService extends AsyncTask<String, String, String>
 		}
 		return result;
 	}
+
+	
+	
 }

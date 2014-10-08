@@ -2,6 +2,7 @@ package com.example.pos_report;
 
 import org.ksoap2.serialization.PropertyInfo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_report.database.GlobalPropertyDao;
@@ -15,7 +16,7 @@ public class ShopDataLoader extends Ksoap2WebService{
 	
 	
 	public static final String LOAD_SHOP_DATA_METHOD = "WsDashBoard_LoadShopData";
-	
+	private ProgressDialog pdia;
 	public static final int TIME_OUT = 10 * 1000;
 	public ShopDataLoader(Context c, String deviceCode) {
 		super(c, LOAD_SHOP_DATA_METHOD, TIME_OUT);
@@ -52,9 +53,15 @@ public class ShopDataLoader extends Ksoap2WebService{
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		}
+		pdia.dismiss();
 	}
 
 	@Override
-	protected void onPreExecute() {
-	}
+    protected void onPreExecute() {
+        pdia = new ProgressDialog(mContext);
+        pdia.setMessage("Loading...");
+        pdia.show();
+		super.onPreExecute();
+        
+    }
 }

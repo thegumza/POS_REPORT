@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.ksoap2.serialization.PropertyInfo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.example.pos_peport.database.model.SaleProductShop;
@@ -20,7 +21,7 @@ public class GetSaleProductShop extends Ksoap2WebService{
 	public static final String GET_SALE_PRODUCT_OF_SHOP_FROM_MONTH_YEAR_METHOD = "WsDashBoard_GetSaleByProductOfShopFromMonthYear";
 	
 	public static final int TIME_OUT = 10 * 1000;
-
+	private ProgressDialog pdia;
 	public GetSaleProductShop(Context c,final int iShopID,final int iMonth,final int iYear,String ProductGroupCode,String deviceCode) {
 		super(c, GET_SALE_PRODUCT_OF_SHOP_FROM_MONTH_YEAR_METHOD, TIME_OUT);
 		mProperty = new PropertyInfo();
@@ -54,7 +55,6 @@ public class GetSaleProductShop extends Ksoap2WebService{
 		mSoapRequest.addProperty(mProperty);
 	}
 	
-	@Override
 	protected void onPostExecute(String result) {
 		Gson gson = new Gson();
 		try {
@@ -69,11 +69,16 @@ public class GetSaleProductShop extends Ksoap2WebService{
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		}
+		pdia.dismiss();
 	}
-
 	@Override
-	protected void onPreExecute() {
-	}
+    protected void onPreExecute() {
+        pdia = new ProgressDialog(mContext);
+        pdia.setMessage("Loading...");
+        pdia.show();
+		super.onPreExecute();
+        
+    }
 
 	
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.ksoap2.serialization.PropertyInfo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import com.example.pos_peport.database.model.SumTransactionShop;
 import com.example.pos_report.database.GetSumTransactionShopDao;
@@ -47,7 +48,6 @@ public class GetSumTransactionShop extends Ksoap2WebService {
 		mSoapRequest.addProperty(mProperty);
 		
 	}
-	
 	@Override
 	protected void onPostExecute(String result) {
 		
@@ -64,12 +64,12 @@ public class GetSumTransactionShop extends Ksoap2WebService {
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		}
+		
 	}
-
 	@Override
-	protected void onPreExecute() {
-	}
-
+    protected void onPreExecute() {
+        
+    }
 	
 
 }

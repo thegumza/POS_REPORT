@@ -30,6 +30,7 @@ import com.example.pos_report.graph.TopProduct_Saleprice_PieGraph;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -52,19 +53,23 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class SaleByProduct extends Fragment implements OnRefreshListener{
-	ExpandableListView elv;
+	
+	private ExpandableListView elv;
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	public static String URL;
-	String ProductGroupCode="";
-	int ShopID,month,year,mode;
-	int sumAmount;
-	ListView listProduct,list_TopProduct;
-	FlatButton showReportBtn,showReportBtn2,showChart_product,showChart_TopProduct;
-	FlatTextView text_sum_qty,text_sum_price,text_sum_percent;
-	Double sumQty,sumTotalPrice,sumPercent,sumProduct,sumSalePrice;
-	Spinner shopSelect,monthSelect, yearSelect,topProduct_productSelect, topProduct_modeSelect;
+	private String ProductGroupCode="";
+	private int ShopID = 3,month,year,mode;
+	private int sumAmount;
+	private ListView listProduct,list_TopProduct;
+	private FlatButton showReportBtn,showReportBtn2,showChart_product,showChart_TopProduct;
+	private FlatTextView text_sum_qty,text_sum_price,text_sum_percent;
+	private Double sumQty,sumTotalPrice,sumPercent,sumProduct,sumSalePrice;
+	private Spinner shopSelect,monthSelect, yearSelect,topProduct_productSelect, topProduct_modeSelect;
 	ReportDatabase Database;
-	SwipeRefreshLayout swipeLayout;
+	private SwipeRefreshLayout swipeLayout;
+	private ProgressDialog pdia;
+	private String lastsaledate;
+	
 	 public static SaleByProduct newInstance(int sectionNumber) {
 		 SaleByProduct fragment = new SaleByProduct();
 			Bundle args = new Bundle();
@@ -158,8 +163,31 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 		 monthSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, months));
 		yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		topProduct_modeSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, modeselect));
-		onDataChange();
 		
+		onDataChange();
+		new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+			
+			@Override
+			public void onSuccess(String result) {
+				lastsaledate = result;
+				int currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
+				String currentyear = lastsaledate.substring(0,4);
+				monthSelect.setSelection(currentmonth-1);
+				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
+				int position = yearadapter.getPosition(currentyear);
+				yearSelect.setSelection(position);
+				pdia.dismiss();
+				
+			}
+
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+				pdia = new ProgressDialog(getActivity());
+		        pdia.setMessage("Loading...");
+		        pdia.show();
+			}
+		}).execute(URL);
 		shopSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
