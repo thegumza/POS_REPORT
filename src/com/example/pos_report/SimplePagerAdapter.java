@@ -19,7 +19,7 @@ public class SimplePagerAdapter extends FragmentStatePagerAdapter {
     	switch(position) {
     	
     case 0: return SaleByDate_Detail.newInstance(ARG_SECTION_NUMBER);	
-    case 1: return SaleByDate_Detail_PayType.newInstance(ARG_SECTION_NUMBER);
+    case 1: return SaleByDate_Detail_Promotion.newInstance(ARG_SECTION_NUMBER);
     case 2: return SaleByDate_Detail_Promotion.newInstance(ARG_SECTION_NUMBER);
     default: return SaleByDate_Detail.newInstance(ARG_SECTION_NUMBER);	
     }

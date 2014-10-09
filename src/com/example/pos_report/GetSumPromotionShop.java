@@ -1,27 +1,21 @@
 package com.example.pos_report;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
 
 import org.ksoap2.serialization.PropertyInfo;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.TextUtils;
 
-import com.example.pos_peport.database.model.SumPromotionShop;
-import com.example.pos_report.database.GetSumPromotionShopDao;
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 public class GetSumPromotionShop extends Ksoap2WebService{
 	
 	
 	public static final String GET_SUM_PROMOTION_OF_SHOP_FROM_MONTH_YEAR_METHOD = "WsDashBoard_GetSumPromotionOfShopFromMonthYear";
-	private ProgressDialog pdia;
+	GetSumPromotion mlistener;
 	public static final int TIME_OUT = 10 * 1000;
-	public GetSumPromotionShop(Context c,final int iShopID,final int iMonth,final int iYear,String deviceCode) {
+	
+	public GetSumPromotionShop(Context c,final int iShopID,final int iMonth,final int iYear,String deviceCode,GetSumPromotion listener) {
 		super(c, GET_SUM_PROMOTION_OF_SHOP_FROM_MONTH_YEAR_METHOD, TIME_OUT);
 		mProperty = new PropertyInfo();
 		mProperty.setName("iShopID");
@@ -46,9 +40,31 @@ public class GetSumPromotionShop extends Ksoap2WebService{
 		mProperty.setValue(deviceCode);
 		mProperty.setType(String.class);
 		mSoapRequest.addProperty(mProperty);
+		
+		mlistener = listener;
 	}
-	
 	@Override
+	protected void onPostExecute(String result) {
+		try {
+			if(!TextUtils.isEmpty(result))
+			{
+				mlistener.onSuccess(result);
+			}
+			
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public static interface GetSumPromotion{
+		void onSuccess(String result);
+		void onLoad();
+	}
+	@Override
+    protected void onPreExecute() {
+		mlistener.onLoad();
+    }
+	/*@Override
 	protected void onPostExecute(String result) {
 		Gson gson = new Gson();
 		try {
@@ -73,7 +89,8 @@ public class GetSumPromotionShop extends Ksoap2WebService{
         pdia.show();
 		super.onPreExecute();
         
-    }
+    }*/
+	
 
 	
 

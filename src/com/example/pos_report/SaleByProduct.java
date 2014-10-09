@@ -1,9 +1,11 @@
 package com.example.pos_report;
 
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -13,7 +15,9 @@ import com.example.pos_peport.database.model.GlobalProperty;
 import com.example.pos_peport.database.model.ProductGroup;
 import com.example.pos_peport.database.model.ProductModel;
 import com.example.pos_peport.database.model.ProductModel.ProductNameModel;
+import com.example.pos_peport.database.model.AllProductData;
 import com.example.pos_peport.database.model.SaleProductShop;
+import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_peport.database.model.ShopProperty;
 import com.example.pos_peport.database.model.SumProductShop;
 import com.example.pos_peport.database.model.TopProductShop;
@@ -21,12 +25,20 @@ import com.example.pos_report.database.GetSaleProductShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
+import com.example.pos_report.database.PayTypeDao;
+import com.example.pos_report.database.ProductDeptDao;
 import com.example.pos_report.database.ProductGroupDao;
+import com.example.pos_report.database.ProductItemDao;
+import com.example.pos_report.database.PromotionDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
+import com.example.pos_report.database.StaffsDao;
 import com.example.pos_report.graph.SalebyProduct_Graph;
 import com.example.pos_report.graph.TopProduct_Qty_PieGraph;
 import com.example.pos_report.graph.TopProduct_Saleprice_PieGraph;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -58,7 +70,7 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	public static String URL;
 	private String ProductGroupCode="";
-	private int ShopID = 3,month,year,mode;
+	private int ShopID,month,year,mode;
 	private int sumAmount;
 	private ListView listProduct,list_TopProduct;
 	private FlatButton showReportBtn,showReportBtn2,showChart_product,showChart_TopProduct;
@@ -94,9 +106,94 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
 	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
-	   
-	  	new ShopDataLoader(getActivity(), "123").execute(URL);
-		new AllProductDataLoader(getActivity(), "123").execute(URL);
+	   pdia = new ProgressDialog(getActivity());
+	   new ShopDataLoader(getActivity(), "123",new ShopDataLoader.GetShopDataLoader() {
+			
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+				Gson gson = new Gson();
+				try {
+					ShopData sd = gson.fromJson(result, ShopData.class);
+					
+					// insert ShopProperty Data into Database
+					ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+					sp.insertShopData(sd.getShopProperty());
+					
+					// insert GlobalProperty Data into Database
+					GlobalPropertyDao gp = new GlobalPropertyDao(getActivity());
+					gp.insertGlobalPropertyData(sd.getGlobalProperty());
+					
+					//insert PayType Data into Database
+					PayTypeDao pt = new PayTypeDao(getActivity());
+					pt.insertPayTypeData(sd.getPayType());
+					
+					//insert Staffs Data into Database
+					StaffsDao st = new StaffsDao(getActivity());
+					st.insertStaffsData(sd.getStaffs());
+					pdia.dismiss();
+					
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+		        pdia.setMessage("Shop data loading...");
+		        pdia.show();
+				
+			}
+		}).execute(URL);
+new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllProductDataLoader() {
+			
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+				Gson gson = new Gson();
+				try {
+					AllProductData ap = gson.fromJson(result, AllProductData.class);
+					
+					// insert promotion Data into Database
+					PromotionDao pr = new PromotionDao(getActivity());
+					pr.insertPromotionData(ap.getPromotion());
+					
+					//insert ProductGroup Data into Database
+					ProductGroupDao pg = new ProductGroupDao(getActivity());
+					pg.insertProductGroupData(ap.getProductGroup());
+					
+					//insert ProductItem Data into Database
+					ProductItemDao pi = new ProductItemDao(getActivity());
+					pi.insertProductItemData(ap.getProductItem());
+					
+					//insert ProductDept Data into Database
+					ProductDeptDao pd = new ProductDeptDao(getActivity());
+					pd.insertProductDeptData(ap.getProductDept());
+					
+					
+					
+					//insert SaleMode Data into Database
+					//SaleModeDao sm = new SaleModeDao(mContext);
+					//sm.insertSaleModeData(ap.getSaleMode());
+					
+					
+					pdia.dismiss();	
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+		        pdia.setMessage("Product data loading...");
+		        pdia.show();
+				
+			}
+		}).execute(URL);
 		
 		swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
 		swipeLayout.setOnRefreshListener(this);
@@ -165,7 +262,8 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 		topProduct_modeSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, modeselect));
 		
 		onDataChange();
-		new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+
+		/*new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
 			
 			@Override
 			public void onSuccess(String result) {
@@ -183,11 +281,10 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 			@Override
 			public void onLoad() {
 				// TODO Auto-generated method stub
-				pdia = new ProgressDialog(getActivity());
-		        pdia.setMessage("Loading...");
+		        pdia.setMessage("Last sale date shop data loading...");
 		        pdia.show();
 			}
-		}).execute(URL);
+		}).execute(URL);*/
 		shopSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -410,41 +507,124 @@ public void onDataChange(){
 	 
 	final GetSaleProductShopDao gs = new GetSaleProductShopDao(getActivity());
 	
-	new GetSumProductShop(getActivity(),ShopID , month, year, "123").execute(URL);
-	new GetSaleProductShop(getActivity(), ShopID, month, year, ProductGroupCode, "123").execute(URL);
-	
-	List<ProductModel> Salebyproduct = new ArrayList<ProductModel>();
-	
-	Salebyproduct = gs.getSaleProduct();
+	new GetSumProductShop(getActivity(),ShopID , month, year, "123",new GetSumProductShop.GetSumProduct() {
+		
+		@Override
+		public void onSuccess(String result) {
+			// TODO Auto-generated method stub
+			Gson gson = new Gson();
+			try {
+				Type collectionType = new TypeToken<Collection<SumProductShop>>(){}.getType();
+				List<SumProductShop> sp = (List<SumProductShop>) gson.fromJson(result, collectionType);
+				
+				// insert GetSumProductShop data into database
+				GetSumProductShopDao gp = new GetSumProductShopDao(getActivity());
+				gp.insertSumProductShopData(sp);
+				pdia.dismiss();
+				
+			} catch (JsonSyntaxException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		@Override
+		public void onLoad() {
+			// TODO Auto-generated method stub
+			pdia.setMessage("Summary product data loading...");
+	        pdia.show();
+		}
+	}).execute(URL);
+	new GetSaleProductShop(getActivity(), ShopID, month, year, ProductGroupCode, "123",new GetSaleProductShop.GetSaleProduct() {
+		
+		@Override
+		public void onSuccess(String result) {
+			// TODO Auto-generated method stub
+			Gson gson = new Gson();
+			try {
+				Type collectionType = new TypeToken<Collection<SaleProductShop>>(){}.getType();
+				List<SaleProductShop> sp = (List<SaleProductShop>) gson.fromJson(result, collectionType);
+				
+				// insert GetSaleProductShop data into database
+				GetSaleProductShopDao gp = new GetSaleProductShopDao(getActivity());
+				gp.insertSaleProductShopData(sp);
+				pdia.dismiss();
+				List<ProductModel> Salebyproduct = new ArrayList<ProductModel>();
+				
+				Salebyproduct = gs.getSaleProduct();
 
-	elv.setAdapter(new ProductExpandableListAdapter(Salebyproduct));
+				elv.setAdapter(new ProductExpandableListAdapter(Salebyproduct));
+				
+			     int count = elv.getCount();
+			     for(int i = 0;i < count; i++ )
+			     elv.expandGroup(i);
+			     
+			    elv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+			        public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+			                return true;
+			        }
+			    });
+			} catch (JsonSyntaxException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		@Override
+		public void onLoad() {
+			// TODO Auto-generated method stub
+			 pdia.setMessage("Sale product data loading...");
+		     pdia.show();
+		}
+	}).execute(URL);
 	
-     int count = elv.getCount();
-     for(int i = 0;i < count; i++ )
-     elv.expandGroup(i);
-     
-    elv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-        public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return true;
-        }
-    });
+	
 }
 
 public void onTopDataChange(){
 	 
 	final GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
 	//Send Parameter to Web Service
-	new GetTopProductShop(getActivity(), ShopID , month, year, ProductGroupCode,0, 10, "123").execute(URL);
+	new GetTopProductShop(getActivity(), ShopID , month, year, ProductGroupCode,0, 10, "123",new GetTopProductShop.GetTopProduct() {
+		
+		@Override
+		public void onSuccess(String result) {
+			// TODO Auto-generated method stub
+			Gson gson = new Gson();
+			try {
+				Type collectionType = new TypeToken<Collection<TopProductShop>>(){}.getType();
+				@SuppressWarnings("unchecked")
+				List<TopProductShop> st = (List<TopProductShop>) gson.fromJson(result, collectionType);
+				
+				// insert GetTopProductShopDao data into database
+				GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
+				gt.insertTopProductShopData(st);
+				if(mode == 0){
+					//Set ListViewAdapter TopqtyProduct
+					List<TopProductShop> Topqtyproduct = gt.getTopQtyProduct();
+					list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
+					}
+					else if(mode ==1){
+						List<TopProductShop> Topsaleproduct = gt.getTopSaleProduct();
+						list_TopProduct.setAdapter(new TopSaleProductListAdapter(Topsaleproduct));
+					}
+				
+				pdia.dismiss();
+			} catch (JsonSyntaxException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		@Override
+		public void onLoad() {
+			// TODO Auto-generated method stub
+			pdia.setMessage("Top product data loading...");
+	        pdia.show();
+		}
+	}).execute(URL);
 	
-	if(mode == 0){
-	//Set ListViewAdapter TopqtyProduct
-	List<TopProductShop> Topqtyproduct = gt.getTopQtyProduct();
-	list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
-	}
-	else if(mode ==1){
-		List<TopProductShop> Topsaleproduct = gt.getTopSaleProduct();
-		list_TopProduct.setAdapter(new TopSaleProductListAdapter(Topsaleproduct));
-	}
+	
 }
 public void onRefresh() {
     new Handler().postDelayed(new Runnable() {

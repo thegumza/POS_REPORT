@@ -34,11 +34,11 @@ public class SaleByDateDetail extends ActionBarActivity {
         		.setTabListener(tabListener));
         
         actionBar.addTab(actionBar.newTab()
-				.setText("Paytype")
+				.setText("Promotion")
 				.setTabListener(tabListener));
         
         actionBar.addTab(actionBar.newTab()
-				.setText("Promotion")
+				.setText("Top Menu")
 				.setTabListener(tabListener));
         
 

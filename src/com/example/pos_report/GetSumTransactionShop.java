@@ -1,18 +1,11 @@
 package com.example.pos_report;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
 
 import org.ksoap2.serialization.PropertyInfo;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import com.example.pos_peport.database.model.SumTransactionShop;
-import com.example.pos_report.database.GetSumTransactionShopDao;
-import com.google.gson.Gson;
+import android.text.TextUtils;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 public class GetSumTransactionShop extends Ksoap2WebService {
 	
@@ -20,8 +13,9 @@ public class GetSumTransactionShop extends Ksoap2WebService {
 	public static final String GET_SUM_TRANSACTION_OF_SHOP_FROM_MONTH_YEAR_METHOD = "WsDashBoard_GetSumTransactionOfShopFromMonthYear";
 	
 	public static final int TIME_OUT = 10 * 1000;
+	GetSumTransacTion mlistener;
 	
-	public GetSumTransactionShop(Context c,final int iShopID,final int iMonth,final int iYear,String deviceCode) {
+	public GetSumTransactionShop(Context c,final int iShopID,final int iMonth,final int iYear,String deviceCode,GetSumTransacTion listener) {
 		super(c, GET_SUM_TRANSACTION_OF_SHOP_FROM_MONTH_YEAR_METHOD, TIME_OUT);
 		mProperty = new PropertyInfo();
 		mProperty.setName("iShopID");
@@ -47,28 +41,28 @@ public class GetSumTransactionShop extends Ksoap2WebService {
 		mProperty.setType(String.class);
 		mSoapRequest.addProperty(mProperty);
 		
+		mlistener = listener;
 	}
 	@Override
 	protected void onPostExecute(String result) {
-		
-		Gson gson = new Gson();
 		try {
-			Type collectionType = new TypeToken<Collection<SumTransactionShop>>(){}.getType();
-			
-			List<SumTransactionShop> gs = (List<SumTransactionShop>) gson.fromJson(result, collectionType);
-			
-			// insert GetSumTransactionShop data into database
-			GetSumTransactionShopDao gt = new GetSumTransactionShopDao(mContext);
-			gt.insertSumTransactionShopData(gs);
+			if(!TextUtils.isEmpty(result))
+			{
+				mlistener.onSuccess(result);
+			}
 			
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		}
 		
 	}
+	public static interface GetSumTransacTion{
+		void onSuccess(String result);
+		void onLoad();
+	}
 	@Override
     protected void onPreExecute() {
-        
+		mlistener.onLoad();
     }
 	
 

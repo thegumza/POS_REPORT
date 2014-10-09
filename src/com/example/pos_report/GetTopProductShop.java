@@ -8,8 +8,10 @@ import org.ksoap2.serialization.PropertyInfo;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.example.pos_peport.database.model.TopProductShop;
+import com.example.pos_report.GetSaleProductShop.GetSaleProduct;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -22,7 +24,9 @@ public class GetTopProductShop extends Ksoap2WebService{
 	
 	public static final int TIME_OUT = 10 * 1000;
 	private ProgressDialog pdia;
-	public GetTopProductShop(Context c,final int iShopID,final int iMonth,final int iYear,final String ProductGroupCode,final int iTopType,final int iTopNo,String deviceCode) {
+	GetTopProduct mlistener;
+	
+	public GetTopProductShop(Context c,final int iShopID,final int iMonth,final int iYear,final String ProductGroupCode,final int iTopType,final int iTopNo,String deviceCode,GetTopProduct listener) {
 		super(c, GET_TOP_PRODUCT_OF_SHOP_FROM_MONTH_YEAR_METHOD, TIME_OUT);
 		mProperty = new PropertyInfo();
 		mProperty.setName("iShopID");
@@ -65,9 +69,31 @@ public class GetTopProductShop extends Ksoap2WebService{
 		mProperty.setValue(deviceCode);
 		mProperty.setType(String.class);
 		mSoapRequest.addProperty(mProperty);
+		
+		mlistener = listener;
 	}
-	
 	@Override
+	protected void onPostExecute(String result) {
+		try {
+			if(!TextUtils.isEmpty(result))
+			{
+				mlistener.onSuccess(result);
+			}
+			
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public static interface GetTopProduct{
+		void onSuccess(String result);
+		void onLoad();
+	}
+	@Override
+    protected void onPreExecute() {
+		mlistener.onLoad();
+    }}
+	/*@Override
 	protected void onPostExecute(String result) {
 		Gson gson = new Gson();
 		try {
@@ -95,6 +121,6 @@ public class GetTopProductShop extends Ksoap2WebService{
     }
 	
 
-}
+}*/
 
 

@@ -31,11 +31,11 @@ import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.Legend.LegendForm;
 import com.github.mikephil.charting.utils.Legend.LegendPosition;
 
-public class SaleByDate_Detail_PayType extends Fragment {
+public class SaleByDate_Detail_Payment extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private PieChart mChart;
-	public static SaleByDate_Detail_PayType newInstance(int sectionNumber) {
-		SaleByDate_Detail_PayType fragment = new SaleByDate_Detail_PayType();
+	public static SaleByDate_Detail_Payment newInstance(int sectionNumber) {
+		SaleByDate_Detail_Payment fragment = new SaleByDate_Detail_Payment();
 			Bundle args = new Bundle();
 			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 			fragment.setArguments(args);

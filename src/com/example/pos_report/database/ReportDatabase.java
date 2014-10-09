@@ -15,7 +15,6 @@ import com.example.pos_report.database.table.SumData_PromotionReportTable;
 import com.example.pos_report.database.table.SumData_TopProductReportTable;
 import com.example.pos_report.database.table.SumData_TransReportTable;
 import com.example.pos_report.database.table.SaleData_ProductReportTable;
-import com.example.pos_report.database.table.TempReportByProductTable;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -100,7 +99,6 @@ public class ReportDatabase{
 				SumData_ProductReportTable.onCreate(db);
 				SaleData_ProductReportTable.onCreate(db);
 				SumData_TopProductReportTable.onCreate(db);
-				TempReportByProductTable.onCreate(db);
 		}
 
 		@Override
@@ -120,7 +118,6 @@ public class ReportDatabase{
 				SumData_ProductReportTable.onUpgrade(db, oldVersion, newVersion);
 				SumData_TopProductReportTable.onUpgrade(db, oldVersion, newVersion);
 				SumData_TopProductReportTable.onUpgrade(db, oldVersion, newVersion);
-				TempReportByProductTable.onUpgrade(db, oldVersion, newVersion);
 		}
 
 		@Override
@@ -140,7 +137,6 @@ public class ReportDatabase{
 				SumData_ProductReportTable.onUpgrade(db, oldVersion, newVersion);
 				SumData_TopProductReportTable.onUpgrade(db, oldVersion, newVersion);
 				SumData_TopProductReportTable.onUpgrade(db, oldVersion, newVersion);
-				TempReportByProductTable.onUpgrade(db, oldVersion, newVersion);
 		}
 		public void dropAllTable() {
 			SQLiteDatabase db = this.getWritableDatabase();
@@ -160,7 +156,6 @@ public class ReportDatabase{
 			db.execSQL("DROP TABLE IF EXISTS " + SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT);
 			db.execSQL("DROP TABLE IF EXISTS " + SaleData_ProductReportTable.TABLE_SALE_DATA_PRODUCTREPORT);
 			db.execSQL("DROP TABLE IF EXISTS " + SumData_TopProductReportTable.TABLE_SUMDATA_TOP_PRODUCT_REPORT);
-			db.execSQL("DROP TABLE IF EXISTS " + TempReportByProductTable.TABLE_TEMP_REPORT_PRODUCT);
 			onCreate(db);
 
 		}
@@ -186,7 +181,6 @@ public class ReportDatabase{
 		db.execSQL("DROP TABLE IF EXISTS " + SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT);
 		db.execSQL("DROP TABLE IF EXISTS " + SaleData_ProductReportTable.TABLE_SALE_DATA_PRODUCTREPORT);
 		db.execSQL("DROP TABLE IF EXISTS " + SumData_TopProductReportTable.TABLE_SUMDATA_TOP_PRODUCT_REPORT);
-		db.execSQL("DROP TABLE IF EXISTS " + TempReportByProductTable.TABLE_TEMP_REPORT_PRODUCT);
 		onCreate(db);
 	}
 
@@ -207,7 +201,6 @@ public class ReportDatabase{
 		SumData_ProductReportTable.onCreate(db);
 		SaleData_ProductReportTable.onCreate(db);
 		SumData_TopProductReportTable.onCreate(db);
-		TempReportByProductTable.onCreate(db);
 	}
 
 	

@@ -13,9 +13,9 @@ public class GetLastSaleDateShop extends Ksoap2WebService{
 	public static final String GET_LAST_SALE_DATE_OF_SHOP_METHOD = "WsDashBoard_GetLastSaleDateOfShop";
 	String lastSaleDate;
 	public static final int TIME_OUT = 10 * 1000;
-	private ProgressDialog pdia;
-	GetLastSaleDate mlisterner;
-	public GetLastSaleDateShop(Context c,final int iShopID,final String deviceCode,GetLastSaleDate listerner) {
+	GetLastSaleDate mlistener;
+	
+	public GetLastSaleDateShop(Context c,final int iShopID,final String deviceCode,GetLastSaleDate listener) {
 		
 		super(c, GET_LAST_SALE_DATE_OF_SHOP_METHOD, TIME_OUT);
 		mProperty = new PropertyInfo();
@@ -31,7 +31,7 @@ public class GetLastSaleDateShop extends Ksoap2WebService{
 		mProperty.setType(String.class);
 		mSoapRequest.addProperty(mProperty);
 		
-		mlisterner = listerner;
+		mlistener = listener;
 		
 	}
 	
@@ -40,7 +40,7 @@ public class GetLastSaleDateShop extends Ksoap2WebService{
 		try {
 			if(!TextUtils.isEmpty(result))
 			{
-				mlisterner.onSuccess(result.replace("\"",""));
+				mlistener.onSuccess(result.replace("\"",""));
 			}
 			
 		} catch (JsonSyntaxException e) {
@@ -56,7 +56,7 @@ public class GetLastSaleDateShop extends Ksoap2WebService{
 	
 	@Override
     protected void onPreExecute() {
-		mlisterner.onLoad();
+		mlistener.onLoad();
         
     }
 

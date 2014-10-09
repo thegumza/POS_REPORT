@@ -150,7 +150,7 @@ public class MainActivity extends Activity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}}
-	public class KeySpinner extends BaseAdapter {
+	/*public class KeySpinner extends BaseAdapter {
 		
 		List<ShopProperty> Shoplist;
 		public KeySpinner(List<ShopProperty> sl) {
@@ -182,5 +182,5 @@ public class MainActivity extends Activity implements
 			ShopProperty sp = Shoplist.get(position);
 			textView.setText(sp.getShopName());
 			return convertView;
-		}}
+		}}*/
 }

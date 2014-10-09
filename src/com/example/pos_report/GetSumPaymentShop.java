@@ -8,8 +8,10 @@ import org.ksoap2.serialization.PropertyInfo;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.example.pos_peport.database.model.SumPaymentShop;
+import com.example.pos_report.GetSumPromotionShop.GetSumPromotion;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -22,7 +24,9 @@ public class GetSumPaymentShop extends Ksoap2WebService{
 	
 	public static final int TIME_OUT = 10 * 1000;
 	private ProgressDialog pdia;
-	public GetSumPaymentShop(Context c,final int iShopID,final int iMonth,final int iYear,String deviceCode) {
+	GetSumPayment mlistener;
+	
+	public GetSumPaymentShop(Context c,final int iShopID,final int iMonth,final int iYear,String deviceCode,GetSumPayment listener) {
 		super(c, GET_SUM_PAYMENT_OF_SHOP_FROM_MONTH_YEAR_METHOD, TIME_OUT);
 		mProperty = new PropertyInfo();
 		mProperty.setName("iShopID");
@@ -47,9 +51,32 @@ public class GetSumPaymentShop extends Ksoap2WebService{
 		mProperty.setValue(deviceCode);
 		mProperty.setType(String.class);
 		mSoapRequest.addProperty(mProperty);
+		
+		mlistener = listener;
+		
 	}
-	
 	@Override
+	protected void onPostExecute(String result) {
+		try {
+			if(!TextUtils.isEmpty(result))
+			{
+				mlistener.onSuccess(result);
+			}
+			
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public static interface GetSumPayment{
+		void onSuccess(String result);
+		void onLoad();
+	}
+	@Override
+    protected void onPreExecute() {
+		mlistener.onLoad();
+    }
+	/*@Override
 	protected void onPostExecute(String result) {
 		
 		Gson gson = new Gson();
@@ -76,7 +103,7 @@ public class GetSumPaymentShop extends Ksoap2WebService{
 		super.onPreExecute();
         
     }
-
+*/
 	
 
 }

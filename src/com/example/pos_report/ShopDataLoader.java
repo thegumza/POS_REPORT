@@ -2,8 +2,9 @@ package com.example.pos_report;
 
 import org.ksoap2.serialization.PropertyInfo;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.TextUtils;
+
 import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.PayTypeDao;
@@ -16,18 +17,46 @@ public class ShopDataLoader extends Ksoap2WebService{
 	
 	
 	public static final String LOAD_SHOP_DATA_METHOD = "WsDashBoard_LoadShopData";
-	private ProgressDialog pdia;
 	public static final int TIME_OUT = 10 * 1000;
-	public ShopDataLoader(Context c, String deviceCode) {
+	GetShopDataLoader mlistener;
+	
+	public ShopDataLoader(Context c, String deviceCode,GetShopDataLoader listener) {
 		super(c, LOAD_SHOP_DATA_METHOD, TIME_OUT);
 		mProperty = new PropertyInfo();
 		mProperty.setName("szDeviceCode");
 		mProperty.setValue(deviceCode);
 		mProperty.setType(String.class);
 		mSoapRequest.addProperty(mProperty);
+		
+		mlistener = listener;
 	}
 
+	
 	@Override
+	protected void onPostExecute(String result) {
+		try {
+			if(!TextUtils.isEmpty(result))
+			{
+				mlistener.onSuccess(result);
+			}
+			
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static interface GetShopDataLoader{
+		void onSuccess(String result);
+		void onLoad();
+	}
+	
+	
+	@Override
+    protected void onPreExecute() {
+		mlistener.onLoad();
+        
+    }}
+	/*@Override
 	protected void onPostExecute(String result) {
 		Gson gson = new Gson();
 		try {
@@ -53,15 +82,10 @@ public class ShopDataLoader extends Ksoap2WebService{
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		}
-		pdia.dismiss();
 	}
-
+	
 	@Override
     protected void onPreExecute() {
-        pdia = new ProgressDialog(mContext);
-        pdia.setMessage("Loading...");
-        pdia.show();
-		super.onPreExecute();
         
     }
-}
+}*/

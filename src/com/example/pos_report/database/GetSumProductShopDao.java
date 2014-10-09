@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.pos_peport.database.model.SumProductShop;
-import com.example.pos_report.database.table.ProductDeptTable;
-import com.example.pos_report.database.table.ProductGroupTable;
 import com.example.pos_report.database.table.ProductItemTable;
 import com.example.pos_report.database.table.SumData_ProductReportTable;
-import com.example.pos_report.database.table.TempReportByProductTable;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -65,41 +62,6 @@ public class GetSumProductShopDao extends ReportDatabase{
 		}
 		return getsumproducttshop;
 	}
-	public List<SumProductShop> getTempProduct(){
-		List<SumProductShop> gettempproducttshop = new ArrayList <SumProductShop>();
-		String TempSql =
-				"insert into "+TempReportByProductTable.TABLE_TEMP_REPORT_PRODUCT+" " +
-				"select d."+ProductGroupTable.COLUMN_PRODUCT_GROUP_ID+", d."+ProductGroupTable.COLUMN_PRODUCT_GROUP_NAME+", " +
-				"c."+ProductDeptTable.COLUMN_PRODUCT_DEPT_ID+", c."+ProductDeptTable.COLUMN_PRODUCT_DEPT_NAME+", " +
-				"b."+ProductItemTable.COLUMN_PRODUCT_ID+", b."+ProductItemTable.COLUMN_PRODUCT_TYPE_ID+"," +
-				"b."+ProductItemTable.COLUMN_PRODUCT_NAME+", sum(a."+SumData_ProductReportTable.COLUMN_QTY+")," +
-				"sum(a."+SumData_ProductReportTable.COLUMN_SALE_PRICE+") " +
-				" from "+SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" a " +
-				"left join "+ProductItemTable.TABLE_PRODUCT_ITEM+" b " +
-				"on a."+SumData_ProductReportTable.COLUMN_PRODUCT_ID+"=b."+ProductItemTable.COLUMN_PRODUCT_ID+" " +
-				"left join "+ProductDeptTable.TABLE_PRODUCT_DEPT+" c " +
-				"on b."+ProductItemTable.COLUMN_PRODUCT_DEPT_ID+"=c."+ProductDeptTable.COLUMN_PRODUCT_DEPT_ID+" " +
-				"left join "+ProductGroupTable.TABLE_PRODUCT_GROUP+" d " +
-				"on c."+ProductDeptTable.COLUMN_PRODUCT_GROUP_ID+"=d."+ProductGroupTable.COLUMN_PRODUCT_GROUP_ID+" " +
-				"group by a."+SumData_ProductReportTable.COLUMN_PRODUCT_ID+";";
-		
-		Cursor cursor =  getReadableDatabase().rawQuery(TempSql, null);
-		SumProductShop sp = new SumProductShop();
-		if (cursor.moveToFirst()){
-			do{
-			sp.setProductGroupID(cursor.getInt(cursor.getColumnIndex(TempReportByProductTable.COLUMN_PRODUCT_GROUP_ID)));
-			sp.setProductGroupName(cursor.getString(cursor.getColumnIndex(TempReportByProductTable.COLUMN_PRODUCT_GROUP_NAME)));
-			sp.setProductDeptID(cursor.getInt(cursor.getColumnIndex(TempReportByProductTable.COLUMN_PRODUCT_DEPT_ID)));
-			sp.setProductDeptName(cursor.getString(cursor.getColumnIndex(TempReportByProductTable.COLUMN_PRODUCT_DEPT_NAME)));
-			sp.setProductID(cursor.getInt(cursor.getColumnIndex(TempReportByProductTable.COLUMN_PRODUCT_ID)));
-			sp.setProductTypeID(cursor.getInt(cursor.getColumnIndex(TempReportByProductTable.COLUMN_PRODUCT_TYPE_ID)));
-			sp.setProductName(cursor.getString(cursor.getColumnIndex(TempReportByProductTable.COLUMN_PRODUCT_NAME)));
-			sp.setQty(cursor.getInt(cursor.getColumnIndex(TempReportByProductTable.COLUMN_TOTAL_QTY)));
-			sp.setSalePrice(cursor.getDouble(cursor.getColumnIndex(TempReportByProductTable.COLUMN_TOTAL_SALE_PRICE)));
-			gettempproducttshop.add(sp);
-			}while(cursor.moveToNext());
-		}
-		return gettempproducttshop;
-	}
+	
 	
 }
