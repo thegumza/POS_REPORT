@@ -36,6 +36,13 @@ import com.github.mikephil.charting.utils.Legend.LegendPosition;
 public class SaleByDate_Detail_Promotion extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private PieChart mChart;
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+	GlobalProperty format = gpd.getGlobalProperty();
+	String formatnumber = format.getCurrencyFormat();
+	String formatqty = format.getQtyFormat();
+	NumberFormat formatter = new DecimalFormat(formatnumber);
+	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	
 	
 	public static SaleByDate_Detail_Promotion newInstance(int sectionNumber) {
 		SaleByDate_Detail_Promotion fragment = new SaleByDate_Detail_Promotion();
@@ -52,7 +59,7 @@ public class SaleByDate_Detail_Promotion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.salebydate_detail_fragment3, container, false);
+                R.layout.salebydate_detail_promotion_fragment, container, false);
                 rootView.findViewById(R.id.promotion_detail_layout);
                 text_sum_promo_amount = (TextView)rootView.findViewById(R.id.text_sum_promo_amount);
         		text_sum_promo_percent = (TextView)rootView.findViewById(R.id.text_sum_promo_percent);
@@ -67,11 +74,7 @@ public class SaleByDate_Detail_Promotion extends Fragment {
         			}
         		});
                 
-        		//Number Format
-        		final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-        		GlobalProperty format = gpd.getglobalproperty();
-        		String formatnumber = format.getCurrencyFormat();
-        		NumberFormat formatter = new DecimalFormat(formatnumber);
+        		
         		final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());
         		
         		//Set ListViewAdapter Promotion 
@@ -212,10 +215,8 @@ public class SaleByDate_Detail_Promotion extends Fragment {
 				}
 				final GetSumPromotionShopDao gp = new GetSumPromotionShopDao(getActivity());
 				final SumPromotionShop gpr = gp.getSumPromoDetail();
-				final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-				GlobalProperty format = gpd.getglobalproperty();
-				String formatnumber = format.getCurrencyFormat();
-				NumberFormat formatter = new DecimalFormat(formatnumber);
+				
+				
 				SumPromotionShop spr = Promotiontlist.get(position);
 				holder.typePromotionValue.setText(spr.getPromotionName());
 				holder.amountPromotionValue.setText(formatter.format(spr.getDiscount()));
@@ -223,7 +224,7 @@ public class SaleByDate_Detail_Promotion extends Fragment {
 				double percent = (spr.getDiscount()* 100) / totaldis;
 				holder.percentPromotionValue.setText(formatter.format(percent));
 				text_sum_promo_amount.setText(formatter.format(gpr.getDiscount()));
-				
+				text_sum_promo_percent.setText("100%");
 			return convertView;
 				}
  

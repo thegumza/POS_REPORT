@@ -80,4 +80,24 @@ public class GetTopProductShopDao extends ReportDatabase{
 		}
 		return gettopproducttshop;
 	}
+	// GetSumData for Saledate Product
+	public List<TopProductShop> getTopSaleDateProduct(){
+		List<TopProductShop> gettopproducttshop = new ArrayList <TopProductShop>();
+		String TPSql = "Select * From "+ SumData_TopProductReportTable.TABLE_SUMDATA_TOP_PRODUCT_REPORT+" JOIN "
+		+SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" GROUP BY "+SumData_TopProductReportTable.COLUMN_PRODUCT_NAME;
+		Cursor cursor =  getReadableDatabase().rawQuery(TPSql, null);
+		if (cursor.moveToFirst()){
+			do{
+				TopProductShop ts = new TopProductShop();
+				ts.setProductGroupName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_PRODUCT_GROUP_NAME)));
+				ts.setProductDeptName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_RODUCT_DEPT_NAME)));
+				ts.setProductName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_PRODUCT_NAME)));
+				ts.setSumAmount(cursor.getInt(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_SUM_AMOUNT)));
+				ts.setSumSalePrice(cursor.getInt(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_SUM_SALE_PRICE)));
+				ts.setQty(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_QTY)));
+				gettopproducttshop.add(ts);
+			}while(cursor.moveToNext());
+		}
+		return gettopproducttshop;
+	}
 	}

@@ -34,6 +34,7 @@ public class GlobalPropertyDao extends ReportDatabase{
 				cv.put(GlobalPropertyTable.COLUMN_CURRENCY_FORMAT, gp.getCurrencyFormat());
 				cv.put(GlobalPropertyTable.COLUMN_DATE_FORMAT, gp.getDateFormat());
 				cv.put(GlobalPropertyTable.COLUMN_TIME_FORMAT, gp.getTimeFormat());
+				cv.put(GlobalPropertyTable.COLUMN_QTY_FORMAT, gp.getQtyFormat());
 				cv.put(GlobalPropertyTable.COLUMN_PREFIX_TEXT_TW, gp.getPrefixTextTW());
 				cv.put(GlobalPropertyTable.COLUMN_POSITION_PREFIX, gp.getPositionPrefix());
 				// insert
@@ -46,18 +47,19 @@ public class GlobalPropertyDao extends ReportDatabase{
 		}
 		
 	}
-	public GlobalProperty getglobalproperty() {
+	public GlobalProperty getGlobalProperty() {
 		
-		String SPSql = "SELECT "+GlobalPropertyTable.COLUMN_CURRENCY_FORMAT+"  as CurrencyFormat from "
-				+GlobalPropertyTable.TABLE_GLOBAL_PROPERTY;
+		String SPSql = "SELECT * FROM "+GlobalPropertyTable.TABLE_GLOBAL_PROPERTY;
+		
 					Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
 					GlobalProperty gp = new GlobalProperty();
 					if (cursor.moveToFirst()){
 						
 						gp.setCurrencyFormat(cursor.getString(cursor.getColumnIndex(GlobalPropertyTable.COLUMN_CURRENCY_FORMAT)));
-						
+						gp.setQtyFormat(cursor.getString(cursor.getColumnIndex(GlobalPropertyTable.COLUMN_QTY_FORMAT)));
 					}
 					return gp;
 		
 	}
+
 }

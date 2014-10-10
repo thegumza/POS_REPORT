@@ -34,6 +34,14 @@ import com.github.mikephil.charting.utils.Legend.LegendPosition;
 public class SaleByDate_Detail_Payment extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private PieChart mChart;
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+	GlobalProperty format = gpd.getGlobalProperty();
+	String formatnumber = format.getCurrencyFormat();
+	String formatqty = format.getQtyFormat();
+	NumberFormat formatter = new DecimalFormat(formatnumber);
+	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	
+	
 	public static SaleByDate_Detail_Payment newInstance(int sectionNumber) {
 		SaleByDate_Detail_Payment fragment = new SaleByDate_Detail_Payment();
 			Bundle args = new Bundle();
@@ -63,11 +71,7 @@ public class SaleByDate_Detail_Payment extends Fragment {
                 rootView.findViewById(R.id.paytype_detail_layout);
                 
                 
-        		//Number Format
-        		final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-        		GlobalProperty format = gpd.getglobalproperty();
-        		String formatnumber = format.getCurrencyFormat();
-        		NumberFormat formatter = new DecimalFormat(formatnumber);
+        		
         		text_sum_payment_amount = (TextView)rootView.findViewById(R.id.text_sum_payment_amount);
         		text_sum_payment_percent = (TextView)rootView.findViewById(R.id.text_sum_payment_percent);
         		listPayment = (ListView)rootView.findViewById(R.id.listPayment);
@@ -209,10 +213,7 @@ public class SaleByDate_Detail_Payment extends Fragment {
 				}
 				final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
 				final SumPaymentShop gsp = gp.getSumPaymentDetail();
-				final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-				GlobalProperty format = gpd.getglobalproperty();
-				String formatnumber = format.getCurrencyFormat();
-				NumberFormat formatter = new DecimalFormat(formatnumber);
+				
 				SumPaymentShop sp = Paymentlist.get(position);
 				holder.typePaymentValue.setText(sp.getPayTypeName());
 				holder.amountPaymentValue.setText(formatter.format(sp.getTotalPay()));
@@ -220,7 +221,7 @@ public class SaleByDate_Detail_Payment extends Fragment {
 				double percent = (sp.getTotalPay()* 100) / totalpay;
 				holder.percentPaymentValue.setText(formatter.format(percent));
 				text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));
-				
+				text_sum_payment_percent.setText("100%");
 				
 			return convertView;
 				}}

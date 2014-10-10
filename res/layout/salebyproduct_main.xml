@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:flatui="http://schemas.android.com/apk/res-auto"
@@ -144,7 +139,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.1"
-	            android:text="0"
+	            android:text=""
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -157,7 +152,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
-	            android:text="0.00"
+	            android:text=""
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -170,7 +165,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.2"
-	            android:text="100%"
+	            android:text=""
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -366,4 +361,3 @@
 </LinearLayout>
     	
 </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>

@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:flatui="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -106,6 +99,7 @@
 	            android:layout_marginBottom="2dp"
 	            flatui:fl_fontWeight="regular" />
 	</LinearLayout>
+	
 	</LinearLayout>
         <LinearLayout
             android:id="@+id/headTableDate"
@@ -196,7 +190,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.15"
-	            android:text="111"
+	            android:text=""
 	            android:textColor="#000000"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -208,7 +202,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.25"
-	            android:text="105"
+	            android:text=""
 	            android:textColor="#000000"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -220,7 +214,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
-	            android:text="38545"
+	            android:text=""
 	            android:textColor="#000000"
 	            android:gravity="right"
 	            android:textStyle="bold"
@@ -358,7 +352,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
-	            android:text="38457"
+	            android:text=""
 	            android:textColor="#000000"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -370,7 +364,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
-	            android:text="100%"
+	            android:text=""
 	            android:textColor="#000000"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -511,7 +505,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
-	            android:text="38457"
+	            android:text=""
 	            android:textColor="#000000"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -523,7 +517,7 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
-	            android:text="100%"
+	            android:text=""
 	            android:textColor="#000000"
 	            android:gravity="center"
 	            android:textStyle="bold"
@@ -555,4 +549,3 @@
     	
 </LinearLayout>
 </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>

@@ -48,8 +48,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -64,7 +62,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class SaleByProduct extends Fragment implements OnRefreshListener{
+public class SaleByProduct extends Fragment {
 	
 	private ExpandableListView elv;
 	private static final String ARG_SECTION_NUMBER = "section_number";
@@ -78,7 +76,6 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 	private Double sumQty,sumTotalPrice,sumPercent,sumProduct,sumSalePrice;
 	private Spinner shopSelect,monthSelect, yearSelect,topProduct_productSelect, topProduct_modeSelect;
 	ReportDatabase Database;
-	private SwipeRefreshLayout swipeLayout;
 	private ProgressDialog pdia;
 	private String lastsaledate;
 	
@@ -131,6 +128,15 @@ public class SaleByProduct extends Fragment implements OnRefreshListener{
 					//insert Staffs Data into Database
 					StaffsDao st = new StaffsDao(getActivity());
 					st.insertStaffsData(sd.getStaffs());
+					
+					final List<ShopProperty> Shoplist = sp.getShopList();
+					shopSelect.setAdapter(new ShopSpinner(Shoplist));
+					
+				/*	ShopProperty shoplist = new ShopProperty();
+					ShopID = shoplist.getShopID();*/
+					shopSelect.getItemAtPosition(0);
+					shopSelect.setSelection(0);
+					pdia.dismiss();
 					pdia.dismiss();
 					
 				} catch (JsonSyntaxException e) {
@@ -195,12 +201,6 @@ new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllPro
 			}
 		}).execute(URL);
 		
-		swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
-		swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(R.color.candy_primary, 
-                R.color.fbutton_color_amethyst, 
-                R.color.fbutton_color_turquoise, 
-                R.color.HEADGROUP_COLOR);
         
 	  text_sum_qty = (FlatTextView)rootView.findViewById(R.id.text_sum_qty);
 	  text_sum_price = (FlatTextView)rootView.findViewById(R.id.text_sum_price);
@@ -236,9 +236,9 @@ new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllPro
 				return false;
 			}
 		});
-		final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+		//final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 		final ProductGroupDao pg = new ProductGroupDao(getActivity());
-		final List<ShopProperty> Shoplist = sp.getShopList();
+		//final List<ShopProperty> Shoplist = sp.getShopList();
 		
 		List<ProductGroup> Productgroup = new ArrayList<ProductGroup>();
 		
@@ -250,7 +250,7 @@ new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllPro
 		 
 		 Productgroup = pg.getProductGroup();
 		 Productgroup.add(0,item);
-		shopSelect.setAdapter(new ShopSpinner(Shoplist));
+		//shopSelect.setAdapter(new ShopSpinner(Shoplist));
 		
 		topProduct_productSelect.setAdapter(new GroupSpinner(Productgroup));
 		
@@ -548,7 +548,6 @@ public void onDataChange(){
 				// insert GetSaleProductShop data into database
 				GetSaleProductShopDao gp = new GetSaleProductShopDao(getActivity());
 				gp.insertSaleProductShopData(sp);
-				pdia.dismiss();
 				List<ProductModel> Salebyproduct = new ArrayList<ProductModel>();
 				
 				Salebyproduct = gs.getSaleProduct();
@@ -564,6 +563,7 @@ public void onDataChange(){
 			                return true;
 			        }
 			    });
+			    pdia.dismiss();
 			} catch (JsonSyntaxException e) {
 				e.printStackTrace();
 			}
@@ -583,7 +583,7 @@ public void onDataChange(){
 
 public void onTopDataChange(){
 	 
-	final GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
+	/*final GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());*/
 	//Send Parameter to Web Service
 	new GetTopProductShop(getActivity(), ShopID , month, year, ProductGroupCode,0, 10, "123",new GetTopProductShop.GetTopProduct() {
 		
@@ -626,15 +626,7 @@ public void onTopDataChange(){
 	
 	
 }
-public void onRefresh() {
-    new Handler().postDelayed(new Runnable() {
-        @Override public void run() {
-        	onDataChange();
-        	onTopDataChange();
-            swipeLayout.setRefreshing(false);
-        }
-    }, 3000);
-}
+
 		//ListViewAdapter
 		public class ProductListAdapter extends BaseAdapter{
 			
@@ -680,15 +672,17 @@ public void onRefresh() {
 					}else{
 						holder=(ViewHolder)convertView.getTag();
 					}
-					SumProductShop st = Salebyproduct.get(position);
 					final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-					GlobalProperty format = gpd.getglobalproperty();
-					String formatnumber = format.getCurrencyFormat();
-					NumberFormat formatter = new DecimalFormat(formatnumber);
+					GlobalProperty format = gpd.getGlobalProperty();
+					String currencyformat = format.getCurrencyFormat();
+					String qtyformat = format.getQtyFormat();
+					NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+					NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 					
+					SumProductShop st = Salebyproduct.get(position);
 					holder.itemValue.setText(st.getProductName());
-					holder.qtyValue.setText(Integer.toString(st.getQty()));
-					holder.priceValue.setText(formatter.format(st.getSalePrice()));
+					holder.qtyValue.setText(qtyformatter.format(st.getQty()));
+					holder.priceValue.setText(currencyformatter.format(st.getSalePrice()));
 					//GetSaleProductShopDao gsp = new GetSaleProductShopDao(getActivity());
 					/*SaleProductShop sum = new SaleProductShop();
 					sum = gsp.getSumProduct();
@@ -747,13 +741,14 @@ public void onRefresh() {
 							SumProductShop st = saleproduct.get(position);
 							
 							final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-							GlobalProperty format = gpd.getglobalproperty();
-							String formatnumber = format.getCurrencyFormat();
-							NumberFormat formatter = new DecimalFormat(formatnumber);
-							
+							GlobalProperty format = gpd.getGlobalProperty();
+							String currencyformat = format.getCurrencyFormat();
+							String qtyformat = format.getQtyFormat();
+							NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+							NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 							holder.itemValue.setText(st.getProductName());
-							holder.qtyValue.setText(Integer.toString(st.getQty()));
-							holder.priceValue.setText(formatter.format(st.getSalePrice()));
+							holder.qtyValue.setText(qtyformatter.format(st.getQty()));
+							holder.priceValue.setText(currencyformatter.format(st.getSalePrice()));
 							//holder.percentValue.setText(formatter.format((st.getSalePrice())));
 							//text_sum_totalBill.setText(formatter.format(Sumsale.getTotalBill()));
 							//text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));
@@ -808,16 +803,18 @@ public void onRefresh() {
 							}else{
 								holder=(ViewHolder)convertView.getTag();
 							}
-							TopProductShop ts = topqtyproduct.get(position);
 							final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+							GlobalProperty format = gpd.getGlobalProperty();
+							String currencyformat = format.getCurrencyFormat();
+							String qtyformat = format.getQtyFormat();
+							NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+							NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 							
-							GlobalProperty format = gpd.getglobalproperty();
-							String formatnumber = format.getCurrencyFormat();
-							NumberFormat formatter = new DecimalFormat(formatnumber);
+							TopProductShop ts = topqtyproduct.get(position);
 							holder.number_QtyValue.setText(""+(position+1));
 							holder.item_QtyValue.setText(ts.getProductName());
-							holder.qty_QtyValue.setText(Integer.toString(ts.getQty()));
-							holder.salePrice_QtyValue.setText(formatter.format(ts.getSumSalePrice()));
+							holder.qty_QtyValue.setText(qtyformatter.format(ts.getQty()));
+							holder.salePrice_QtyValue.setText(currencyformatter.format(ts.getSumSalePrice()));
 							//holder.percentValue.setText(formatter.format((st.getSalePrice())));
 							//text_sum_totalBill.setText(formatter.format(Sumsale.getTotalBill()));
 							//text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));
@@ -872,16 +869,18 @@ public void onRefresh() {
 							}else{
 								holder=(ViewHolder)convertView.getTag();
 							}
-							TopProductShop ts = topsaleproduct.get(position);
 							final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+							GlobalProperty format = gpd.getGlobalProperty();
+							String currencyformat = format.getCurrencyFormat();
+							String qtyformat = format.getQtyFormat();
+							NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+							NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 							
-							GlobalProperty format = gpd.getglobalproperty();
-							String formatnumber = format.getCurrencyFormat();
-							NumberFormat formatter = new DecimalFormat(formatnumber);
+							TopProductShop ts = topsaleproduct.get(position);
 							holder.number_PriceValue.setText(""+(position+1));
 							holder.item_PriceValue.setText(ts.getProductName());
-							holder.qty_PriceValue.setText(Integer.toString(ts.getQty()));
-							holder.salePrice_PriceValue.setText(formatter.format(ts.getSumSalePrice()));
+							holder.qty_PriceValue.setText(qtyformatter.format(ts.getQty()));
+							holder.salePrice_PriceValue.setText(currencyformatter.format(ts.getSumSalePrice()));
 							//holder.percentValue.setText(formatter.format((st.getSalePrice())));
 							//text_sum_totalBill.setText(formatter.format(Sumsale.getTotalBill()));
 							//text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));
@@ -992,16 +991,16 @@ public void onRefresh() {
 						}
 						GetSaleProductShopDao gsp = new GetSaleProductShopDao(getActivity());
 						ProductNameModel ss = product.get(groupPosition).productNameModel.get(childPosition);
-						
 						final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-						//final GetSaleProductShopDao gss = new GetSaleProductShopDao(getActivity());
-						GlobalProperty format = gpd.getglobalproperty();
-						String formatnumber = format.getCurrencyFormat();
-						NumberFormat formatter = new DecimalFormat(formatnumber);
+						GlobalProperty format = gpd.getGlobalProperty();
+						String currencyformat = format.getCurrencyFormat();
+						String qtyformat = format.getQtyFormat();
+						NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+						NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 						
-						holder.itemValue.setText(""+ss.getProductName());
-						holder.qtyValue.setText(""+ss.getSumAmount());
-						holder.priceValue.setText(""+Double.toString(ss.getSumSalePrice()));
+						holder.itemValue.setText(ss.getProductName().toString());
+						holder.qtyValue.setText(qtyformatter.format(ss.getSumAmount()));
+						holder.priceValue.setText(currencyformatter.format(ss.getSumSalePrice()));
 						
 						SaleProductShop sum = new SaleProductShop();
 						sum = gsp.getSumProduct();
@@ -1009,15 +1008,16 @@ public void onRefresh() {
 						double percent = (ss.getSumSalePrice()* 100) / totalprice;
 						//holder.sumDeptAmountValue.setText(""+ss.getSumAmount());
 						//holder.SumDeptPriceValue.setText(""+ss.getSumSalePrice());
-						holder.percentValue.setText(formatter.format((percent)));
+						holder.percentValue.setText(currencyformatter.format((percent)));
 						
 						//Summary ProductGroup
 						
 						SaleProductShop s = gsp.getSumProduct();
 						sumAmount = s.getSumAmount();
 						sumSalePrice = s.getSumSalePrice();
-						text_sum_qty.setText(""+sumAmount);
-						text_sum_price.setText(""+sumSalePrice);
+						text_sum_qty.setText(qtyformatter.format(sumAmount));
+						text_sum_price.setText(currencyformatter.format((sumSalePrice)));
+						text_sum_percent.setText("100%");
 						//text_sum_percent.setText(formatter.format(Sumsale.getSalePrice()));
 	
 					return convertView;

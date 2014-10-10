@@ -31,6 +31,13 @@ import android.widget.TextView;
 public class SaleByDate_Detail extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private PieChart mChart;
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+	GlobalProperty format = gpd.getGlobalProperty();
+	String formatnumber = format.getCurrencyFormat();
+	String formatqty = format.getQtyFormat();
+	NumberFormat formatter = new DecimalFormat(formatnumber);
+	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	
 	public static SaleByDate_Detail newInstance(int sectionNumber) {
 		SaleByDate_Detail fragment = new SaleByDate_Detail();
 			Bundle args = new Bundle();
@@ -55,10 +62,9 @@ public class SaleByDate_Detail extends Fragment {
 		double totalretail = SaleByDate.getTotalRetail();
 		double totaldis = SaleByDate.getTotalDis();
 		double totalsale = SaleByDate.getTotalSale();
-    	
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.salebydate_detail_fragment, container, false);
+                R.layout.salebydate_detail_saledate_fragment, container, false);
                 rootView.findViewById(R.id.linear_layout);
     	                
 		SaledateVal = (FlatTextView) rootView.findViewById(R.id.Saledate);
@@ -74,11 +80,7 @@ public class SaleByDate_Detail extends Fragment {
 				.findViewById(R.id.TotalDisValue);
 		totalsalevalue = (FlatTextView) rootView
 				.findViewById(R.id.TotalSaleValue);
-		// Number Format
-		final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-		GlobalProperty format = gpd.getglobalproperty();
-		String formatnumber = format.getCurrencyFormat();
-		NumberFormat formatter = new DecimalFormat(formatnumber);
+		
 		SaledateVal.setText("SaleDate (" + Saledate + ")");
 		totalbillvalue.setText("" + totalbill);
 		totalcustvalue.setText("" + totalcust);
@@ -233,10 +235,7 @@ public class PaymentlistAdapter extends BaseAdapter{
 				}
 				final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
 				final SumPaymentShop gsp = gp.getSumPaymentDetail();
-				final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-				GlobalProperty format = gpd.getglobalproperty();
-				String formatnumber = format.getCurrencyFormat();
-				NumberFormat formatter = new DecimalFormat(formatnumber);
+				
 				SumPaymentShop sp = Paymentlist.get(position);
 				holder.typePaymentValue.setText(sp.getPayTypeName());
 				holder.amountPaymentValue.setText(formatter.format(sp.getTotalPay()));

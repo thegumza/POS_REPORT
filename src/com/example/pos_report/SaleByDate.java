@@ -44,15 +44,15 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -63,7 +63,7 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
 
-public class SaleByDate extends Fragment implements OnRefreshListener {
+public class SaleByDate extends Fragment{
 	
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private Spinner shopSelect,monthSelect, yearSelect;
@@ -79,9 +79,9 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
 	public static String URL;
 	private ListView listSale,listPayment,listPromotion;
-	private SwipeRefreshLayout swipeLayout;
 	private ProgressDialog pdia;
 	private String lastsaledate;
+	
 	
 	 public static SaleByDate newInstance(int sectionNumber) {
 		 SaleByDate fragment = new SaleByDate();
@@ -102,112 +102,13 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 	  View rootView = inflater.inflate(R.layout.salebydate_main, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		
+	  Database = new ReportDatabase(getActivity());
 	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
 	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
-	  	
+	  	 
 	   pdia = new ProgressDialog(getActivity());
-	   new ShopDataLoader(getActivity(), "123", new ShopDataLoader.GetShopDataLoader() {
-			
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				try {
-					ShopData sd = gson.fromJson(result, ShopData.class);
-					
-					// insert ShopProperty Data into Database
-					ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-					sp.insertShopData(sd.getShopProperty());
-					
-					// insert GlobalProperty Data into Database
-					GlobalPropertyDao gp = new GlobalPropertyDao(getActivity());
-					gp.insertGlobalPropertyData(sd.getGlobalProperty());
-					
-					//insert PayType Data into Database
-					PayTypeDao pt = new PayTypeDao(getActivity());
-					pt.insertPayTypeData(sd.getPayType());
-					
-					//insert Staffs Data into Database
-					StaffsDao st = new StaffsDao(getActivity());
-					st.insertStaffsData(sd.getStaffs());
-					
-					shopSelect.setSelection(0);
-					ShopProperty s = new ShopProperty();
-					ShopID = s.getShopID();
-					pdia.dismiss();
-					//ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>) shopSelect.getAdapter();
-					//int position = shopadapter.getPosition(shopadapter);
-					//shopSelect.setSelection(position);
-					
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-				pdia = new ProgressDialog(getActivity());
-		        pdia.setMessage("Shop data loading...");
-		        pdia.show();
-				
-			}
-		}).execute(URL);
-		new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllProductDataLoader() {
-			
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				try {
-					AllProductData ap = gson.fromJson(result, AllProductData.class);
-					
-					// insert promotion Data into Database
-					PromotionDao pr = new PromotionDao(getActivity());
-					pr.insertPromotionData(ap.getPromotion());
-					
-					//insert ProductGroup Data into Database
-					ProductGroupDao pg = new ProductGroupDao(getActivity());
-					pg.insertProductGroupData(ap.getProductGroup());
-					
-					//insert ProductItem Data into Database
-					ProductItemDao pi = new ProductItemDao(getActivity());
-					pi.insertProductItemData(ap.getProductItem());
-					
-					//insert ProductDept Data into Database
-					ProductDeptDao pd = new ProductDeptDao(getActivity());
-					pd.insertProductDeptData(ap.getProductDept());
-					pdia.dismiss();
-					
-					
-					//insert SaleMode Data into Database
-					//SaleModeDao sm = new SaleModeDao(mContext);
-					//sm.insertSaleModeData(ap.getSaleMode());
-					
-					
-							
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-		        pdia.setMessage("Product data loading...");
-		        pdia.show();
-				
-			}
-		}).execute(URL);
-		swipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
-        swipeLayout.setOnRefreshListener(this);
-        swipeLayout.setColorScheme(R.color.candy_primary, 
-                R.color.fbutton_color_amethyst, 
-                R.color.fbutton_color_turquoise, 
-                R.color.HEADGROUP_COLOR);
+	   
         
 	  	text_sum_totalBill = (FlatTextView)rootView.findViewById(R.id.text_sum_totalBill);
 		text_sum_discount = (FlatTextView)rootView.findViewById(R.id.text_sum_discount);
@@ -228,6 +129,106 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 		 final String[] months = new String[]{"January", "February", "March","April","May","June","July","August","September","October","November","December"};
 		 monthSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, months));
 		 yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
+		 
+		 new ShopDataLoader(getActivity(), "123", new ShopDataLoader.GetShopDataLoader() {
+			 
+				@Override
+				public void onSuccess(String result) {
+					// TODO Auto-generated method stub
+					Gson gson = new Gson();
+					try {
+						ShopData sd = gson.fromJson(result, ShopData.class);
+						
+						// insert ShopProperty Data into Database
+						ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+						sp.insertShopData(sd.getShopProperty());
+						
+						// insert GlobalProperty Data into Database
+						GlobalPropertyDao gp = new GlobalPropertyDao(getActivity());
+						gp.insertGlobalPropertyData(sd.getGlobalProperty());
+						
+						//insert PayType Data into Database
+						PayTypeDao pt = new PayTypeDao(getActivity());
+						pt.insertPayTypeData(sd.getPayType());
+						
+						//insert Staffs Data into Database
+						StaffsDao st = new StaffsDao(getActivity());
+						st.insertStaffsData(sd.getStaffs());
+						
+						final List<ShopProperty> Shoplist = sp.getShopList();
+						shopSelect.setAdapter(new ShopSpinner(Shoplist));
+						
+					/*	ShopProperty shoplist = new ShopProperty();
+						ShopID = shoplist.getShopID();*/
+						shopSelect.getItemAtPosition(0);
+						shopSelect.setSelection(0);
+						pdia.dismiss();
+						//ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>) shopSelect.getAdapter();
+						//int position = shopadapter.getPosition(shopadapter);
+						//shopSelect.setSelection(position);
+						
+					} catch (JsonSyntaxException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				@Override
+				public void onLoad() {
+					// TODO Auto-generated method stub
+			        pdia.setMessage("Shop data loading...");
+			        pdia.show();
+					
+				}
+			}).execute(URL);
+			new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllProductDataLoader() {
+				
+				@Override
+				public void onSuccess(String result) {
+					// TODO Auto-generated method stub
+					Gson gson = new Gson();
+					try {
+						AllProductData ap = gson.fromJson(result, AllProductData.class);
+						
+						// insert promotion Data into Database
+						PromotionDao pr = new PromotionDao(getActivity());
+						pr.insertPromotionData(ap.getPromotion());
+						
+						//insert ProductGroup Data into Database
+						ProductGroupDao pg = new ProductGroupDao(getActivity());
+						pg.insertProductGroupData(ap.getProductGroup());
+						
+						//insert ProductItem Data into Database
+						ProductItemDao pi = new ProductItemDao(getActivity());
+						pi.insertProductItemData(ap.getProductItem());
+						
+						//insert ProductDept Data into Database
+						ProductDeptDao pd = new ProductDeptDao(getActivity());
+						pd.insertProductDeptData(ap.getProductDept());
+						
+						
+						pdia.dismiss();
+						
+						
+						//insert SaleMode Data into Database
+						//SaleModeDao sm = new SaleModeDao(mContext);
+						//sm.insertSaleModeData(ap.getSaleMode());
+						
+						
+								
+					} catch (JsonSyntaxException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+				@Override
+				public void onLoad() {
+					// TODO Auto-generated method stub
+			        pdia.setMessage("Product data loading...");
+			        pdia.show();
+					
+				}
+			}).execute(URL);
 		 //set Progress Bar
 		 
 		 
@@ -255,10 +256,14 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 			}
 		}).execute(URL);*/
 		
-		Database = new ReportDatabase(getActivity());
-		final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+		/*Database = new ReportDatabase(getActivity());*/
+		
+		//get Shoplist to Spinner
+		/*final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 		final List<ShopProperty> Shoplist = sp.getShopList();
-		shopSelect.setAdapter(new KeySpinner(Shoplist));
+		shopSelect.setAdapter(new KeySpinner(Shoplist));*/
+		
+		
 		listSale.setOnTouchListener(new ListView.OnTouchListener() {
 			   
 			@Override
@@ -444,10 +449,10 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 	 }
 	 
 		public void onChangeData(){
-			
+			/*
 			final GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
 			final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
-			final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());
+			final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());*/
 			//Send Parameter to Web Service
 	    	new GetSumTransactionShop(getActivity(),ShopID , month, year, "123",new GetSumTransacTion() {
 				//not sure
@@ -552,18 +557,10 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 			
 		}
 	 
-	 public void onRefresh() {
-	        new Handler().postDelayed(new Runnable() {
-	            @Override public void run() {
-	            	onChangeData();
-	                swipeLayout.setRefreshing(false);
-	            }
-	        }, 3000);
-	    }
-	 public class KeySpinner extends BaseAdapter {
+	 public class ShopSpinner extends BaseAdapter {
 			
 			List<ShopProperty> Shoplist;
-			public KeySpinner(List<ShopProperty> sl) {
+			public ShopSpinner(List<ShopProperty> sl) {
 				Shoplist = sl;
 			}
 			@Override
@@ -676,16 +673,20 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 						final GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
 						final SumTransactionShop Sumsale = gt.getSumSaleShop();
 						final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-						GlobalProperty format = gpd.getglobalproperty();
-						String formatnumber = format.getCurrencyFormat();
-						NumberFormat formatter = new DecimalFormat(formatnumber);
+						GlobalProperty format = gpd.getGlobalProperty();
+						String currencyformat = format.getCurrencyFormat();
+						String qtyformat = format.getQtyFormat();
+						NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+						NumberFormat qtyformatter = new DecimalFormat(qtyformat);
+						
 						holder.dateValue.setText(st.getSaleDate());
-						holder.totalBill.setText(Integer.toString(st.getTotalBill()));
-						holder.discountValue.setText(formatter.format(st.getDiscount()));
-						holder.priceValue.setText(formatter.format((st.getSalePrice())));
+						holder.totalBill.setText(qtyformatter.format(st.getTotalBill()));
+						holder.discountValue.setText(currencyformatter.format(st.getDiscount()));
+						holder.priceValue.setText(currencyformatter.format((st.getSalePrice())));
 						text_sum_totalBill.setText(Integer.toString(Sumsale.getTotalBill()));
-						text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));
-						text_sum_salePrice.setText(formatter.format(Sumsale.getSalePrice()));
+						text_sum_discount.setText(currencyformatter.format(Sumsale.getDiscount()));
+						text_sum_salePrice.setText(currencyformatter.format(Sumsale.getSalePrice()));
+						
 						
 					return convertView;
 						}
@@ -736,18 +737,21 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 					}
 					final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
 					final SumPaymentShop gsp = gp.getSumPayment();
+					
+					//Number Format
 					final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-					GlobalProperty format = gpd.getglobalproperty();
-					String formatnumber = format.getCurrencyFormat();
-					NumberFormat formatter = new DecimalFormat(formatnumber);
+					GlobalProperty format = gpd.getGlobalProperty();
+					String currencyformat = format.getCurrencyFormat();
+					NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+					
 					SumPaymentShop sp = Paymentlist.get(position);
 					holder.typePaymentValue.setText(sp.getPayTypeName());
-					holder.amountPaymentValue.setText(formatter.format(sp.getTotalPay()));
+					holder.amountPaymentValue.setText(currencyformatter.format(sp.getTotalPay()));
 					double totalpay = gsp.getTotalPay();
 					double percent = (sp.getTotalPay()* 100) / totalpay;
-					holder.percentPaymentValue.setText(formatter.format(percent));
-					text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));
-					
+					holder.percentPaymentValue.setText(currencyformatter.format(percent));
+					text_sum_payment_amount.setText(currencyformatter.format(gsp.getTotalPay()));
+					text_sum_payment_percent.setText("100%");
 					
 				return convertView;
 					}}
@@ -795,20 +799,22 @@ public class SaleByDate extends Fragment implements OnRefreshListener {
 					}else{
 						holder=(ViewHolder)convertView.getTag();
 					}
+					//Number Format
+					final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+					GlobalProperty format = gpd.getGlobalProperty();
+					String currencyformat = format.getCurrencyFormat();
+					NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+					
 					final GetSumPromotionShopDao gp = new GetSumPromotionShopDao(getActivity());
 					final SumPromotionShop gpr = gp.getSumPromotion();
-					final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-					GlobalProperty format = gpd.getglobalproperty();
-					String formatnumber = format.getCurrencyFormat();
-					NumberFormat formatter = new DecimalFormat(formatnumber);
 					SumPromotionShop spr = Promotiontlist.get(position);
 					holder.typePromotionValue.setText(spr.getPromotionName());
-					holder.amountPromotionValue.setText(formatter.format(spr.getDiscount()));
+					holder.amountPromotionValue.setText(currencyformatter.format(spr.getDiscount()));
 					double totaldis = gpr.getDiscount();
 					double percent = (spr.getDiscount()* 100) / totaldis;
-					holder.percentPromotionValue.setText(formatter.format(percent));
-					text_sum_promo_amount.setText(formatter.format(gpr.getDiscount()));
-					
+					holder.percentPromotionValue.setText(currencyformatter.format(percent));
+					text_sum_promo_amount.setText(currencyformatter.format(gpr.getDiscount()));
+					text_sum_promo_percent.setText("100%");
 				return convertView;
 					}
 	 
