@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content" >
 <LinearLayout 
-    android:id="@+id/linear_layout"
+    android:id="@+id/saledate_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="left"
+    android:background="#ffffff"
      >
 <LinearLayout 
               
@@ -28,19 +29,50 @@
         
 
     <com.example.flatuilibrary.FlatTextView
-        android:id="@+id/Saledate"
+        android:id="@+id/shopNameValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sale Date"
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="10dp"
-        android:textSize="25dp"
-        flatui:fl_fontWeight="extrabold"
+        android:textSize="20dp"
+        flatui:fl_fontWeight="bold"
         android:textColor="#ffffff" />
-
+    
 </LinearLayout>
-
+<LinearLayout
+        android:id="@+id/boxDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingTop="2dp" >
+   <LinearLayout
+            android:id="@+id/headTablesaledate"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/candy_primary"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginBottom="2dp" >
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_tableSaledatename"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:paddingBottom="3dp"
+	            android:paddingTop="2dp"
+	            android:text="Sale Date"
+	            android:textColor="#ffffff"
+	            android:textSize="20dp"
+	            android:background="@color/candy_primary"
+	            android:textStyle="bold"
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="bold" />
+	        
+        </LinearLayout>
+</LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
@@ -60,7 +92,7 @@
                 android:layout_gravity="right"
                 android:padding="5dp"
                 android:text="Total Bill: "
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000" />
 
             <com.example.flatuilibrary.FlatTextView
@@ -70,7 +102,7 @@
                 android:layout_gravity="right"
                 android:padding="5dp"
                 android:text="Total Customer: "
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000" />
 
             <com.example.flatuilibrary.FlatTextView
@@ -80,7 +112,7 @@
                 android:layout_gravity="right"
                 android:padding="5dp"
                 android:text="TransactionVAT: "
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000" />
 
             <com.example.flatuilibrary.FlatTextView
@@ -90,7 +122,7 @@
                 android:layout_gravity="right"
                 android:padding="5dp"
                 android:text="TotalRetailPrice: "
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000" />
 
             <com.example.flatuilibrary.FlatTextView
@@ -100,7 +132,7 @@
                 android:layout_gravity="right"
                 android:padding="5dp"
                 android:text="TotalDiscount: "
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000" />
 
             <com.example.flatuilibrary.FlatTextView
@@ -110,7 +142,7 @@
                 android:layout_gravity="right"
                 android:padding="5dp"
                 android:text="TotalSalePrice: "
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000" />
 
           
@@ -133,7 +165,7 @@
                 android:layout_gravity="left"
                 android:padding="5dp"
                 android:text="Total Bill Value"
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000"  />
 
             <com.example.flatuilibrary.FlatTextView
@@ -143,7 +175,7 @@
                 android:layout_gravity="left"
                 android:padding="5dp"
                 android:text="Total Customer Value"
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000"  />
 
             <com.example.flatuilibrary.FlatTextView
@@ -153,7 +185,7 @@
                 android:layout_gravity="left"
                 android:padding="5dp"
                 android:text="TransactionVAT Value"
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000"  />
 
             <com.example.flatuilibrary.FlatTextView
@@ -163,7 +195,7 @@
                 android:layout_gravity="left"
                 android:padding="5dp"
                 android:text="TotalRetailPrice Value"
-                android:textSize="18dp"
+                android:textSize="20dp"
         		android:textColor="#000000"  />
 
             <com.example.flatuilibrary.FlatTextView
@@ -173,7 +205,7 @@
                 android:layout_gravity="left"
                 android:padding="5dp"
                 android:text="TotalDiscount Value"
-                android:textSize="18dp" 
+                android:textSize="20dp" 
         		android:textColor="#000000" />
 
             <com.example.flatuilibrary.FlatTextView
@@ -183,7 +215,7 @@
                 android:layout_gravity="left"
                 android:padding="5dp"
                 android:text="TotalSalePrice Value"
-                android:textSize="18dp" 
+                android:textSize="20dp" 
         		android:textColor="#000000" />
                 
             </LinearLayout>
@@ -191,26 +223,23 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
-
-
-
-<LinearLayout 
-              android:id="@+id/paytype_detail_layout"
-              android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="left"
-    android:background="#ffffff">
-
  <LinearLayout
         android:id="@+id/boxReportShow_payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center" >
-	        
-	        <TextView
+        android:layout_gravity="center"
+        android:paddingTop="10dp" >
+        
+	        <LinearLayout
+            android:id="@+id/headTablepayment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_amethyst"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginBottom="2dp" >
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_tablePaymentName"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -219,11 +248,11 @@
 	            android:paddingTop="2dp"
 	            android:text="Payment"
 	            android:textColor="#ffffff"
-	            android:textSize="25dp"
-	            android:background="@color/fbutton_color_amethyst"
+	            android:textSize="20dp"
 	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp" />
-        
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="regular" />
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/headTablePayment"
             android:layout_width="match_parent"
@@ -232,7 +261,7 @@
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_head_payment"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -241,9 +270,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_head_payment_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -252,9 +282,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_head_payment_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -263,14 +294,15 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp"/>
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
         
         </LinearLayout>
         
         <ListView
-            android:id="@+id/listPayment"
+            android:id="@+id/listPaymentDetail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="120dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
         </ListView>
@@ -284,7 +316,7 @@
             android:weightSum="1"
             android:background="@color/fbutton_color_amethyst" >
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_sum_payment"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -293,9 +325,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_sum_payment_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -304,9 +337,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_sum_payment_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -315,9 +349,14 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
         
         </LinearLayout>
+        
+    </LinearLayout>
+        
+        
         <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -332,7 +371,8 @@
  
     
 </LinearLayout>
-</LinearLayout>
+
+
 
 
 </ScrollView>

@@ -47,15 +47,16 @@ public class SaleByDate_Detail extends Fragment {
 			return fragment;
 	 }
 	
-	FlatTextView SaledateVal,SaledateValue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
-	ListView listPayment;
+	FlatTextView ShopNameValue,SaledateValue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
+	ListView listPaymentDetail;
 	TextView text_sum_payment_amount,text_sum_payment_percent;
 	
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		String Saledate = SaleByDate.getDate();
+		String shopName = SaleByDate.getShopName();
+		String saledate = SaleByDate.getDate();
 		int totalbill = SaleByDate.getTotalBill();
 		int totalcust = SaleByDate.getTotalCust();
 		double totalvat = SaleByDate.getTotalVat();
@@ -65,9 +66,20 @@ public class SaleByDate_Detail extends Fragment {
 
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.salebydate_detail_saledate_fragment, container, false);
-                rootView.findViewById(R.id.linear_layout);
-    	                
-		SaledateVal = (FlatTextView) rootView.findViewById(R.id.Saledate);
+                rootView.findViewById(R.id.saledate_linear_layout);
+             // Uncorrect Display Sale Date Detail
+        		text_sum_payment_amount = (TextView) rootView
+        				.findViewById(R.id.text_sum_payment_amount);
+        		text_sum_payment_percent = (TextView) rootView
+        				.findViewById(R.id.text_sum_payment_percent);
+        		listPaymentDetail = (ListView) rootView.findViewById(R.id.listPaymentDetail);
+
+        		final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
+        		// Set ListViewAdapter Payment
+        		List<SumPaymentShop> Paymentlist = gp.getPaymentDetail();
+        		listPaymentDetail.setAdapter(new PaymentlistDetailAdapter(Paymentlist));
+        		
+                ShopNameValue = (FlatTextView) rootView.findViewById(R.id.shopNameValue);
 		totalbillvalue = (FlatTextView) rootView
 				.findViewById(R.id.TotalBillValue);
 		totalcustvalue = (FlatTextView) rootView
@@ -81,7 +93,7 @@ public class SaleByDate_Detail extends Fragment {
 		totalsalevalue = (FlatTextView) rootView
 				.findViewById(R.id.TotalSaleValue);
 		
-		SaledateVal.setText("SaleDate (" + Saledate + ")");
+		ShopNameValue.setText(shopName+" (" + saledate + ")");
 		totalbillvalue.setText("" + totalbill);
 		totalcustvalue.setText("" + totalcust);
 		totalvatvalue.setText("" + formatter.format((totalvat)));
@@ -91,17 +103,7 @@ public class SaleByDate_Detail extends Fragment {
         		
         		 
         	                
-        //Uncorrect Display Sale Date Detail	                
-		text_sum_payment_amount = (TextView) rootView
-				.findViewById(R.id.text_sum_payment_amount);
-		text_sum_payment_percent = (TextView) rootView
-				.findViewById(R.id.text_sum_payment_percent);
-		listPayment = (ListView) rootView.findViewById(R.id.listPayment);
-        	        		
-        	        		final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
-        	        		//Set ListViewAdapter Payment
-        	        		List<SumPaymentShop> Paymentlist = gp.getPaymentDetail();
-        	        		listPayment.setAdapter(new PaymentlistAdapter(Paymentlist));
+		
         	        		
         	        		
 
@@ -189,11 +191,11 @@ public class SaleByDate_Detail extends Fragment {
         	                    l.setYEntrySpace(5f);}
         return rootView;
     }
-public class PaymentlistAdapter extends BaseAdapter{
+public class PaymentlistDetailAdapter extends BaseAdapter{
 		
 		List<SumPaymentShop> Paymentlist;
 		
-		public PaymentlistAdapter(List<SumPaymentShop> pl) {
+		public PaymentlistDetailAdapter(List<SumPaymentShop> pl) {
 			Paymentlist = pl;
 		}
 		@Override
@@ -243,7 +245,7 @@ public class PaymentlistAdapter extends BaseAdapter{
 				double percent = (sp.getTotalPay()* 100) / totalpay;
 				holder.percentPaymentValue.setText(formatter.format(percent));
 				text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));
-				
+				text_sum_payment_percent.setText("100%");
 				
 			return convertView;
 				}}

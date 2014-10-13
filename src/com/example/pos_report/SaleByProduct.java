@@ -52,6 +52,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -103,7 +104,13 @@ public class SaleByProduct extends Fragment {
 	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
 	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
+	   
 	   pdia = new ProgressDialog(getActivity());
+	   /*pdia.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	   pdia.getWindow().setContentView(R.layout.progress_dialog);
+	   pdia.getWindow().setBackgroundDrawableResource(android.R.color.transparent);*/
+	   pdia.setCancelable(true);
+	   pdia.setIndeterminate(true);
 	   new ShopDataLoader(getActivity(), "123",new ShopDataLoader.GetShopDataLoader() {
 			
 			@Override
@@ -136,7 +143,6 @@ public class SaleByProduct extends Fragment {
 					ShopID = shoplist.getShopID();*/
 					shopSelect.getItemAtPosition(0);
 					shopSelect.setSelection(0);
-					pdia.dismiss();
 					pdia.dismiss();
 					
 				} catch (JsonSyntaxException e) {

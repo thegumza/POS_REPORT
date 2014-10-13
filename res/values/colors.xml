@@ -8,4 +8,8 @@
     <color name="orange">#FFFFBB33</color>
     <color name="transparent_orange">#80FFBB33</color>
     <color name="purple">#FFAA66CC</color>
+    <color name="gplus_color_1">#f56773</color>
+    <color name="gplus_color_2">#9b59b6</color>
+    <color name="gplus_color_3">#1abc9c</color>
+    <color name="gplus_color_4">#F9690E</color>
 </resources>

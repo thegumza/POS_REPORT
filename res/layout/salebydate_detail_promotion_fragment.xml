@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:flatui="http://schemas.android.com/apk/res-auto"
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
@@ -10,7 +11,27 @@
     android:orientation="vertical"
     android:layout_gravity="left"
     android:background="#ffffff">
+<LinearLayout
+        android:id="@+id/boxReportShow_Sumsale"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@color/fbutton_color_turquoise" >
+        
 
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/shopNameValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20dp"
+        flatui:fl_fontWeight="bold"
+        android:textColor="#ffffff" />
+    
+</LinearLayout>
  
 <LinearLayout
         android:id="@+id/boxReportShow_promotion"
@@ -18,8 +39,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center" >
+        
+	        <LinearLayout
+            android:id="@+id/headTablepromo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_turquoise"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" >
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_tablePromotionName"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -28,11 +59,13 @@
 	            android:paddingTop="2dp"
 	            android:text="Promotion"
 	            android:textColor="#ffffff"
-	            android:textSize="25dp"
+	            android:textSize="20dp"
 	            android:background="@color/fbutton_color_turquoise"
 	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp" />
-        
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="bold" />
+	        
+        </LinearLayout>
         <LinearLayout
             android:id="@+id/headTablePromotion"
             android:layout_width="match_parent"
@@ -41,7 +74,7 @@
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_head_promotion"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -50,9 +83,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="bold" />
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_head_promo_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -61,9 +95,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp"/>
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="bold"/>
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_head_promo_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -72,14 +107,15 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp"/>
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="bold"/>
         
         </LinearLayout>
         
         <ListView
             android:id="@+id/listPromotion"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="120dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
         </ListView>
@@ -93,7 +129,7 @@
             android:weightSum="1"
             android:background="@color/fbutton_color_turquoise" >
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_sum_promotion"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -102,9 +138,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="bold" />
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_sum_promo_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -113,9 +150,10 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="bold" />
 	        
-	        <TextView
+	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_sum_promo_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -124,9 +162,12 @@
 	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="20sp" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="bold" />
         
         </LinearLayout>
+        
+    </LinearLayout>
         <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -137,5 +178,4 @@
         android:layout_height="400dp"/>
 </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
 </ScrollView>

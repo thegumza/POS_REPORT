@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.GlobalProperty;
 import com.example.pos_peport.database.model.SumPaymentShop;
 import com.example.pos_peport.database.model.SumPromotionShop;
@@ -53,18 +54,22 @@ public class SaleByDate_Detail_Promotion extends Fragment {
 			return fragment;
 	 }
 	TextView text_sum_promo_amount,text_sum_promo_percent;
-	TextView SaledateValue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
+	TextView ShopNameValue,SaledateValue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
 	ListView listPromotion;
+	String shopName = SaleByDate.getShopName();
+	String saledate = SaleByDate.getDate();
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.salebydate_detail_promotion_fragment, container, false);
                 rootView.findViewById(R.id.promotion_detail_layout);
+                
+                ShopNameValue = (FlatTextView) rootView.findViewById(R.id.shopNameValue);
                 text_sum_promo_amount = (TextView)rootView.findViewById(R.id.text_sum_promo_amount);
         		text_sum_promo_percent = (TextView)rootView.findViewById(R.id.text_sum_promo_percent);
         		listPromotion = (ListView)rootView.findViewById(R.id.listPromotion);
-        		
+        		ShopNameValue.setText(shopName+" (" + saledate + ")");
                 listPromotion.setOnTouchListener(new ListView.OnTouchListener() {
      			   
         			@Override

@@ -24,7 +24,7 @@
          <activity android:label="@string/app_name" android:name="com.example.pos_report.SaleByDate" android:screenOrientation="portrait">
              <meta-data android:name="com.example.pos_report.SaleByDate" android:value="com.example.pos_report.SaleByDateDetail" />
              </activity>
-         
+         <activity android:label="@string/app_name" android:name="com.example.pos_report.POS_Login" android:screenOrientation="portrait" />
         <activity android:label="@string/app_name" android:name="com.example.pos_report.Setting" android:screenOrientation="portrait" />
         <activity android:label="@string/app_name" android:name="com.example.pos_report.graph.TopProduct_Saleprice_PieGraph" android:screenOrientation="portrait" />
         <activity android:label="@string/app_name" android:name="com.example.pos_report.graph.TopProduct_Qty_PieGraph" android:screenOrientation="portrait" />

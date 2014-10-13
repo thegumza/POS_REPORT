@@ -17,10 +17,14 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.GlobalProperty;
 import com.example.pos_peport.database.model.SumPaymentShop;
+import com.example.pos_peport.database.model.TopProductShop;
 import com.example.pos_report.SaleByDate.PaymentlistAdapter;
+import com.example.pos_report.SaleByProduct.TopQtyProductListAdapter;
 import com.example.pos_report.database.GetSumPaymentShopDao;
+import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -31,9 +35,11 @@ import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.Legend.LegendForm;
 import com.github.mikephil.charting.utils.Legend.LegendPosition;
 
-public class SaleByDate_Detail_Payment extends Fragment {
+public class SaleByDate_Detail_TopProduct extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private PieChart mChart;
+	
+	
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 	GlobalProperty format = gpd.getGlobalProperty();
 	String formatnumber = format.getCurrencyFormat();
@@ -42,15 +48,15 @@ public class SaleByDate_Detail_Payment extends Fragment {
 	NumberFormat qtyformatter = new DecimalFormat(formatqty);
 	
 	
-	public static SaleByDate_Detail_Payment newInstance(int sectionNumber) {
-		SaleByDate_Detail_Payment fragment = new SaleByDate_Detail_Payment();
+	public static SaleByDate_Detail_TopProduct newInstance(int sectionNumber) {
+		SaleByDate_Detail_TopProduct fragment = new SaleByDate_Detail_TopProduct();
 			Bundle args = new Bundle();
 			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 			fragment.setArguments(args);
 			
 			return fragment;
 	 }
-	ListView listPayment;
+	private ListView list_TopProduct;
 	TextView text_sum_payment_amount,text_sum_payment_percent;
 	TextView SaledateValue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
 	
@@ -58,28 +64,28 @@ public class SaleByDate_Detail_Payment extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		/*listPayment.setOnTouchListener(new ListView.OnTouchListener() {
-			   
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				   v.getParent().requestDisallowInterceptTouchEvent(true);
-				return false;
-			}
-		});*/
+		
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.salebydate_detail_fragment2, container, false);
-                rootView.findViewById(R.id.paytype_detail_layout);
+                R.layout.salebydate_detail_top_product, container, false);
+                rootView.findViewById(R.id.product_detail_layout);
                 
                 
         		
-        		text_sum_payment_amount = (TextView)rootView.findViewById(R.id.text_sum_payment_amount);
-        		text_sum_payment_percent = (TextView)rootView.findViewById(R.id.text_sum_payment_percent);
-        		listPayment = (ListView)rootView.findViewById(R.id.listPayment);
         		
-        		final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
+        		list_TopProduct = (ListView)rootView.findViewById(R.id.list_TopProduct);
+        		list_TopProduct.setOnTouchListener(new ListView.OnTouchListener() {
+     			   
+        			@Override
+        			public boolean onTouch(View v, MotionEvent event) {
+        				   v.getParent().requestDisallowInterceptTouchEvent(true);
+        				return false;
+        			}
+        		});
+        		
+        		GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
         		//Set ListViewAdapter Payment
-        		List<SumPaymentShop> Paymentlist = gp.getPaymentDetail();
-        		listPayment.setAdapter(new PaymentlistAdapter(Paymentlist));
+        		List<TopProductShop> Topqtyproduct = gt.getTopQtyProduct();
+				list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
         		
         		
 
@@ -91,7 +97,7 @@ public class SaleByDate_Detail_Payment extends Fragment {
                 
 
         		
-        		final List<SumPaymentShop> spl = gp.getPaymentGraph();
+        		/*final List<SumPaymentShop> spl = gp.getPaymentGraph();
         		
         		ArrayList<String> paytype = new ArrayList<String>() ;
         		ArrayList<String> totalpay = new ArrayList<String>() ;
@@ -164,24 +170,24 @@ public class SaleByDate_Detail_Payment extends Fragment {
                     l.setForm(LegendForm.CIRCLE);
                     l.setTextSize(10f);
                     l.setXEntrySpace(7f);
-                    l.setYEntrySpace(5f);}
+                    l.setYEntrySpace(5f);}*/
         return rootView;
     }
-	public class PaymentlistAdapter extends BaseAdapter{
+	//ListViewAdapter
+	public class TopQtyProductListAdapter extends BaseAdapter{
 		
-		List<SumPaymentShop> Paymentlist;
-		
-		public PaymentlistAdapter(List<SumPaymentShop> pl) {
-			Paymentlist = pl;
+		List<TopProductShop> topqtyproduct;
+		public TopQtyProductListAdapter(List<TopProductShop> tq) {
+			topqtyproduct = tq;
 		}
 		@Override
 		public int getCount() {
-			return Paymentlist.size();
+			return topqtyproduct.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return Paymentlist.get(position);
+			return topqtyproduct.get(position);
 		}
 
 		@Override
@@ -190,9 +196,10 @@ public class SaleByDate_Detail_Payment extends Fragment {
 		}
 		
 		private class ViewHolder {
-			TextView typePaymentValue;
-			TextView amountPaymentValue;
-			TextView percentPaymentValue;
+			FlatTextView number_QtyValue;
+			FlatTextView item_QtyValue;
+			FlatTextView qty_QtyValue;
+			FlatTextView salePrice_QtyValue;
 		}
 		
 		@Override
@@ -201,29 +208,35 @@ public class SaleByDate_Detail_Payment extends Fragment {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
 			
 				if(convertView == null){
-					convertView = inflater.inflate(R.layout.salebydate_payment_column, parent,false);
+					convertView = inflater.inflate(R.layout.salebyproduct_top_qty_column, parent,false);
 				holder = new ViewHolder();
-				holder.typePaymentValue=(TextView)convertView.findViewById(R.id.typePaymentValue);
-				holder.amountPaymentValue=(TextView)convertView.findViewById(R.id.amountPaymentValue);
-				holder.percentPaymentValue=(TextView)convertView.findViewById(R.id.percentPaymentValue);
+				holder.number_QtyValue=(FlatTextView)convertView.findViewById(R.id.number_QtyValue);
+				holder.item_QtyValue=(FlatTextView)convertView.findViewById(R.id.item_QtyValue);
+				holder.qty_QtyValue=(FlatTextView)convertView.findViewById(R.id.qty_QtyValue);
+				holder.salePrice_QtyValue=(FlatTextView)convertView.findViewById(R.id.salePrice_QtyValue);
 				
 				convertView.setTag(holder);
 				}else{
 					holder=(ViewHolder)convertView.getTag();
 				}
-				final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
-				final SumPaymentShop gsp = gp.getSumPaymentDetail();
+				final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+				GlobalProperty format = gpd.getGlobalProperty();
+				String currencyformat = format.getCurrencyFormat();
+				String qtyformat = format.getQtyFormat();
+				NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+				NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 				
-				SumPaymentShop sp = Paymentlist.get(position);
-				holder.typePaymentValue.setText(sp.getPayTypeName());
-				holder.amountPaymentValue.setText(formatter.format(sp.getTotalPay()));
-				double totalpay = gsp.getTotalPay();
-				double percent = (sp.getTotalPay()* 100) / totalpay;
-				holder.percentPaymentValue.setText(formatter.format(percent));
-				text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));
-				text_sum_payment_percent.setText("100%");
-				
+				TopProductShop ts = topqtyproduct.get(position);
+				holder.number_QtyValue.setText(""+(position+1));
+				holder.item_QtyValue.setText(ts.getProductName());
+				holder.qty_QtyValue.setText(qtyformatter.format(ts.getQty()));
+				holder.salePrice_QtyValue.setText(currencyformatter.format(ts.getSumSalePrice()));
+				//holder.percentValue.setText(formatter.format((st.getSalePrice())));
+				//text_sum_totalBill.setText(formatter.format(Sumsale.getTotalBill()));
+				//text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));
+				//text_sum_salePrice.setText(formatter.format(Sumsale.getSalePrice()));
+			
 			return convertView;
-				}}
-	
+				}
+	}	
 }

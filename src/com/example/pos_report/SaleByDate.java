@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import thegumza.library.circularprogressbarlibrary.CircularProgressBar;
+
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.AllProductData;
@@ -79,8 +81,9 @@ public class SaleByDate extends Fragment{
 	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
 	public static String URL;
 	private ListView listSale,listPayment,listPromotion;
-	private ProgressDialog pdia;
+	private ProgressDialog  pdia;
 	private String lastsaledate;
+	private static String shopName;
 	
 	
 	 public static SaleByDate newInstance(int sectionNumber) {
@@ -108,8 +111,8 @@ public class SaleByDate extends Fragment{
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
 	  	 
 	   pdia = new ProgressDialog(getActivity());
-	   
-        
+	   pdia.setCancelable(true);
+	   pdia.setIndeterminate(true);
 	  	text_sum_totalBill = (FlatTextView)rootView.findViewById(R.id.text_sum_totalBill);
 		text_sum_discount = (FlatTextView)rootView.findViewById(R.id.text_sum_discount);
 		text_sum_salePrice = (FlatTextView)rootView.findViewById(R.id.text_sum_salePrice);
@@ -278,6 +281,7 @@ public class SaleByDate extends Fragment{
 			   public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 				   SumTransactionShop  Saledate = (SumTransactionShop) parent.getItemAtPosition(position);
+				   	
 				   	Date = Saledate.getSaleDate();
 				   	TotalBill = Saledate.getTotalBill();
 				   	TotalCust = Saledate.getTotalCust();
@@ -291,6 +295,18 @@ public class SaleByDate extends Fragment{
 			   } 
 			});
 		
+		listPayment.setOnItemClickListener(new OnItemClickListener() {
+			   @Override
+			   public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+				   	SumPaymentShop  payment = (SumPaymentShop) parent.getItemAtPosition(position);
+				   	
+				   	Date = payment.getSaleDate();
+				   	Intent IntentMain = new Intent(getActivity(), SaleByDate_Detail_Paytype.class);
+				   	
+	              startActivity(IntentMain);
+			   } 
+			});
 		listPayment.setOnTouchListener(new ListView.OnTouchListener() {
 			   
 			@Override
@@ -587,10 +603,20 @@ public class SaleByDate extends Fragment{
 				convertView = inflater.inflate(R.layout.spinner_item, parent,false);
 				FlatTextView textView = (FlatTextView)convertView.findViewById(R.id.textView1);
 				ShopProperty sp = Shoplist.get(position);
+				shopName = sp.getShopName();
 				textView.setText(sp.getShopName());
 				return convertView;
 			}}
-	 public class TypeSpinner extends BaseAdapter {
+	 
+	 public static String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public class TypeSpinner extends BaseAdapter {
 			
 			List<ProductGroup> Productgrouplist;
 			public TypeSpinner(List<ProductGroup> pg) {
