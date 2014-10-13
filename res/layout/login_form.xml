@@ -13,7 +13,7 @@
             android:layout_height="100dp"
             android:src="@drawable/synature"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp" />
+            android:layout_marginTop="50dp" />
 
 
     <LinearLayout
@@ -100,6 +100,19 @@
             android:textColor="#ffffff"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            flatui:fl_blockButtonEffectHeight="3dp"
+            flatui:fl_theme="@array/orange"
+            flatui:fl_fontWeight="regular" />
+        
+        <com.example.flatuilibrary.FlatButton
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Database"
+            android:textColor="#ffffff"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="70dp"
             flatui:fl_blockButtonEffectHeight="3dp"
             flatui:fl_theme="@array/orange"
             flatui:fl_fontWeight="regular" />

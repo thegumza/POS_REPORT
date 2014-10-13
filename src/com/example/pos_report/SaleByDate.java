@@ -73,9 +73,10 @@ public class SaleByDate extends Fragment{
 	private FlatButton showReport;
 	private FlatButton showChart_sale,showChart_payment,showChart_promotion;
 	private int ShopID ,month,year;
-	private static String Date;
+	private static String Date,payTypeName;
 	private static int TotalBill,TotalCust;
 	private static double TotalVat,TotalRetail,TotalDis,TotalSale;
+	private static int payTypeID;
 	private FlatTextView text_sum_totalBill,text_sum_discount,text_sum_salePrice;
 	private FlatTextView text_sum_payment_amount,text_sum_payment_percent;
 	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
@@ -301,7 +302,8 @@ public class SaleByDate extends Fragment{
 						int position, long id) {
 				   	SumPaymentShop  payment = (SumPaymentShop) parent.getItemAtPosition(position);
 				   	
-				   	Date = payment.getSaleDate();
+				   	payTypeID = payment.getPayTypeID();
+				   	payTypeName = payment.getPayTypeName();
 				   	Intent IntentMain = new Intent(getActivity(), SaleByDate_Detail_Paytype.class);
 				   	
 	              startActivity(IntentMain);
@@ -455,6 +457,14 @@ public class SaleByDate extends Fragment{
 		return TotalSale;
 	}
 
+
+	public static int getPayTypeID() {
+		return payTypeID;
+	}
+	
+	public static String getPayTypeName() {
+		return payTypeName;
+	}
 
 	@Override
 	 public void onAttach(Activity activity) {

@@ -37,6 +37,8 @@ public class SaleByDate_Detail extends Fragment {
 	String formatqty = format.getQtyFormat();
 	NumberFormat formatter = new DecimalFormat(formatnumber);
 	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	String shopName = SaleByDate.getShopName();
+	String saledate = SaleByDate.getDate();
 	
 	public static SaleByDate_Detail newInstance(int sectionNumber) {
 		SaleByDate_Detail fragment = new SaleByDate_Detail();
@@ -55,8 +57,7 @@ public class SaleByDate_Detail extends Fragment {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-		String shopName = SaleByDate.getShopName();
-		String saledate = SaleByDate.getDate();
+		
 		int totalbill = SaleByDate.getTotalBill();
 		int totalcust = SaleByDate.getTotalCust();
 		double totalvat = SaleByDate.getTotalVat();

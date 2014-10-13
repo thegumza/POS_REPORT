@@ -14,8 +14,8 @@ import android.database.Cursor;
 
 
 public class GetSumPaymentShopDao extends ReportDatabase{
-	SaleByDate sp = new SaleByDate();
-	String Saledate = sp.getDate();
+	String Saledate = SaleByDate.getDate();
+	int payTypeID = SaleByDate.getPayTypeID();
 	public GetSumPaymentShopDao(Context context) {
 		super(context);
 	}
@@ -139,5 +139,20 @@ public class GetSumPaymentShopDao extends ReportDatabase{
 		}
 		return getpayment;
 	}
-	
+public List<SumPaymentShop> getSaleDatePaymentDetail(){
+		
+		String SPSql = 
+				"Select * FROM "+SumData_PaymentReportTable.TABLE_SUMDATA_PAYMENT_REPORT+" WHERE "+SumData_PaymentReportTable.COLUMN_PAYTYPE_ID+" ='"+payTypeID+"'";
+		List<SumPaymentShop> getpayment = new ArrayList <SumPaymentShop>();
+		Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+		if (cursor.moveToFirst()){
+			do{
+				SumPaymentShop ps = new SumPaymentShop();
+				ps.setSaleDate(cursor.getString(cursor.getColumnIndex(SumData_PaymentReportTable.COLUMN_SALE_DATE)));
+				ps.setTotalPay(cursor.getDouble(cursor.getColumnIndex(SumData_PaymentReportTable.COLUMN_TOTAL_PAY)));
+				getpayment.add(ps);
+			}while(cursor.moveToNext());
+		}
+		return getpayment;
+	}
 }

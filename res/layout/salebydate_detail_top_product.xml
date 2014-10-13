@@ -5,33 +5,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 <LinearLayout 
-              android:id="@+id/product_detail_layout"
+              android:id="@+id/topproduct_detail_layout"
               android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="left"
     android:background="#ffffff">
+<LinearLayout
+        android:id="@+id/boxReportShow_TopProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@color/fbutton_color_peter_river" >
+        
 
- <LinearLayout
-        android:id="@+id/boxReportShow_payment"
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/shopNameValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20dp"
+        flatui:fl_fontWeight="bold"
+        android:textColor="#ffffff" />
+    
+</LinearLayout>
+ 
+<LinearLayout
+        android:id="@+id/boxReportShow_topproduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center" >
+        
+	        <LinearLayout
+            android:id="@+id/headTablepromo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_peter_river"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" >
 	        
-	        <TextView
-	            android:id="@+id/text_tablePaymentName"
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_tablePromotionName"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="2dp"
-	            android:background="@color/fbutton_color_peter_river"
 	            android:gravity="center"
 	            android:paddingBottom="3dp"
 	            android:paddingTop="2dp"
-	            android:text="Product"
+	            android:text="Promotion"
 	            android:textColor="#ffffff"
-	            android:textSize="25dp"
-	            android:textStyle="bold" />
+	            android:textSize="20dp"
+	            android:background="@color/fbutton_color_peter_river"
+	            android:textStyle="bold"
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="bold" />
+	        
+        </LinearLayout>
        
         <LinearLayout
             android:id="@+id/headTableTopProduct"
@@ -95,7 +129,6 @@
             android:id="@+id/list_TopProduct"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@color/snow_dark"
             android:paddingBottom="5dp" >
         </ListView>
         <RelativeLayout

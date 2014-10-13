@@ -57,8 +57,8 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
 			return fragment;
 	 }
 	private ListView list_TopProduct;
-	TextView text_sum_payment_amount,text_sum_payment_percent;
-	TextView SaledateValue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
+	FlatTextView ShopNameValue;
+	
 	
 	@SuppressLint("ResourceAsColor")
 	@Override
@@ -67,12 +67,14 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
 		
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.salebydate_detail_top_product, container, false);
-                rootView.findViewById(R.id.product_detail_layout);
+                rootView.findViewById(R.id.topproduct_detail_layout);
+                String shopName = SaleByDate.getShopName();
+            	String saledate = SaleByDate.getDate();
                 
                 
-        		
-        		
+                ShopNameValue = (FlatTextView) rootView.findViewById(R.id.shopNameValue);
         		list_TopProduct = (ListView)rootView.findViewById(R.id.list_TopProduct);
+        		ShopNameValue.setText(shopName+" (" + saledate + ")");
         		list_TopProduct.setOnTouchListener(new ListView.OnTouchListener() {
      			   
         			@Override
