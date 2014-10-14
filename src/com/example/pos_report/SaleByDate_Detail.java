@@ -121,7 +121,7 @@ public class SaleByDate_Detail extends Fragment {
         	        		ArrayList<String> paytype = new ArrayList<String>() ;
         	        		ArrayList<String> totalpay = new ArrayList<String>() ;
         	        		for (SumPaymentShop ss : spl) totalpay.add(Double.toString(ss.getTotalPay()));
-        	        		for (SumPaymentShop ss : spl) paytype.add(ss.getPayTypeName()+" ("+ss.getTotalPay()+" Baht)");
+        	        		for (SumPaymentShop ss : spl) paytype.add(ss.getPayTypeName()+" ("+ss.getTotalPay()+")");
         	        		String[] paytypeArr = new String[paytype.size()];
         	        		paytypeArr = paytype.toArray(paytypeArr);
         	        		
@@ -182,7 +182,7 @@ public class SaleByDate_Detail extends Fragment {
         	                    // undo all highlights
         	                    mChart.highlightValues(null);
         	                    // set a text for the chart center
-        	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum() + " Baht");
+        	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
         	                    //mChart.invalidate();
         	                    Legend l = mChart.getLegend();
         	                    l.setPosition(LegendPosition.RIGHT_OF_CHART);

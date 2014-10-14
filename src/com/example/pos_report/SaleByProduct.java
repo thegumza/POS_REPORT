@@ -111,7 +111,7 @@ public class SaleByProduct extends Fragment {
 	   pdia.getWindow().setBackgroundDrawableResource(android.R.color.transparent);*/
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
-	   new ShopDataLoader(getActivity(), "123",new ShopDataLoader.GetShopDataLoader() {
+	   /*new ShopDataLoader(getActivity(), "123",new ShopDataLoader.GetShopDataLoader() {
 			
 			@Override
 			public void onSuccess(String result) {
@@ -121,8 +121,8 @@ public class SaleByProduct extends Fragment {
 					ShopData sd = gson.fromJson(result, ShopData.class);
 					
 					// insert ShopProperty Data into Database
-					ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-					sp.insertShopData(sd.getShopProperty());
+*/					ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+					/*sp.insertShopData(sd.getShopProperty());
 					
 					// insert GlobalProperty Data into Database
 					GlobalPropertyDao gp = new GlobalPropertyDao(getActivity());
@@ -134,7 +134,7 @@ public class SaleByProduct extends Fragment {
 					
 					//insert Staffs Data into Database
 					StaffsDao st = new StaffsDao(getActivity());
-					st.insertStaffsData(sd.getStaffs());
+					st.insertStaffsData(sd.getStaffs());*/
 					
 					final List<ShopProperty> Shoplist = sp.getShopList();
 					shopSelect.setAdapter(new ShopSpinner(Shoplist));
@@ -143,7 +143,7 @@ public class SaleByProduct extends Fragment {
 					ShopID = shoplist.getShopID();*/
 					shopSelect.getItemAtPosition(0);
 					shopSelect.setSelection(0);
-					pdia.dismiss();
+					/*pdia.dismiss();
 					
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
@@ -205,7 +205,7 @@ new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllPro
 		        pdia.show();
 				
 			}
-		}).execute(URL);
+		}).execute(URL);*/
 		
         
 	  text_sum_qty = (FlatTextView)rootView.findViewById(R.id.text_sum_qty);

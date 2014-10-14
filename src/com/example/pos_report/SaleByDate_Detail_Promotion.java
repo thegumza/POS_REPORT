@@ -103,7 +103,7 @@ public class SaleByDate_Detail_Promotion extends Fragment {
         		ArrayList<String> promotionname = new ArrayList<String>() ;
         		ArrayList<String> totaldiscount = new ArrayList<String>() ;
         		for (SumPromotionShop ss : spl) totaldiscount.add(Double.toString(ss.getDiscount()));
-        		for (SumPromotionShop ss : spl) promotionname.add(ss.getPromotionName()+" ("+ss.getDiscount()+" Baht)");
+        		for (SumPromotionShop ss : spl) promotionname.add(ss.getPromotionName()+" ("+ss.getDiscount()+")");
         		String[] promotArr = new String[promotionname.size()];
         		promotArr = promotionname.toArray(promotArr);
         		
@@ -163,7 +163,7 @@ public class SaleByDate_Detail_Promotion extends Fragment {
                     // undo all highlights
                     mChart.highlightValues(null);
                     // set a text for the chart center
-                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum() + " Baht");
+                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
                     //mChart.invalidate();
                     Legend l = mChart.getLegend();
                     l.setPosition(LegendPosition.RIGHT_OF_CHART);
