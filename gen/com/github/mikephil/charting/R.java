@@ -8,75 +8,75 @@ package com.github.mikephil.charting;
 
 public final class R {
 	public static final class color {
-		public static final int colorful_1 = 0x7f070013;
-		public static final int colorful_2 = 0x7f070014;
-		public static final int colorful_3 = 0x7f070015;
-		public static final int colorful_4 = 0x7f070016;
-		public static final int colorful_5 = 0x7f070017;
-		public static final int fresh_1 = 0x7f070004;
-		public static final int fresh_2 = 0x7f070005;
-		public static final int fresh_3 = 0x7f070006;
-		public static final int fresh_4 = 0x7f070007;
-		public static final int fresh_5 = 0x7f070008;
-		public static final int greens_1 = 0x7f070018;
-		public static final int greens_2 = 0x7f070019;
-		public static final int greens_3 = 0x7f07001a;
-		public static final int greens_4 = 0x7f07001b;
-		public static final int greens_5 = 0x7f07001c;
-		public static final int joyful_1 = 0x7f07001d;
-		public static final int joyful_2 = 0x7f07001e;
-		public static final int joyful_3 = 0x7f07001f;
-		public static final int joyful_4 = 0x7f070020;
-		public static final int joyful_5 = 0x7f070021;
-		public static final int liberty_1 = 0x7f07000e;
-		public static final int liberty_2 = 0x7f07000f;
-		public static final int liberty_3 = 0x7f070010;
-		public static final int liberty_4 = 0x7f070011;
-		public static final int liberty_5 = 0x7f070012;
-		public static final int mono_1 = 0x7f070009;
-		public static final int mono_2 = 0x7f07000a;
-		public static final int mono_3 = 0x7f07000b;
-		public static final int mono_4 = 0x7f07000c;
-		public static final int mono_5 = 0x7f07000d;
-		public static final int pastel_1 = 0x7f070022;
-		public static final int pastel_10 = 0x7f07002b;
-		public static final int pastel_11 = 0x7f07002c;
-		public static final int pastel_12 = 0x7f07002d;
-		public static final int pastel_13 = 0x7f07002e;
-		public static final int pastel_14 = 0x7f07002f;
-		public static final int pastel_15 = 0x7f070030;
-		public static final int pastel_16 = 0x7f070031;
-		public static final int pastel_17 = 0x7f070032;
-		public static final int pastel_18 = 0x7f070033;
-		public static final int pastel_19 = 0x7f070034;
-		public static final int pastel_2 = 0x7f070023;
-		public static final int pastel_20 = 0x7f070035;
-		public static final int pastel_21 = 0x7f070036;
-		public static final int pastel_3 = 0x7f070024;
-		public static final int pastel_4 = 0x7f070025;
-		public static final int pastel_5 = 0x7f070026;
-		public static final int pastel_6 = 0x7f070027;
-		public static final int pastel_7 = 0x7f070028;
-		public static final int pastel_8 = 0x7f070029;
-		public static final int pastel_9 = 0x7f07002a;
-		public static final int vordiplom_1 = 0x7f070037;
-		public static final int vordiplom_2 = 0x7f070038;
-		public static final int vordiplom_3 = 0x7f070039;
-		public static final int vordiplom_4 = 0x7f07003a;
-		public static final int vordiplom_5 = 0x7f07003b;
+		public static final int colorful_1 = 0x7f06003f;
+		public static final int colorful_2 = 0x7f060040;
+		public static final int colorful_3 = 0x7f060041;
+		public static final int colorful_4 = 0x7f060042;
+		public static final int colorful_5 = 0x7f060043;
+		public static final int fresh_1 = 0x7f060030;
+		public static final int fresh_2 = 0x7f060031;
+		public static final int fresh_3 = 0x7f060032;
+		public static final int fresh_4 = 0x7f060033;
+		public static final int fresh_5 = 0x7f060034;
+		public static final int greens_1 = 0x7f060044;
+		public static final int greens_2 = 0x7f060045;
+		public static final int greens_3 = 0x7f060046;
+		public static final int greens_4 = 0x7f060047;
+		public static final int greens_5 = 0x7f060048;
+		public static final int joyful_1 = 0x7f060049;
+		public static final int joyful_2 = 0x7f06004a;
+		public static final int joyful_3 = 0x7f06004b;
+		public static final int joyful_4 = 0x7f06004c;
+		public static final int joyful_5 = 0x7f06004d;
+		public static final int liberty_1 = 0x7f06003a;
+		public static final int liberty_2 = 0x7f06003b;
+		public static final int liberty_3 = 0x7f06003c;
+		public static final int liberty_4 = 0x7f06003d;
+		public static final int liberty_5 = 0x7f06003e;
+		public static final int mono_1 = 0x7f060035;
+		public static final int mono_2 = 0x7f060036;
+		public static final int mono_3 = 0x7f060037;
+		public static final int mono_4 = 0x7f060038;
+		public static final int mono_5 = 0x7f060039;
+		public static final int pastel_1 = 0x7f06004e;
+		public static final int pastel_10 = 0x7f060057;
+		public static final int pastel_11 = 0x7f060058;
+		public static final int pastel_12 = 0x7f060059;
+		public static final int pastel_13 = 0x7f06005a;
+		public static final int pastel_14 = 0x7f06005b;
+		public static final int pastel_15 = 0x7f06005c;
+		public static final int pastel_16 = 0x7f06005d;
+		public static final int pastel_17 = 0x7f06005e;
+		public static final int pastel_18 = 0x7f06005f;
+		public static final int pastel_19 = 0x7f060060;
+		public static final int pastel_2 = 0x7f06004f;
+		public static final int pastel_20 = 0x7f060061;
+		public static final int pastel_21 = 0x7f060062;
+		public static final int pastel_3 = 0x7f060050;
+		public static final int pastel_4 = 0x7f060051;
+		public static final int pastel_5 = 0x7f060052;
+		public static final int pastel_6 = 0x7f060053;
+		public static final int pastel_7 = 0x7f060054;
+		public static final int pastel_8 = 0x7f060055;
+		public static final int pastel_9 = 0x7f060056;
+		public static final int vordiplom_1 = 0x7f060063;
+		public static final int vordiplom_2 = 0x7f060064;
+		public static final int vordiplom_3 = 0x7f060065;
+		public static final int vordiplom_4 = 0x7f060066;
+		public static final int vordiplom_5 = 0x7f060067;
 	}
 	public static final class dimen {
-		public static final int activity_horizontal_margin = 0x7f080016;
-		public static final int activity_vertical_margin = 0x7f080017;
+		public static final int activity_horizontal_margin = 0x7f080000;
+		public static final int activity_vertical_margin = 0x7f080001;
 	}
 	public static final class drawable {
 		public static final int ic_launcher = 0x7f020059;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f0a000f;
+		public static final int app_name = 0x7f090000;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f0b008d;
-		public static final int AppTheme = 0x7f0b008e;
+		public static final int AppBaseTheme = 0x7f0a0000;
+		public static final int AppTheme = 0x7f0a0001;
 	}
 }

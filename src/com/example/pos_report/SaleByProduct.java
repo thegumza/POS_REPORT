@@ -15,9 +15,7 @@ import com.example.pos_peport.database.model.GlobalProperty;
 import com.example.pos_peport.database.model.ProductGroup;
 import com.example.pos_peport.database.model.ProductModel;
 import com.example.pos_peport.database.model.ProductModel.ProductNameModel;
-import com.example.pos_peport.database.model.AllProductData;
 import com.example.pos_peport.database.model.SaleProductShop;
-import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_peport.database.model.ShopProperty;
 import com.example.pos_peport.database.model.SumProductShop;
 import com.example.pos_peport.database.model.TopProductShop;
@@ -25,14 +23,9 @@ import com.example.pos_report.database.GetSaleProductShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
-import com.example.pos_report.database.PayTypeDao;
-import com.example.pos_report.database.ProductDeptDao;
 import com.example.pos_report.database.ProductGroupDao;
-import com.example.pos_report.database.ProductItemDao;
-import com.example.pos_report.database.PromotionDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
-import com.example.pos_report.database.StaffsDao;
 import com.example.pos_report.graph.SalebyProduct_Graph;
 import com.example.pos_report.graph.TopProduct_Qty_PieGraph;
 import com.example.pos_report.graph.TopProduct_Saleprice_PieGraph;
@@ -46,13 +39,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -111,101 +102,7 @@ public class SaleByProduct extends Fragment {
 	   pdia.getWindow().setBackgroundDrawableResource(android.R.color.transparent);*/
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
-	   new ShopDataLoader(getActivity(), "123",new ShopDataLoader.GetShopDataLoader() {
-			
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				try {
-					ShopData sd = gson.fromJson(result, ShopData.class);
-					
-					// insert ShopProperty Data into Database
-					ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-					sp.insertShopData(sd.getShopProperty());
-					
-					// insert GlobalProperty Data into Database
-					GlobalPropertyDao gp = new GlobalPropertyDao(getActivity());
-					gp.insertGlobalPropertyData(sd.getGlobalProperty());
-					
-					//insert PayType Data into Database
-					PayTypeDao pt = new PayTypeDao(getActivity());
-					pt.insertPayTypeData(sd.getPayType());
-					
-					//insert Staffs Data into Database
-					StaffsDao st = new StaffsDao(getActivity());
-					st.insertStaffsData(sd.getStaffs());
-					
-					final List<ShopProperty> Shoplist = sp.getShopList();
-					shopSelect.setAdapter(new ShopSpinner(Shoplist));
-					
-				/*	ShopProperty shoplist = new ShopProperty();
-					ShopID = shoplist.getShopID();*/
-					shopSelect.getItemAtPosition(0);
-					shopSelect.setSelection(0);
-					pdia.dismiss();
-					
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-		        pdia.setMessage("Shop data loading...");
-		        pdia.show();
-				
-			}
-		}).execute(URL);
-new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllProductDataLoader() {
-			
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				try {
-					AllProductData ap = gson.fromJson(result, AllProductData.class);
-					
-					// insert promotion Data into Database
-					PromotionDao pr = new PromotionDao(getActivity());
-					pr.insertPromotionData(ap.getPromotion());
-					
-					//insert ProductGroup Data into Database
-					ProductGroupDao pg = new ProductGroupDao(getActivity());
-					pg.insertProductGroupData(ap.getProductGroup());
-					
-					//insert ProductItem Data into Database
-					ProductItemDao pi = new ProductItemDao(getActivity());
-					pi.insertProductItemData(ap.getProductItem());
-					
-					//insert ProductDept Data into Database
-					ProductDeptDao pd = new ProductDeptDao(getActivity());
-					pd.insertProductDeptData(ap.getProductDept());
-					
-					
-					
-					//insert SaleMode Data into Database
-					//SaleModeDao sm = new SaleModeDao(mContext);
-					//sm.insertSaleModeData(ap.getSaleMode());
-					
-					
-					pdia.dismiss();	
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-		        pdia.setMessage("Product data loading...");
-		        pdia.show();
-				
-			}
-		}).execute(URL);
+	   
 		
         
 	  text_sum_qty = (FlatTextView)rootView.findViewById(R.id.text_sum_qty);
@@ -222,9 +119,16 @@ new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllPro
 		topProduct_productSelect = (Spinner) rootView.findViewById(R.id.topProduct_productSelect);
 		topProduct_modeSelect = (Spinner) rootView.findViewById(R.id.topProduct_modeSelect);
 		
+		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+		final List<ShopProperty> Shoplist = sp.getShopList();
+		shopSelect.setAdapter(new ShopSpinner(Shoplist));
 		
+		//ShopProperty shoplist = new ShopProperty();
+		//ShopID = shoplist.getShopID();
+		shopSelect.getItemAtPosition(0);
+		shopSelect.setSelection(0);
 
-			Database = new ReportDatabase(getActivity());
+			//Database = new ReportDatabase(getActivity());
 			
 		elv.setOnTouchListener(new ListView.OnTouchListener() {
 			   

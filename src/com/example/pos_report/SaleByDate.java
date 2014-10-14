@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import thegumza.library.circularprogressbarlibrary.CircularProgressBar;
 
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
@@ -106,7 +105,7 @@ public class SaleByDate extends Fragment{
 	  View rootView = inflater.inflate(R.layout.salebydate_main, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	  Database = new ReportDatabase(getActivity());
+	  	//Database = new ReportDatabase(getActivity());
 	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
 	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
@@ -134,105 +133,25 @@ public class SaleByDate extends Fragment{
 		 monthSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, months));
 		 yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		 
-		 new ShopDataLoader(getActivity(), "123", new ShopDataLoader.GetShopDataLoader() {
-			 
-				@Override
-				public void onSuccess(String result) {
-					// TODO Auto-generated method stub
-					Gson gson = new Gson();
-					try {
-						ShopData sd = gson.fromJson(result, ShopData.class);
+		 
+		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+
+		final List<ShopProperty> Shoplist = sp.getShopList();
+		shopSelect.setAdapter(new ShopSpinner(Shoplist));
+
+		/*
+		 * ShopProperty shoplist = new ShopProperty(); ShopID =
+		 * shoplist.getShopID();
+		 */
+		shopSelect.getItemAtPosition(0);
+		shopSelect.setSelection(0);
+		// ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>)
+		// shopSelect.getAdapter();
+		// int position = shopadapter.getPosition(shopadapter);
+		// shopSelect.setSelection(position);
 						
-						// insert ShopProperty Data into Database
-						ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-						sp.insertShopData(sd.getShopProperty());
-						
-						// insert GlobalProperty Data into Database
-						GlobalPropertyDao gp = new GlobalPropertyDao(getActivity());
-						gp.insertGlobalPropertyData(sd.getGlobalProperty());
-						
-						//insert PayType Data into Database
-						PayTypeDao pt = new PayTypeDao(getActivity());
-						pt.insertPayTypeData(sd.getPayType());
-						
-						//insert Staffs Data into Database
-						StaffsDao st = new StaffsDao(getActivity());
-						st.insertStaffsData(sd.getStaffs());
-						
-						final List<ShopProperty> Shoplist = sp.getShopList();
-						shopSelect.setAdapter(new ShopSpinner(Shoplist));
-						
-					/*	ShopProperty shoplist = new ShopProperty();
-						ShopID = shoplist.getShopID();*/
-						shopSelect.getItemAtPosition(0);
-						shopSelect.setSelection(0);
-						pdia.dismiss();
-						//ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>) shopSelect.getAdapter();
-						//int position = shopadapter.getPosition(shopadapter);
-						//shopSelect.setSelection(position);
-						
-					} catch (JsonSyntaxException e) {
-						e.printStackTrace();
-					}
 					
-				}
-				@Override
-				public void onLoad() {
-					// TODO Auto-generated method stub
-			        pdia.setMessage("Shop data loading...");
-			        pdia.show();
-					
-				}
-			}).execute(URL);
-			new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllProductDataLoader() {
-				
-				@Override
-				public void onSuccess(String result) {
-					// TODO Auto-generated method stub
-					Gson gson = new Gson();
-					try {
-						AllProductData ap = gson.fromJson(result, AllProductData.class);
-						
-						// insert promotion Data into Database
-						PromotionDao pr = new PromotionDao(getActivity());
-						pr.insertPromotionData(ap.getPromotion());
-						
-						//insert ProductGroup Data into Database
-						ProductGroupDao pg = new ProductGroupDao(getActivity());
-						pg.insertProductGroupData(ap.getProductGroup());
-						
-						//insert ProductItem Data into Database
-						ProductItemDao pi = new ProductItemDao(getActivity());
-						pi.insertProductItemData(ap.getProductItem());
-						
-						//insert ProductDept Data into Database
-						ProductDeptDao pd = new ProductDeptDao(getActivity());
-						pd.insertProductDeptData(ap.getProductDept());
-						
-						
-						pdia.dismiss();
-						
-						
-						//insert SaleMode Data into Database
-						//SaleModeDao sm = new SaleModeDao(mContext);
-						//sm.insertSaleModeData(ap.getSaleMode());
-						
-						
-								
-					} catch (JsonSyntaxException e) {
-						e.printStackTrace();
-					}
-					
-				}
-				
-				@Override
-				public void onLoad() {
-					// TODO Auto-generated method stub
-			        pdia.setMessage("Product data loading...");
-			        pdia.show();
-					
-				}
-			}).execute(URL);
+		
 		 //set Progress Bar
 		 
 		 
@@ -623,7 +542,7 @@ public class SaleByDate extends Fragment{
 	}
 
 	public void setShopName(String shopName) {
-		this.shopName = shopName;
+		SaleByDate.shopName = shopName;
 	}
 
 	public class TypeSpinner extends BaseAdapter {

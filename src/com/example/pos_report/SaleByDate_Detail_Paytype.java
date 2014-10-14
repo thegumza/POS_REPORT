@@ -42,7 +42,7 @@ public class SaleByDate_Detail_Paytype extends Activity{
         ShopNameValue.setText(shopName);
         payTypeValue.setText("PayType ("+payTypeName+")");
         
-        GetSumPaymentShopDao gp = new GetSumPaymentShopDao(this);
+        //GetSumPaymentShopDao gp = new GetSumPaymentShopDao(this);
         //List<SumPaymentShop> Paymentlist = gp.getSaleDatePaymentDetail();
 		//listPayment.setAdapter(new PaytypelistDetailAdapter(Paymentlist));
         
@@ -101,7 +101,7 @@ public class PaytypelistDetailAdapter extends BaseAdapter{
 				double percent = (sp.getTotalPay()* 100) / totalpay;
 				holder.percentPaymentValue.setText(formatter.format(percent));
 				text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));*/
-				text_sum_payment_percent.setText("100%");
+				//text_sum_payment_percent.setText("100%");
 				
 			return convertView;
 				}}

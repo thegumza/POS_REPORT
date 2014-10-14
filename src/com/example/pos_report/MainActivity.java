@@ -51,18 +51,24 @@ public class MainActivity extends Activity implements
 			
 		if (position == 0) {
 			fragmentManager.beginTransaction()
-			.replace(R.id.container, SaleByDate.newInstance(position + 1))
+			.replace(R.id.container, MainDashBoard.newInstance(position + 1))
 			.commit();
 			
 			  } else if (position == 1) {
 				  
 				  fragmentManager.beginTransaction()
+					.replace(R.id.container, SaleByDate.newInstance(position + 1))
+					.commit();
+				  
+			  }
+			  else if (position == 2) {
+				  
+				  fragmentManager.beginTransaction()
 					.replace(R.id.container, SaleByProduct.newInstance(position + 1))
 					.commit();
-				  //Intent intentMain = new Intent(MainActivity.this,salebydategraph.class);
-				  //MainActivity.this.startActivity(intentMain);
 				  
-			  } else {
+			  }
+			  else {
 				  
 				  fragmentManager.beginTransaction()
 				  .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
@@ -79,6 +85,9 @@ public class MainActivity extends Activity implements
 			break;
 		case 2:
 			mTitle = getString(R.string.title_section2);
+			break;
+		case 3:
+			mTitle = getString(R.string.title_section3);
 			break;
 	
 		}
@@ -150,37 +159,5 @@ public class MainActivity extends Activity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}}
-	/*public class KeySpinner extends BaseAdapter {
-		
-		List<ShopProperty> Shoplist;
-		public KeySpinner(List<ShopProperty> sl) {
-			Shoplist = sl;
-		}
-		@Override
-		public int getCount() {
-			// 
-			return Shoplist.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			// 
-			return Shoplist.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			// 
-			return position;
-		}
-		
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = getLayoutInflater();
-			convertView = inflater.inflate(R.layout.spinner_item, parent,false);
-			FlatTextView textView = (FlatTextView)convertView.findViewById(R.id.textView1);
-			ShopProperty sp = Shoplist.get(position);
-			textView.setText(sp.getShopName());
-			return convertView;
-		}}*/
+	
 }

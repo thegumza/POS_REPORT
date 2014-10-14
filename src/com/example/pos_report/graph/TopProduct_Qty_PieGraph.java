@@ -111,7 +111,7 @@ public class TopProduct_Qty_PieGraph extends Activity{
             mChart.highlightValues(null);
 
             // set a text for the chart center
-            mChart.setCenterText("Total Price " + (int) mChart.getYValueSum() + " Baht");
+            mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
             //mChart.invalidate();
             
             Legend l = mChart.getLegend();
