@@ -102,7 +102,105 @@ public class SaleByProduct extends Fragment {
 	   pdia.getWindow().setBackgroundDrawableResource(android.R.color.transparent);*/
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
+<<<<<<< HEAD
 	   
+=======
+	   /*new ShopDataLoader(getActivity(), "123",new ShopDataLoader.GetShopDataLoader() {
+			
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+				Gson gson = new Gson();
+				try {
+					ShopData sd = gson.fromJson(result, ShopData.class);
+					
+					// insert ShopProperty Data into Database
+*/					ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+					/*sp.insertShopData(sd.getShopProperty());
+					
+					// insert GlobalProperty Data into Database
+					GlobalPropertyDao gp = new GlobalPropertyDao(getActivity());
+					gp.insertGlobalPropertyData(sd.getGlobalProperty());
+					
+					//insert PayType Data into Database
+					PayTypeDao pt = new PayTypeDao(getActivity());
+					pt.insertPayTypeData(sd.getPayType());
+					
+					//insert Staffs Data into Database
+					StaffsDao st = new StaffsDao(getActivity());
+					st.insertStaffsData(sd.getStaffs());*/
+					
+					final List<ShopProperty> Shoplist = sp.getShopList();
+					shopSelect.setAdapter(new ShopSpinner(Shoplist));
+					
+				/*	ShopProperty shoplist = new ShopProperty();
+					ShopID = shoplist.getShopID();*/
+					shopSelect.getItemAtPosition(0);
+					shopSelect.setSelection(0);
+					/*pdia.dismiss();
+					
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+		        pdia.setMessage("Shop data loading...");
+		        pdia.show();
+				
+			}
+		}).execute(URL);
+new AllProductDataLoader(getActivity(), "123",new AllProductDataLoader.GetAllProductDataLoader() {
+			
+			@Override
+			public void onSuccess(String result) {
+				// TODO Auto-generated method stub
+				Gson gson = new Gson();
+				try {
+					AllProductData ap = gson.fromJson(result, AllProductData.class);
+					
+					// insert promotion Data into Database
+					PromotionDao pr = new PromotionDao(getActivity());
+					pr.insertPromotionData(ap.getPromotion());
+					
+					//insert ProductGroup Data into Database
+					ProductGroupDao pg = new ProductGroupDao(getActivity());
+					pg.insertProductGroupData(ap.getProductGroup());
+					
+					//insert ProductItem Data into Database
+					ProductItemDao pi = new ProductItemDao(getActivity());
+					pi.insertProductItemData(ap.getProductItem());
+					
+					//insert ProductDept Data into Database
+					ProductDeptDao pd = new ProductDeptDao(getActivity());
+					pd.insertProductDeptData(ap.getProductDept());
+					
+					
+					
+					//insert SaleMode Data into Database
+					//SaleModeDao sm = new SaleModeDao(mContext);
+					//sm.insertSaleModeData(ap.getSaleMode());
+					
+					
+					pdia.dismiss();	
+				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+		        pdia.setMessage("Product data loading...");
+		        pdia.show();
+				
+			}
+		}).execute(URL);*/
+>>>>>>> origin/master
 		
         
 	  text_sum_qty = (FlatTextView)rootView.findViewById(R.id.text_sum_qty);
