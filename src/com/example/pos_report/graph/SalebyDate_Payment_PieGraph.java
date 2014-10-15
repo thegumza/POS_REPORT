@@ -54,7 +54,7 @@ public class SalebyDate_Payment_PieGraph extends Activity{
 
         // display percentage values
         mChart.setUsePercentValues(true);
-        // mChart.setUnit(" €");
+        // mChart.setUnit(" โ�ฌ");
         // mChart.setDrawUnitsInChart(true);
 
         // add a selection listener
@@ -113,7 +113,7 @@ public class SalebyDate_Payment_PieGraph extends Activity{
             Legend l = mChart.getLegend();
             l.setPosition(LegendPosition.RIGHT_OF_CHART);
             l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(13f);
+            l.setTextSize(9f);
             l.setXEntrySpace(7f);
             l.setYEntrySpace(5f);
             

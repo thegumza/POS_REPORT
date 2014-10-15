@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemClickListener;
@@ -60,6 +61,7 @@ public class MainDashBoard extends Fragment{
 	private int currentmonth,currentyear;
 	private FlatTextView text_sum_payment_amount,text_sum_payment_percent;
 	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
+	private Button showChart_payment,showChart_promotion;
 	public static String URL;
 	private ListView listPayment,listPromotion;
 	private ProgressDialog  pdia;
@@ -177,8 +179,32 @@ public class MainDashBoard extends Fragment{
 				return false;
 			}
 		});
+		showChart_payment = (Button)rootView.findViewById(R.id.showChart_payment);
 		
+		showChart_payment.setOnClickListener(new View.OnClickListener() {
+		    @Override
+			public void onClick(View v) {
+		    	
+		    	Intent intentMain = new Intent(getActivity() , 
+						 SalebyDate_Payment_PieGraph.class);
+		    	
+		    	startActivity(intentMain);
+		    	
+		    }
+		});
+		showChart_promotion = (Button)rootView.findViewById(R.id.showChart_promotion);
 		
+		showChart_promotion.setOnClickListener(new View.OnClickListener() {
+		    @Override
+			public void onClick(View v) {
+		    	
+		    	Intent intentMain = new Intent(getActivity() , 
+						 SalebyDate_Promotion_PieGraph.class);
+		    	
+		    	startActivity(intentMain);
+		    	
+		    }
+		});
 		shopSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override

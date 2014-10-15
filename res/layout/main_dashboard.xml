@@ -264,19 +264,18 @@
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_tablePaymentName"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center"
-	            android:paddingBottom="3dp"
-	            android:paddingTop="2dp"
-	            android:text="Payment"
-	            android:textColor="#ffffff"
-	            android:textSize="18dp"
-	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp"
-	            flatui:fl_fontWeight="regular" />
+            
+	        <Button
+	        android:id="@+id/showChart_payment"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:minHeight="30dp"
+	        android:textSize="20dp"
+	        android:textStyle="bold"
+	        android:text="Payment"
+            android:textColor="@android:color/white"
+            android:background="@color/fbutton_color_amethyst" />
+	        
         </LinearLayout>
         <LinearLayout
             android:id="@+id/headTablePayment"
@@ -399,20 +398,17 @@
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_tablePromotionName"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center"
-	            android:paddingBottom="3dp"
-	            android:paddingTop="2dp"
-	            android:text="Promotion"
-	            android:textColor="#ffffff"
-	            android:textSize="18dp"
-	            android:background="@color/fbutton_color_turquoise"
-	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp"
-	            flatui:fl_fontWeight="regular" />
+	        <Button
+	        android:id="@+id/showChart_promotion"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:minHeight="30dp"
+	        android:textSize="20dp"
+	        android:textStyle="bold"
+	        android:text="Promotion"
+            android:textColor="@android:color/white"
+            android:background="@color/fbutton_color_turquoise" />
+	        
         </LinearLayout>
         <LinearLayout
             android:id="@+id/headTablePromotion"
