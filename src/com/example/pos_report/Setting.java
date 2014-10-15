@@ -1,6 +1,5 @@
 package com.example.pos_report;
 
-import com.example.flatui_library.FButton;
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatEditText;
 import com.example.flatuilibrary.FlatTextView;
@@ -17,8 +16,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class Setting extends Activity  {
 	
@@ -57,7 +54,7 @@ public class Setting extends Activity  {
 			        ReportDatabase Database = new ReportDatabase(Setting.this);
 			        Database.dropAllTable();
 			   	 
-			        SharedPreferences prefs = getSharedPreferences("com.tsd3v.posreports", MODE_PRIVATE);
+			        SharedPreferences prefs = getSharedPreferences("com.example.pos_report", MODE_PRIVATE);
 			        prefs.edit().putBoolean("LoadShopData", true).commit();
 				    prefs.edit().putBoolean("LoadAllProductData", true).commit();
 				        

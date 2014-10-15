@@ -55,24 +55,25 @@ import com.google.gson.reflect.TypeToken;
 public class MainDashBoard extends Fragment{
 	
 	private static final String ARG_SECTION_NUMBER = "section_number";
-	private Spinner shopSelect,monthSelect, yearSelect;
-	private ReportDatabase Database;
-	private FlatButton showReport;
-	private FlatButton showChart_sale,showChart_payment,showChart_promotion;
-	private int ShopID ,month,year;
-	private static String Date,payTypeName;
-	private static int TotalBill,TotalCust;
-	private static double TotalVat,TotalRetail,TotalDis,TotalSale;
-	private static int payTypeID;
-	private FlatTextView text_sum_totalBill,text_sum_discount,text_sum_salePrice;
+	private Spinner shopSelect;
+	private int ShopID;
+	private int currentmonth,currentyear;
 	private FlatTextView text_sum_payment_amount,text_sum_payment_percent;
 	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
 	public static String URL;
-	private ListView listSale,listPayment,listPromotion;
+	private ListView listPayment,listPromotion;
 	private ProgressDialog  pdia;
-	private String lastsaledate;
+	private String lastsaledate,saledate;
 	private static String shopName;
-	
+	private FlatTextView ShopNameValue,saledatevalue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
+	private int totalbill,totalcust;
+	private double totalvat,totalretail,totaldis,totalsale;
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+	GlobalProperty format = gpd.getGlobalProperty();
+	String formatnumber = format.getCurrencyFormat();
+	String formatqty = format.getQtyFormat();
+	NumberFormat formatter = new DecimalFormat(formatnumber);
+	NumberFormat qtyformatter = new DecimalFormat(formatqty);
 	
 	 public static MainDashBoard newInstance(int sectionNumber) {
 		 MainDashBoard fragment = new MainDashBoard();
@@ -90,7 +91,7 @@ public class MainDashBoard extends Fragment{
 	@Override
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	   Bundle savedInstanceState) {
-	  View rootView = inflater.inflate(R.layout.salebydate_main, container,
+	  View rootView = inflater.inflate(R.layout.main_dashboard, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	  //Database = new ReportDatabase(getActivity());
@@ -101,25 +102,29 @@ public class MainDashBoard extends Fragment{
 	   pdia = new ProgressDialog(getActivity());
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
-	  	text_sum_totalBill = (FlatTextView)rootView.findViewById(R.id.text_sum_totalBill);
-		text_sum_discount = (FlatTextView)rootView.findViewById(R.id.text_sum_discount);
-		text_sum_salePrice = (FlatTextView)rootView.findViewById(R.id.text_sum_salePrice);
 		text_sum_payment_amount = (FlatTextView)rootView.findViewById(R.id.text_sum_payment_amount);
 		text_sum_payment_percent = (FlatTextView)rootView.findViewById(R.id.text_sum_payment_percent);
 		text_sum_promo_amount = (FlatTextView)rootView.findViewById(R.id.text_sum_promo_amount);
 		text_sum_promo_percent = (FlatTextView)rootView.findViewById(R.id.text_sum_promo_percent);
 		
-		listSale = (ListView)rootView.findViewById(R.id.listSale);
+		saledatevalue = (FlatTextView) rootView
+				.findViewById(R.id.SaleDateValue);
+		totalbillvalue = (FlatTextView) rootView
+				.findViewById(R.id.TotalBillValue);
+		totalcustvalue = (FlatTextView) rootView
+				.findViewById(R.id.ToTalCustValue);
+		totalvatvalue = (FlatTextView) rootView
+				.findViewById(R.id.TotalVatValue);
+		totalretailvalue = (FlatTextView) rootView
+				.findViewById(R.id.TotalRetailValue);
+		totaldisvalue = (FlatTextView) rootView
+				.findViewById(R.id.TotalDisValue);
+		totalsalevalue = (FlatTextView) rootView
+				.findViewById(R.id.TotalSaleValue);
 		listPayment = (ListView)rootView.findViewById(R.id.listPayment);
 		listPromotion = (ListView)rootView.findViewById(R.id.listPromotion);
 		
 		shopSelect = (Spinner)rootView.findViewById(R.id.shopspinner);
-		monthSelect = (Spinner)rootView.findViewById(R.id.monthspinner);
-		yearSelect = (Spinner)rootView.findViewById(R.id.yearspinner);
-		 String[] years = new String[]{"2012", "2013", "2014"};
-		 final String[] months = new String[]{"January", "February", "March","April","May","June","July","August","September","October","November","December"};
-		 monthSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, months));
-		 yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		 
 		 
 		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
@@ -128,31 +133,20 @@ public class MainDashBoard extends Fragment{
 		shopSelect.setAdapter(new ShopSpinner(Shoplist));
 		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
 		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
-		int CurrentShopID = saledate.get(0);
+		final int CurrentShopID = saledate.get(0);
 		 
 		shopSelect.getItemAtPosition(0);
 		shopSelect.setSelection(0);
 		
-		// ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>)
-		// shopSelect.getAdapter();
-		// int position = shopadapter.getPosition(shopadapter);
-		// shopSelect.setSelection(position);
-						
-					
 		
-		 //set Progress Bar
-		 
 		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
 			
 			@Override
 			public void onSuccess(String result) {
 				lastsaledate = result;
-				int currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
-				String currentyear = lastsaledate.substring(0,4);
-				monthSelect.setSelection(currentmonth-1);
-				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
-				int position = yearadapter.getPosition(currentyear);
-				yearSelect.setSelection(position);
+				currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
+				currentyear = Integer.parseInt(lastsaledate.substring(0,4));
+				onChangeData();
 				pdia.dismiss();
 				
 			}
@@ -166,55 +160,7 @@ public class MainDashBoard extends Fragment{
 			}
 		}).execute(URL);
 		
-		/*Database = new ReportDatabase(getActivity());*/
 		
-		//get Shoplist to Spinner
-		/*final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-		final List<ShopProperty> Shoplist = sp.getShopList();
-		shopSelect.setAdapter(new KeySpinner(Shoplist));*/
-		
-		
-		listSale.setOnTouchListener(new ListView.OnTouchListener() {
-			   
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				   v.getParent().requestDisallowInterceptTouchEvent(true);
-				return false;
-			}
-			});
-		
-		listSale.setOnItemClickListener(new OnItemClickListener() {
-			   @Override
-			   public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-				   SumTransactionShop  Saledate = (SumTransactionShop) parent.getItemAtPosition(position);
-				   	
-				   	Date = Saledate.getSaleDate();
-				   	TotalBill = Saledate.getTotalBill();
-				   	TotalCust = Saledate.getTotalCust();
-				   	TotalVat = Saledate.getTransVAT();
-				   	TotalRetail = Saledate.getRetailPrice();
-				   	TotalDis = Saledate.getDiscount();
-				   	TotalSale = Saledate.getSalePrice();
-				   	Intent IntentMain = new Intent(getActivity(), SaleByDateDetail.class);
-				   	
-	              startActivity(IntentMain);
-			   } 
-			});
-		
-		listPayment.setOnItemClickListener(new OnItemClickListener() {
-			   @Override
-			   public void onItemClick(AdapterView<?> parent, View view,
-						int position, long id) {
-				   	SumPaymentShop  payment = (SumPaymentShop) parent.getItemAtPosition(position);
-				   	
-				   	payTypeID = payment.getPayTypeID();
-				   	payTypeName = payment.getPayTypeName();
-				   	Intent IntentMain = new Intent(getActivity(), SaleByDate_Detail_Paytype.class);
-				   	
-	              startActivity(IntentMain);
-			   } 
-			});
 		listPayment.setOnTouchListener(new ListView.OnTouchListener() {
 			   
 			@Override
@@ -240,7 +186,26 @@ public class MainDashBoard extends Fragment{
 					int position, long id) {
 				ShopProperty  Shoplist = (ShopProperty) parent.getItemAtPosition(position);
 				ShopID = Shoplist.getShopID();
-				onChangeData();
+				new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+					
+					@Override
+					public void onSuccess(String result) {
+						lastsaledate = result;
+						currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
+						currentyear = Integer.parseInt(lastsaledate.substring(0,4));
+						onChangeData();
+						pdia.dismiss();
+						
+					}
+
+					@Override
+					public void onLoad() {
+						// TODO Auto-generated method stub
+						
+				        pdia.setMessage("Last shop data loading...");
+				        pdia.show();
+					}
+				}).execute(URL);
 			}
 
 			@Override
@@ -249,128 +214,13 @@ public class MainDashBoard extends Fragment{
 			}
 		});
 		
-		monthSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				month = Integer.valueOf(position+1);
-				onChangeData();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				
-			}
-		});
 		
-		
-		yearSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				year = Integer.parseInt(parent.getItemAtPosition(position).toString());
-				onChangeData();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				
-			}
-		});
-		
-		showReport = (FlatButton)rootView.findViewById(R.id.btnShowSaleReport);
-		
-		showReport.setOnClickListener(new View.OnClickListener() {
-		    @Override
-			public void onClick(View v) {
-		    	onChangeData();
-		    }
-		});
-		
-		showChart_sale = (FlatButton)rootView.findViewById(R.id.showChart_sale);
-		
-		showChart_sale.setOnClickListener(new View.OnClickListener() {
-		    @Override
-			public void onClick(View v) {
-		    	
-		    	Intent intentMain = new Intent(getActivity() , 
-						 SalebyDate_Graph.class);
-		    	
-		    	startActivity(intentMain);
-		    	
-		    }
-		});
-		
-		showChart_payment = (FlatButton)rootView.findViewById(R.id.showChart_payment);
-		
-		showChart_payment.setOnClickListener(new View.OnClickListener() {
-		    @Override
-			public void onClick(View v) {
-		    	
-		    	Intent intentMain = new Intent(getActivity() , 
-						 SalebyDate_Payment_PieGraph.class);
-		    	
-		    	startActivity(intentMain);
-		    	
-		    }
-		});
-		
-		showChart_promotion = (FlatButton)rootView.findViewById(R.id.showChart_promotion);
-		
-		showChart_promotion.setOnClickListener(new View.OnClickListener() {
-		    @Override
-			public void onClick(View v) {
-		    	
-		    	Intent intentMain = new Intent(getActivity() , 
-						 SalebyDate_Promotion_PieGraph.class);
-		    	
-		    	startActivity(intentMain);
-		    	
-		    }
-		});
 		
 	return rootView;
 	
 }
 	
-	public static String getDate(){
-		return Date;
-	}
 	
-	 public static int getTotalBill() {
-		return TotalBill;
-	}
-
-	public static int getTotalCust() {
-		return TotalCust;
-	}
-
-	public static double getTotalVat() {
-		return TotalVat;
-	}
-
-	public static double getTotalRetail() {
-		return TotalRetail;
-	}
-
-	public static double getTotalDis() {
-		return TotalDis;
-	}
-
-	public static double getTotalSale() {
-		return TotalSale;
-	}
-
-
-	public static int getPayTypeID() {
-		return payTypeID;
-	}
-	
-	public static String getPayTypeName() {
-		return payTypeName;
-	}
 
 	@Override
 	 public void onAttach(Activity activity) {
@@ -381,12 +231,7 @@ public class MainDashBoard extends Fragment{
 	 }
 	 
 		public void onChangeData(){
-			/*
-			final GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
-			final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
-			final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());*/
-			//Send Parameter to Web Service
-	    	new GetSumTransactionShop(getActivity(),ShopID , month, year, "123",new GetSumTransacTion() {
+	    	new GetSumTransactionShop(getActivity(),ShopID , currentmonth, currentyear, "123",new GetSumTransacTion() {
 				//not sure
 				@Override
 				public void onSuccess(String result) {
@@ -400,8 +245,23 @@ public class MainDashBoard extends Fragment{
 						GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
 						gt.insertSumTransactionShopData(gs);
 						//Set ListViewAdapter Salebydate
-				    	List<SumTransactionShop> Salebydate = gt.getSaleDate();
-						listSale.setAdapter(new SaleListAdapter(Salebydate));
+						
+				    	SumTransactionShop LastSaleDate = gt.getLastSaleDate();
+				    	saledate = LastSaleDate.getSaleDate();
+				    	totalbill = LastSaleDate.getTotalBill();
+						totalcust = LastSaleDate.getTotalCust();
+						totalvat = LastSaleDate.getTransVAT();
+						totalretail = LastSaleDate.getRetailPrice();
+						totaldis = LastSaleDate.getDiscount();
+						totalsale = LastSaleDate.getSalePrice();
+						
+						saledatevalue.setText(""+ saledate);
+						totalbillvalue.setText("" + totalbill);
+						totalcustvalue.setText("" + totalcust);
+						totalvatvalue.setText("" + formatter.format((totalvat)));
+						totalretailvalue.setText("" + formatter.format((totalretail)));
+						totaldisvalue.setText("" + formatter.format((totaldis)));
+						totalsalevalue.setText("" + formatter.format((totalsale)));
 						pdia.dismiss();
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
@@ -417,7 +277,7 @@ public class MainDashBoard extends Fragment{
 					
 				}
 			}).execute(URL);
-	    	new GetSumPaymentShop(getActivity(),ShopID , month, year, "123",new GetSumPaymentShop.GetSumPayment() {
+	    	new GetSumPaymentShop(getActivity(),ShopID , currentmonth, currentyear, "123",new GetSumPaymentShop.GetSumPayment() {
 				
 				@Override
 				public void onSuccess(String result) {
@@ -452,7 +312,7 @@ public class MainDashBoard extends Fragment{
 				}
 				
 			}).execute(URL);
-	    	new GetSumPromotionShop(getActivity(),ShopID , month, year, "123",new GetSumPromotionShop.GetSumPromotion() {
+	    	new GetSumPromotionShop(getActivity(),ShopID , currentmonth, currentyear, "123",new GetSumPromotionShop.GetSumPromotion() {
 				
 				@Override
 				public void onSuccess(String result) {
@@ -516,7 +376,7 @@ public class MainDashBoard extends Fragment{
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				LayoutInflater inflater = getActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.spinner_item, parent,false);
+				convertView = inflater.inflate(R.layout.spinner_item_main, parent,false);
 				FlatTextView textView = (FlatTextView)convertView.findViewById(R.id.textView1);
 				ShopProperty sp = Shoplist.get(position);
 				shopName = sp.getShopName();
@@ -532,107 +392,6 @@ public class MainDashBoard extends Fragment{
 		MainDashBoard.shopName = shopName;
 	}
 
-	public class TypeSpinner extends BaseAdapter {
-			
-			List<ProductGroup> Productgrouplist;
-			public TypeSpinner(List<ProductGroup> pg) {
-				Productgrouplist = pg;
-			}
-			@Override
-			public int getCount() {
-				// 
-				return Productgrouplist.size();
-			}
-
-			@Override
-			public Object getItem(int position) {
-				// 
-				return Productgrouplist.get(position);
-			}
-
-			@Override
-			public long getItemId(int position) {
-				// 
-				return position;
-			}
-			
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				LayoutInflater inflater = getActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.spinner_product, parent,false);
-				FlatTextView TextView = (FlatTextView)convertView.findViewById(R.id.textView1);
-				ProductGroup gp = Productgrouplist.get(position);
-				TextView.setText(gp.getProductGroupName());
-				return convertView;
-			}}
-	 
-	//ListViewAdapter
-			public class SaleListAdapter extends BaseAdapter{
-				
-				List<SumTransactionShop> Salebydate;
-				public SaleListAdapter(List<SumTransactionShop> sd) {
-					Salebydate = sd;
-				}
-				@Override
-				public int getCount() {
-					return Salebydate.size();
-				}
-
-				@Override
-				public Object getItem(int position) {
-					return Salebydate.get(position);
-				}
-
-				@Override
-				public long getItemId(int position) {
-					return position;
-				}
-				
-				private class ViewHolder {
-					FlatTextView dateValue;
-					FlatTextView totalBill;
-					FlatTextView discountValue;
-					FlatTextView priceValue; 
-				}
-				
-				@Override
-				public View getView(int position, View convertView, ViewGroup parent) {
-					ViewHolder  holder;
-					LayoutInflater inflater = getActivity().getLayoutInflater();
-					
-						if(convertView == null){
-							convertView = inflater.inflate(R.layout.salebydate_column, parent,false);
-						holder = new ViewHolder();
-						holder.dateValue=(FlatTextView)convertView.findViewById(R.id.dateValue);
-						holder.totalBill=(FlatTextView)convertView.findViewById(R.id.totalBill);
-						holder.discountValue=(FlatTextView)convertView.findViewById(R.id.discountValue);
-						holder.priceValue=(FlatTextView)convertView.findViewById(R.id.priceValue);
-						convertView.setTag(holder);
-						}else{
-							holder=(ViewHolder)convertView.getTag();
-						}
-						SumTransactionShop st = Salebydate.get(position);
-						final GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
-						final SumTransactionShop Sumsale = gt.getSumSaleShop();
-						final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
-						GlobalProperty format = gpd.getGlobalProperty();
-						String currencyformat = format.getCurrencyFormat();
-						String qtyformat = format.getQtyFormat();
-						NumberFormat currencyformatter = new DecimalFormat(currencyformat);
-						NumberFormat qtyformatter = new DecimalFormat(qtyformat);
-						
-						holder.dateValue.setText(st.getSaleDate());
-						holder.totalBill.setText(qtyformatter.format(st.getTotalBill()));
-						holder.discountValue.setText(currencyformatter.format(st.getDiscount()));
-						holder.priceValue.setText(currencyformatter.format((st.getSalePrice())));
-						text_sum_totalBill.setText(Integer.toString(Sumsale.getTotalBill()));
-						text_sum_discount.setText(currencyformatter.format(Sumsale.getDiscount()));
-						text_sum_salePrice.setText(currencyformatter.format(Sumsale.getSalePrice()));
-						
-						
-					return convertView;
-						}
-			}
 	 public class PaymentlistAdapter extends BaseAdapter{
 			
 			List<SumPaymentShop> Paymentlist;

@@ -100,26 +100,23 @@ public class GetSumTransactionShopDao extends ReportDatabase{
 		}
 		return getsumtransshop;
 	}
-	/*
-public SumTransactionShop getSaleDateDetail(){
-	SaleByDateDetail sd = new SaleByDateDetail();
-	String Saledate = sd.getSaledate();
-	String STSql = "Select * From "+ SumData_TransReportTable.TABLE_SUMDATA_TRANSPORTREPORT+"WHERE"+SumData_TransReportTable.COLUMN_SALE_DATE+" = '"+Saledate+"'";
-	SumTransactionShop gs = new SumTransactionShop();
-	Cursor cursor =  getReadableDatabase().rawQuery(STSql, null);
-	if (cursor.moveToFirst()){
-			gs.setShopID(cursor.getInt(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_SHOP_ID)));
-			gs.setSaleDate(cursor.getString(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_SALE_DATE)));
-			gs.setTotalBill(cursor.getInt(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_BILL)));
-			gs.setTotalCust(cursor.getInt(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_CUSTOMER)));
-			gs.setTransVAT(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TRANSACTION_VAT)));
-			gs.setRetailPrice(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_RETAIL_PRICE)));
-			gs.setDiscount(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_DISCOUNT)));
-			gs.setSalePrice(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_SALE_PRICE)));
-			
+	public SumTransactionShop getLastSaleDate(){
+		String STSql = "Select * From "+ SumData_TransReportTable.TABLE_SUMDATA_TRANSPORTREPORT;
+		Cursor cursor =  getReadableDatabase().rawQuery(STSql, null);
+		SumTransactionShop gs = new SumTransactionShop();
+		if (cursor.moveToFirst()){
+				
+				gs.setShopID(cursor.getInt(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_SHOP_ID)));
+				gs.setSaleDate(cursor.getString(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_SALE_DATE)));
+				gs.setTotalBill(cursor.getInt(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_BILL)));
+				gs.setTotalCust(cursor.getInt(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_CUSTOMER)));
+				gs.setTransVAT(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TRANSACTION_VAT)));
+				gs.setRetailPrice(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_RETAIL_PRICE)));
+				gs.setDiscount(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_DISCOUNT)));
+				gs.setSalePrice(cursor.getDouble(cursor.getColumnIndex(SumData_TransReportTable.COLUMN_TOTAL_SALE_PRICE)));
+		}
+		return gs;
 	}
-	return gs;
-}*/
 }
 
 
