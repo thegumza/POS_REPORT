@@ -8,11 +8,13 @@ import java.util.Collection;
 import java.util.List;
 
 
+
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.AllProductData;
 import com.example.pos_peport.database.model.GlobalProperty;
 import com.example.pos_peport.database.model.LastSaleDate;
+import com.example.pos_peport.database.model.PayType;
 import com.example.pos_peport.database.model.ProductGroup;
 import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_peport.database.model.ShopProperty;
@@ -72,10 +74,10 @@ public class SaleByDate extends Fragment{
 	private FlatButton showReport;
 	private FlatButton showChart_sale,showChart_payment,showChart_promotion;
 	private int ShopID ,month,year;
-	private static String Date,payTypeName;
+	private static String Date,payTypeName,promotionName;
 	private static int TotalBill,TotalCust;
 	private static double TotalVat,TotalRetail,TotalDis,TotalSale;
-	private static int payTypeID;
+	private static int payTypeID,promotionID;
 	private FlatTextView text_sum_totalBill,text_sum_discount,text_sum_salePrice;
 	private FlatTextView text_sum_payment_amount,text_sum_payment_percent;
 	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
@@ -150,111 +152,7 @@ public class SaleByDate extends Fragment{
 		// int position = shopadapter.getPosition(shopadapter);
 		// shopSelect.setSelection(position);
 						
-<<<<<<< HEAD
-					
 		
-=======
-					
-		/*new ShopDataLoader(POS_Login.this, "123", new ShopDataLoader.GetShopDataLoader() {
-			 
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				try {
-					ShopData sd = gson.fromJson(result, ShopData.class);
-					
-					// insert ShopProperty Data into Database
-					ShopPropertyDao sp = new ShopPropertyDao(POS_Login.this);
-					sp.insertShopData(sd.getShopProperty());
-					
-					// insert GlobalProperty Data into Database
-					GlobalPropertyDao gp = new GlobalPropertyDao(POS_Login.this);
-					gp.insertGlobalPropertyData(sd.getGlobalProperty());
-					
-					//insert PayType Data into Database
-					PayTypeDao pt = new PayTypeDao(POS_Login.this);
-					pt.insertPayTypeData(sd.getPayType());
-					
-					//insert Staffs Data into Database
-					StaffsDao st = new StaffsDao(POS_Login.this);
-					st.insertStaffsData(sd.getStaffs());
-					
-					final List<ShopProperty> Shoplist = sp.getShopList();
-					shopSelect.setAdapter(new ShopSpinner(Shoplist));
-					
-					ShopProperty shoplist = new ShopProperty();
-					ShopID = shoplist.getShopID();
-					shopSelect.getItemAtPosition(0);
-					shopSelect.setSelection(0);
-					pdia.dismiss();
-					//ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>) shopSelect.getAdapter();
-					//int position = shopadapter.getPosition(shopadapter);
-					//shopSelect.setSelection(position);
-					
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-		        pdia.setMessage("Shop data loading...");
-		        pdia.show();
-				
-			}
-		}).execute(URL);
-		new AllProductDataLoader(POS_Login.this, "123",new AllProductDataLoader.GetAllProductDataLoader() {
-			
-			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				Gson gson = new Gson();
-				try {
-					AllProductData ap = gson.fromJson(result, AllProductData.class);
-					
-					// insert promotion Data into Database
-					PromotionDao pr = new PromotionDao(POS_Login.this);
-					pr.insertPromotionData(ap.getPromotion());
-					
-					//insert ProductGroup Data into Database
-					ProductGroupDao pg = new ProductGroupDao(POS_Login.this);
-					pg.insertProductGroupData(ap.getProductGroup());
-					
-					//insert ProductItem Data into Database
-					ProductItemDao pi = new ProductItemDao(POS_Login.this);
-					pi.insertProductItemData(ap.getProductItem());
-					
-					//insert ProductDept Data into Database
-					ProductDeptDao pd = new ProductDeptDao(POS_Login.this);
-					pd.insertProductDeptData(ap.getProductDept());
-					
-					
-					pdia.dismiss();
-					
-					
-					//insert SaleMode Data into Database
-					//SaleModeDao sm = new SaleModeDao(mContext);
-					//sm.insertSaleModeData(ap.getSaleMode());
-					
-					
-							
-				} catch (JsonSyntaxException e) {
-					e.printStackTrace();
-				}
-				
-			}
-			
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-		        pdia.setMessage("Product data loading...");
-		        pdia.show();
-				
-			}
-		}).execute(URL);*/
->>>>>>> origin/master
 		 //set Progress Bar
 		 
 		 
@@ -323,7 +221,6 @@ public class SaleByDate extends Fragment{
 			   public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
 				   	SumPaymentShop  payment = (SumPaymentShop) parent.getItemAtPosition(position);
-				   	
 				   	payTypeID = payment.getPayTypeID();
 				   	payTypeName = payment.getPayTypeName();
 				   	Intent IntentMain = new Intent(getActivity(), SaleByDate_Detail_Paytype.class);
@@ -339,6 +236,19 @@ public class SaleByDate extends Fragment{
 				return false;
 			}
 		});
+		listPromotion.setOnItemClickListener(new OnItemClickListener() {
+			   @Override
+			   public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+				   	SumPromotionShop  promotion = (SumPromotionShop) parent.getItemAtPosition(position);
+				   	
+				   	promotionID = promotion.getPromotionID();
+				   	promotionName = promotion.getPromotionName();
+				   	Intent IntentMain = new Intent(getActivity(), SaleByDate_Detail_PromotionType.class);
+				   	
+	              startActivity(IntentMain);
+			   } 
+			});
 		listPromotion.setOnTouchListener(new ListView.OnTouchListener() {
 			   
 			@Override
@@ -487,6 +397,15 @@ public class SaleByDate extends Fragment{
 	public static String getPayTypeName() {
 		return payTypeName;
 	}
+	
+	
+	public static String getPromotionName() {
+		return promotionName;
+	}
+
+	public static int getPromotionID() {
+		return promotionID;
+	}
 
 	@Override
 	 public void onAttach(Activity activity) {
@@ -534,7 +453,7 @@ public class SaleByDate extends Fragment{
 				}
 			}).execute(URL);
 	    	new GetSumPaymentShop(getActivity(),ShopID , month, year, "123",new GetSumPaymentShop.GetSumPayment() {
-				
+				  
 				@Override
 				public void onSuccess(String result) {
 					// TODO Auto-generated method stub

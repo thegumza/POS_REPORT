@@ -3,6 +3,7 @@ package com.example.pos_report;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class MainDashBoard extends Fragment{
 	  View rootView = inflater.inflate(R.layout.salebydate_main, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-	  Database = new ReportDatabase(getActivity());
+	  //Database = new ReportDatabase(getActivity());
 	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
 	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
@@ -125,13 +126,13 @@ public class MainDashBoard extends Fragment{
 
 		final List<ShopProperty> Shoplist = sp.getShopList();
 		shopSelect.setAdapter(new ShopSpinner(Shoplist));
-
-		/*
-		 * ShopProperty shoplist = new ShopProperty(); ShopID =
-		 * shoplist.getShopID();
-		 */
+		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
+		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
+		int CurrentShopID = saledate.get(0);
+		 
 		shopSelect.getItemAtPosition(0);
 		shopSelect.setSelection(0);
+		
 		// ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>)
 		// shopSelect.getAdapter();
 		// int position = shopadapter.getPosition(shopadapter);
@@ -141,8 +142,7 @@ public class MainDashBoard extends Fragment{
 		
 		 //set Progress Bar
 		 
-		 
-		/*new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
 			
 			@Override
 			public void onSuccess(String result) {
@@ -164,7 +164,7 @@ public class MainDashBoard extends Fragment{
 		        pdia.setMessage("Last shop data loading...");
 		        pdia.show();
 			}
-		}).execute(URL);*/
+		}).execute(URL);
 		
 		/*Database = new ReportDatabase(getActivity());*/
 		

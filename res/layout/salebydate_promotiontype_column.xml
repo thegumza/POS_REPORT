@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tableinfoPaytype"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/saleDateValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.33"
+        android:gravity="left"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/amountPromotionTypeValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.33"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="20dp" />
+    
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/percentPromotionTypeValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.33"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+</LinearLayout>

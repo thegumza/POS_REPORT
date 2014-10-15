@@ -17,8 +17,9 @@ import android.database.Cursor;
 
 
 public class GetSumPromotionShopDao extends ReportDatabase{
-	SaleByDate sp = new SaleByDate();
-	String Saledate = sp.getDate();
+	String Saledate = SaleByDate.getDate();
+	int promotionID = SaleByDate.getPromotionID();
+	
 	public GetSumPromotionShopDao(Context context) {
 		super(context);
 	}
@@ -67,7 +68,7 @@ public class GetSumPromotionShopDao extends ReportDatabase{
 	//Insert Data to List From SQLite Database
 	public List<SumPromotionShop> getSumPromoList(){
 		List<SumPromotionShop> getsumpromolist = new ArrayList <SumPromotionShop>();
-		String GPSql = ";Select "+PromotionTable.TABLE_PROMOTION+"." +PromotionTable.COLUMN_PROMOTION_NAME+" , SUM( "
+		String GPSql = "Select "+SumData_PromotionReportTable.COLUMN_PROMOTION_ID+","+SumData_PromotionReportTable.COLUMN_SALE_DATE+","+PromotionTable.TABLE_PROMOTION+"." +PromotionTable.COLUMN_PROMOTION_NAME+" , SUM( "
 				+SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT+" ) as TotalDiscount FROM "+SumData_PromotionReportTable.TABLE_SUMDATA_PROMOTIONREPORT+" LEFT JOIN "
 				+PromotionTable.TABLE_PROMOTION+ " USING( " + SumData_PromotionReportTable.COLUMN_PROMOTION_ID+ " ) GROUP BY "
 				+PromotionTable.COLUMN_PROMOTION_NAME;
@@ -75,8 +76,10 @@ public class GetSumPromotionShopDao extends ReportDatabase{
 		if (cursor.moveToFirst()){
 			do{
 				SumPromotionShop sps = new SumPromotionShop();
+				sps.setPromotionID(cursor.getInt(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_PROMOTION_ID)));
+				sps.setSaleDate(cursor.getString(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_SALE_DATE)));
 				sps.setPromotionName(cursor.getString(cursor.getColumnIndex(PromotionTable.COLUMN_PROMOTION_NAME)));
-				sps.setDiscount(cursor.getInt(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT)));
+				sps.setDiscount(cursor.getDouble(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT)));
 				getsumpromolist.add(sps);
 			}while(cursor.moveToNext());
 			}
@@ -162,6 +165,35 @@ public class GetSumPromotionShopDao extends ReportDatabase{
 		}
 		return getpromo;
 	}
+public List<SumPromotionShop> getSaleDatePromotionDetail(){
+		
+		String SRSql = 
+				"Select * FROM "+SumData_PromotionReportTable.TABLE_SUMDATA_PROMOTIONREPORT+" WHERE "+SumData_PromotionReportTable.COLUMN_PROMOTION_ID+" ='"+promotionID+"'";
+		List<SumPromotionShop> getpromotion = new ArrayList <SumPromotionShop>();
+		Cursor cursor =  getReadableDatabase().rawQuery(SRSql, null);
+		if (cursor.moveToFirst()){
+			do{
+				SumPromotionShop ps = new SumPromotionShop();
+				ps.setSaleDate(cursor.getString(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_SALE_DATE)));
+				ps.setDiscount(cursor.getDouble(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT)));
+				getpromotion.add(ps);
+			}while(cursor.moveToNext());
+		}
+		return getpromotion;
+	}
+public SumPromotionShop getSumPromotionType(){
+	String SPSql = "SELECT sum( "+SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT+" ) as TotalDiscount from "
++SumData_PromotionReportTable.TABLE_SUMDATA_PROMOTIONREPORT+" WHERE "+SumData_PromotionReportTable.COLUMN_PROMOTION_ID+" ='"+promotionID+"'";
+	Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+	SumPromotionShop spr = new SumPromotionShop();
+	if (cursor.moveToFirst()){
+		
+		spr.setDiscount(cursor.getDouble(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT)));
+		
+	}
+	return spr;
+	
+}
 	
 }
 

@@ -62,7 +62,7 @@ public class GetSumPaymentShopDao extends ReportDatabase{
 	
 	public List<SumPaymentShop> getPaymentlist(){
 		String SPSql = 
-				"Select " + PayTypeTable.TABLE_PAYTYPE + "."+PayTypeTable.COLUMN_PAYTYPE_NAME+ " ,sum( "
+				"Select " + PayTypeTable.TABLE_PAYTYPE + "."+PayTypeTable.COLUMN_PAYTYPE_ID+ "," + PayTypeTable.TABLE_PAYTYPE + "."+PayTypeTable.COLUMN_PAYTYPE_NAME+ " ,sum( "
 				+SumData_PaymentReportTable.TABLE_SUMDATA_PAYMENT_REPORT+ " . "
 						+SumData_PaymentReportTable.COLUMN_TOTAL_PAY + " ) as TotalPay From "
 				+ SumData_PaymentReportTable.TABLE_SUMDATA_PAYMENT_REPORT +" JOIN " +PayTypeTable.TABLE_PAYTYPE
@@ -73,6 +73,7 @@ public class GetSumPaymentShopDao extends ReportDatabase{
 		if (cursor.moveToFirst()){
 			do{
 				SumPaymentShop ps = new SumPaymentShop();
+				ps.setPayTypeID(cursor.getInt(cursor.getColumnIndex(PayTypeTable.COLUMN_PAYTYPE_ID)));
 				ps.setPayTypeName(cursor.getString(cursor.getColumnIndex(PayTypeTable.COLUMN_PAYTYPE_NAME)));
 				ps.setTotalPay(cursor.getDouble(cursor.getColumnIndex(SumData_PaymentReportTable.COLUMN_TOTAL_PAY)));
 				getpayment.add(ps);
@@ -155,4 +156,13 @@ public List<SumPaymentShop> getSaleDatePaymentDetail(){
 		}
 		return getpayment;
 	}
+public SumPaymentShop getSumPaytype(){
+	String SPSql = "SELECT sum( "+SumData_PaymentReportTable.COLUMN_TOTAL_PAY+" ) as TotalPay from "+SumData_PaymentReportTable.TABLE_SUMDATA_PAYMENT_REPORT+" WHERE "+SumData_PaymentReportTable.COLUMN_PAYTYPE_ID+" ='"+payTypeID+"'";
+	Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+	SumPaymentShop ps = new SumPaymentShop();
+	if (cursor.moveToFirst()){
+			ps.setTotalPay(cursor.getDouble(cursor.getColumnIndex(SumData_PaymentReportTable.COLUMN_TOTAL_PAY)));
+	}
+	return ps;
+}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -29,8 +30,8 @@ public class SaleByDate_Detail_Paytype extends Activity{
 	
 	String shopName = SaleByDate.getShopName();
 	String payTypeName = SaleByDate.getPayTypeName();
-	ListView listPayment;
-	FlatTextView  payTypeValue,ShopNameValue,text_sum_payment_amount,text_sum_payment_percent;
+	ListView listPaytype;
+	FlatTextView  payTypeValue,ShopNameValue,text_sum_paytype_amount,text_sum_paytype_percent;
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,16 +39,28 @@ public class SaleByDate_Detail_Paytype extends Activity{
         
         ShopNameValue = (FlatTextView) findViewById(R.id.shopNameValue);
         payTypeValue = (FlatTextView) findViewById(R.id.payTypeValue);
+        listPaytype = (ListView)findViewById(R.id.listPaytype);
+        text_sum_paytype_amount = (FlatTextView) findViewById(R.id.text_sum_paytype_amount);
+        text_sum_paytype_percent = (FlatTextView) findViewById(R.id.text_sum_paytype_percent);
         
-        ShopNameValue.setText(shopName);
+        listPaytype.setOnTouchListener(new ListView.OnTouchListener() {
+			   
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				   v.getParent().requestDisallowInterceptTouchEvent(true);
+				return false;
+			}
+		});
+        
+        ShopNameValue.setText(""+shopName);
         payTypeValue.setText("PayType ("+payTypeName+")");
         
-        //GetSumPaymentShopDao gp = new GetSumPaymentShopDao(this);
-        //List<SumPaymentShop> Paymentlist = gp.getSaleDatePaymentDetail();
-		//listPayment.setAdapter(new PaytypelistDetailAdapter(Paymentlist));
+        GetSumPaymentShopDao gp = new GetSumPaymentShopDao(this);
+        List<SumPaymentShop> Paymentlist = gp.getSaleDatePaymentDetail();
+        listPaytype.setAdapter(new PaytypelistDetailAdapter(Paymentlist));
         
         }
-public class PaytypelistDetailAdapter extends BaseAdapter{
+		public class PaytypelistDetailAdapter extends BaseAdapter{
 		
 		List<SumPaymentShop> Paymentlist;
 		
@@ -91,17 +104,18 @@ public class PaytypelistDetailAdapter extends BaseAdapter{
 				}else{
 					holder=(ViewHolder)convertView.getTag();
 				}
-				final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getApplicationContext());
-				final List<SumPaymentShop> gsp = gp.getSaleDatePaymentDetail();
+				final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(SaleByDate_Detail_Paytype.this);
+				SumPaymentShop gsp = gp.getSumPaytype();
 				
 				SumPaymentShop sp = Paymentlist.get(position);
 				holder.saleDatePaytypeValue.setText(sp.getSaleDate());
 				holder.amountPaytypeValue.setText(formatter.format(sp.getTotalPay()));
-				/*double totalpay = gsp.getTotalPay();
+				
+				double totalpay = gsp.getTotalPay();
 				double percent = (sp.getTotalPay()* 100) / totalpay;
-				holder.percentPaymentValue.setText(formatter.format(percent));
-				text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));*/
-				//text_sum_payment_percent.setText("100%");
+				holder.percentPaytypeValue.setText(formatter.format(percent));
+				text_sum_paytype_amount.setText(formatter.format(gsp.getTotalPay()));
+				text_sum_paytype_percent.setText("100%");
 				
 			return convertView;
 				}}

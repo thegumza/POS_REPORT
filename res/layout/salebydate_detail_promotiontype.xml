@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <LinearLayout
+        android:id="@+id/boxReportShow_promotion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center" >
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@color/fbutton_color_turquoise" >
+        
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/shopNameValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="25dp"
+        flatui:fl_fontWeight="bold"
+        android:textColor="#ffffff" />
+    
+</LinearLayout>
+	        <LinearLayout
+            android:id="@+id/headTablepromotion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_turquoise"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" >
+            
+            
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/promotionTypeValue"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:paddingBottom="3dp"
+	            android:paddingTop="2dp"
+	            android:textColor="#ffffff"
+	            android:textSize="25dp"
+	            android:textStyle="bold"
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_turquoise"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_head_promotion"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.4"
+	            android:text="Sale Date"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_head_promotion_amount"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text="Amount"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_head_promotion_percent"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text="%"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
+        
+        </LinearLayout>
+        
+        <ListView
+            android:id="@+id/listPromotionType"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+        </ListView>
+        
+        
+        <LinearLayout
+            android:id="@+id/summaryTablepromotion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:background="@color/fbutton_color_turquoise" >
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_sum_promotiontype"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.4"
+	            android:text="Summary"
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_sum_promotiontype_amount"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text=""
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_sum_promotiontype_percent"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0.3"
+	            android:text=""
+	            android:textColor="#ffffff"
+	            android:gravity="center"
+	            android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
+        
+        </LinearLayout>
+        
+    </LinearLayout>
+
+</ScrollView>

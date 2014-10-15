@@ -102,7 +102,7 @@
         </LinearLayout>
         
         <ListView
-            android:id="@+id/listPayment"
+            android:id="@+id/listPaytype"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:paddingLeft="5dp"
@@ -119,7 +119,7 @@
             android:background="@color/fbutton_color_amethyst" >
 	        
 	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_sum_payment"
+	            android:id="@+id/text_sum_paytype"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.4"
@@ -131,7 +131,7 @@
 	            flatui:fl_fontWeight="regular" />
 	        
 	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_sum_payment_amount"
+	            android:id="@+id/text_sum_paytype_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
@@ -143,7 +143,7 @@
 	            flatui:fl_fontWeight="regular" />
 	        
 	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_sum_payment_percent"
+	            android:id="@+id/text_sum_paytype_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
