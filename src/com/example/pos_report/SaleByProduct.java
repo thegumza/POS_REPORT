@@ -170,30 +170,8 @@ public class SaleByProduct extends Fragment {
 		yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		topProduct_modeSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, modeselect));
 		
-		onDataChange();
+		//onDataChange();
 
-		/*new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
-			
-			@Override
-			public void onSuccess(String result) {
-				lastsaledate = result;
-				int currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
-				String currentyear = lastsaledate.substring(0,4);
-				monthSelect.setSelection(currentmonth-1);
-				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
-				int position = yearadapter.getPosition(currentyear);
-				yearSelect.setSelection(position);
-				pdia.dismiss();
-				
-			}
-
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-		        pdia.setMessage("Last sale date shop data loading...");
-		        pdia.show();
-			}
-		}).execute(URL);*/
 		shopSelect.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override

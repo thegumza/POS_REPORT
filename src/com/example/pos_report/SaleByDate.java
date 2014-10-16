@@ -9,6 +9,8 @@ import java.util.List;
 
 
 
+
+
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.AllProductData;
@@ -21,11 +23,13 @@ import com.example.pos_peport.database.model.ShopProperty;
 import com.example.pos_peport.database.model.SumPaymentShop;
 import com.example.pos_peport.database.model.SumPromotionShop;
 import com.example.pos_peport.database.model.SumTransactionShop;
+import com.example.pos_peport.database.model.TopProductShop;
 import com.example.pos_report.GetSumPromotionShop.GetSumPromotion;
 import com.example.pos_report.GetSumTransactionShop.GetSumTransacTion;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GetSumPromotionShopDao;
 import com.example.pos_report.database.GetSumTransactionShopDao;
+import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.PayTypeDao;
 import com.example.pos_report.database.ProductDeptDao;
@@ -74,6 +78,7 @@ public class SaleByDate extends Fragment{
 	private FlatButton showReport;
 	private FlatButton showChart_sale,showChart_payment,showChart_promotion;
 	private int ShopID ,month,year;
+	private static int currentShopID;
 	private static String Date,payTypeName,promotionName;
 	private static int TotalBill,TotalCust;
 	private static double TotalVat,TotalRetail,TotalDis,TotalSale;
@@ -86,7 +91,7 @@ public class SaleByDate extends Fragment{
 	private ProgressDialog  pdia;
 	private String lastsaledate;
 	private static String shopName;
-	
+	private String ProductGroupCode="";
 	
 	 public static SaleByDate newInstance(int sectionNumber) {
 		 SaleByDate fragment = new SaleByDate();
@@ -204,6 +209,7 @@ public class SaleByDate extends Fragment{
 				   SumTransactionShop  Saledate = (SumTransactionShop) parent.getItemAtPosition(position);
 				   	
 				   	Date = Saledate.getSaleDate();
+				   	currentShopID = Saledate.getShopID();
 				   	TotalBill = Saledate.getTotalBill();
 				   	TotalCust = Saledate.getTotalCust();
 				   	TotalVat = Saledate.getTransVAT();
@@ -407,6 +413,10 @@ public class SaleByDate extends Fragment{
 		return promotionID;
 	}
 
+	public static int getCurrentShopID() {
+		return currentShopID;
+	}
+
 	@Override
 	 public void onAttach(Activity activity) {
 	  super.onAttach(activity);
@@ -520,6 +530,36 @@ public class SaleByDate extends Fragment{
 			        pdia.show();
 				}
 			}).execute(URL);
+	    	/*new GetTopProductShop(getActivity(), ShopID , month, year, ProductGroupCode,0, 10, "123",new GetTopProductShop.GetTopProduct() {
+        		
+        		@Override
+        		public void onSuccess(String result) {
+        			// TODO Auto-generated method stub
+        			Gson gson = new Gson();
+        			try {
+        				Type collectionType = new TypeToken<Collection<TopProductShop>>(){}.getType();
+        				@SuppressWarnings("unchecked")
+        				List<TopProductShop> st = (List<TopProductShop>) gson.fromJson(result, collectionType);
+        				
+        				// insert GetTopProductShopDao data into database
+        				GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
+        				gt.insertTopProductShopData(st);
+        					
+        				
+        				pdia.dismiss();
+        			} catch (JsonSyntaxException e) {
+        				e.printStackTrace();
+        			}
+        			
+        		}
+        		
+        		@Override
+        		public void onLoad() {
+        			// TODO Auto-generated method stub
+        			pdia.setMessage("Top product data loading...");
+        	        pdia.show();
+        		}
+        	}).execute(URL);*/
 	    	
 			
 		}

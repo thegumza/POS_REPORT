@@ -1,13 +1,20 @@
 package com.example.pos_report;
 
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.appcompat.R.color;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,6 +30,7 @@ import com.example.pos_peport.database.model.SumPaymentShop;
 import com.example.pos_peport.database.model.TopProductShop;
 import com.example.pos_report.SaleByDate.PaymentlistAdapter;
 import com.example.pos_report.SaleByProduct.TopQtyProductListAdapter;
+import com.example.pos_report.SaleByProduct.TopSaleProductListAdapter;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
@@ -34,19 +42,27 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.Legend.LegendForm;
 import com.github.mikephil.charting.utils.Legend.LegendPosition;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 public class SaleByDate_Detail_TopProduct extends Fragment {
+	
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private PieChart mChart;
-	
-	
+	public static String URL;
+	private ViewPager mViewPager;
+	private String shopName;
+	private String saledate;
+	private ProgressDialog pdia;
+	private String ProductGroupCode="";
+	private int ShopID,currentmonth,currentyear;
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 	GlobalProperty format = gpd.getGlobalProperty();
 	String formatnumber = format.getCurrencyFormat();
 	String formatqty = format.getQtyFormat();
 	NumberFormat formatter = new DecimalFormat(formatnumber);
 	NumberFormat qtyformatter = new DecimalFormat(formatqty);
-	
 	
 	public static SaleByDate_Detail_TopProduct newInstance(int sectionNumber) {
 		SaleByDate_Detail_TopProduct fragment = new SaleByDate_Detail_TopProduct();
@@ -56,7 +72,7 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
 			
 			return fragment;
 	 }
-	private ListView list_TopProduct;
+	//private ListView list_TopProduct;
 	FlatTextView ShopNameValue;
 	
 	
@@ -66,12 +82,72 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
                              Bundle savedInstanceState) {
 		
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.salebydate_detail_top_product, container, false);
-                rootView.findViewById(R.id.topproduct_detail_layout);
-                String shopName = SaleByDate.getShopName();
-            	String saledate = SaleByDate.getDate();
+                R.layout.salebydate_detail_top_detail, container, false);
+                rootView.findViewById(R.id.pager);
+               pdia = new ProgressDialog(getActivity());
+         	   pdia.setCancelable(true);
+         	   pdia.setIndeterminate(true);
+         	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+         	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
+         	  	String path_visual = sharedPreferences.getString("path_visual", "mpos6");
+       	   		URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
                 
-                
+                shopName = SaleByDate.getShopName();
+            	saledate = SaleByDate.getDate();
+            	ShopID = SaleByDate.getCurrentShopID();
+            	ShopNameValue = (FlatTextView)rootView.findViewById(R.id.shopNameValue);
+            	ShopNameValue.setText(shopName+" ("+saledate+")");
+            	mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
+                PagerAdapter adapter = new TopProductPagerAdapter(getChildFragmentManager());
+                mViewPager.setAdapter(adapter);
+                mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+                currentyear = Integer.parseInt(saledate.substring(0, 4));
+                currentmonth = Integer.parseInt(saledate.substring(5, 7));
+                new GetTopProductShop(getActivity(), ShopID , currentmonth, currentyear, ProductGroupCode,0, 10, "123",new GetTopProductShop.GetTopProduct() {
+            		
+            		@Override
+            		public void onSuccess(String result) {
+            			// TODO Auto-generated method stub
+            			Gson gson = new Gson();
+            			try {
+            				Type collectionType = new TypeToken<Collection<TopProductShop>>(){}.getType();
+            				@SuppressWarnings("unchecked")
+            				List<TopProductShop> st = (List<TopProductShop>) gson.fromJson(result, collectionType);
+            				
+            				// insert GetTopProductShopDao data into database
+            				GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
+            				gt.insertTopProductShopData(st);
+            					
+            				
+            				pdia.dismiss();
+            			} catch (JsonSyntaxException e) {
+            				e.printStackTrace();
+            			}
+            			
+            		}
+            		
+            		@Override
+            		public void onLoad() {
+            			// TODO Auto-generated method stub
+            			pdia.setMessage("Top product data loading...");
+            	        pdia.show();
+            		}
+            	}).execute(URL);
+                /*
                 ShopNameValue = (FlatTextView) rootView.findViewById(R.id.shopNameValue);
         		list_TopProduct = (ListView)rootView.findViewById(R.id.list_TopProduct);
         		ShopNameValue.setText(shopName+" (" + saledate + ")");
@@ -87,7 +163,7 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
         		GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
         		//Set ListViewAdapter Payment
         		List<TopProductShop> Topqtyproduct = gt.getTopQtyProduct();
-				list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
+				list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));*/
         		
         		
 
@@ -155,7 +231,7 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
 
                         // display percentage values
                         mChart.setUsePercentValues(true);
-                        // mChart.setUnit(" €");
+                        // mChart.setUnit(" โ�ฌ");
                         // mChart.setDrawUnitsInChart(true);
 
                         // add a selection listener
@@ -175,7 +251,7 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
                     l.setYEntrySpace(5f);}*/
         return rootView;
     }
-	//ListViewAdapter
+	/*//ListViewAdapter
 	public class TopQtyProductListAdapter extends BaseAdapter{
 		
 		List<TopProductShop> topqtyproduct;
@@ -240,5 +316,5 @@ public class SaleByDate_Detail_TopProduct extends Fragment {
 			
 			return convertView;
 				}
-	}	
+	}	*/
 }

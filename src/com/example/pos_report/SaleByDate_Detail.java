@@ -51,7 +51,7 @@ public class SaleByDate_Detail extends Fragment {
 	
 	FlatTextView ShopNameValue,SaledateValue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
 	ListView listPaymentDetail;
-	TextView text_sum_payment_amount,text_sum_payment_percent;
+	FlatTextView text_sum_payment_amount,text_sum_payment_percent;
 	
 	
 	@Override
@@ -65,57 +65,40 @@ public class SaleByDate_Detail extends Fragment {
 		double totaldis = SaleByDate.getTotalDis();
 		double totalsale = SaleByDate.getTotalSale();
 
+		
+		
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.salebydate_detail_saledate_fragment, container, false);
                 rootView.findViewById(R.id.saledate_linear_layout);
-             // Uncorrect Display Sale Date Detail
-        		text_sum_payment_amount = (TextView) rootView
-        				.findViewById(R.id.text_sum_payment_amount);
-        		text_sum_payment_percent = (TextView) rootView
-        				.findViewById(R.id.text_sum_payment_percent);
-        		listPaymentDetail = (ListView) rootView.findViewById(R.id.listPaymentDetail);
+                
+                
+                ShopNameValue = (FlatTextView) rootView.findViewById(R.id.shopNameValue);
+        		totalbillvalue = (FlatTextView) rootView.findViewById(R.id.TotalBillValue);
+        		totalcustvalue = (FlatTextView) rootView.findViewById(R.id.ToTalCustValue);
+        		totalvatvalue = (FlatTextView) rootView.findViewById(R.id.TotalVatValue);
+        		totalretailvalue = (FlatTextView) rootView.findViewById(R.id.TotalRetailValue);
+        		totaldisvalue = (FlatTextView) rootView.findViewById(R.id.TotalDisValue);
+        		totalsalevalue = (FlatTextView) rootView.findViewById(R.id.TotalSaleValue);
+        		
+        		ShopNameValue.setText(shopName+" ("+ saledate +")");
+        		totalbillvalue.setText("" + totalbill);
+        		totalcustvalue.setText("" + totalcust);
+        		totalvatvalue.setText("" + formatter.format((totalvat)));
+        		totalretailvalue.setText("" + formatter.format((totalretail)));
+        		totaldisvalue.setText("" + formatter.format((totaldis)));
+        		totalsalevalue.setText("" + formatter.format((totalsale)));
+        		text_sum_payment_amount = (FlatTextView) rootView.findViewById(R.id.text_sum_payment_amount);
+        		text_sum_payment_percent = (FlatTextView) rootView.findViewById(R.id.text_sum_payment_percent);
+        		
+        		
+        		listPaymentDetail = (ListView) rootView.findViewById(R.id.listPayment);
 
         		final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
         		// Set ListViewAdapter Payment
         		List<SumPaymentShop> Paymentlist = gp.getPaymentDetail();
         		listPaymentDetail.setAdapter(new PaymentlistDetailAdapter(Paymentlist));
         		
-                ShopNameValue = (FlatTextView) rootView.findViewById(R.id.shopNameValue);
-		totalbillvalue = (FlatTextView) rootView
-				.findViewById(R.id.TotalBillValue);
-		totalcustvalue = (FlatTextView) rootView
-				.findViewById(R.id.ToTalCustValue);
-		totalvatvalue = (FlatTextView) rootView
-				.findViewById(R.id.TotalVatValue);
-		totalretailvalue = (FlatTextView) rootView
-				.findViewById(R.id.TotalRetailValue);
-		totaldisvalue = (FlatTextView) rootView
-				.findViewById(R.id.TotalDisValue);
-		totalsalevalue = (FlatTextView) rootView
-				.findViewById(R.id.TotalSaleValue);
-		
-		ShopNameValue.setText(shopName+" (" + saledate + ")");
-		totalbillvalue.setText("" + totalbill);
-		totalcustvalue.setText("" + totalcust);
-		totalvatvalue.setText("" + formatter.format((totalvat)));
-		totalretailvalue.setText("" + formatter.format((totalretail)));
-		totaldisvalue.setText("" + formatter.format((totaldis)));
-		totalsalevalue.setText("" + formatter.format((totalsale)));
         		
-        		 
-        	                
-		
-        	        		
-        	        		
-
-        	                /*Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-        	                mChart.setValueTypeface(tf);
-        	                mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-        	        */		
-        	                
-
-        	        		
         	        		final List<SumPaymentShop> spl = gp.getPaymentGraph();
         	        		
         	        		ArrayList<String> paytype = new ArrayList<String>() ;
@@ -172,7 +155,7 @@ public class SaleByDate_Detail extends Fragment {
 
         	                        // display percentage values
         	                        mChart.setUsePercentValues(true);
-        	                        // mChart.setUnit(" €");
+        	                        // mChart.setUnit(" โ�ฌ");
         	                        // mChart.setDrawUnitsInChart(true);
 
         	                        // add a selection listener

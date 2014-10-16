@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flatui="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+<LinearLayout 
+              android:id="@+id/topproduct_detail_layout"
+              android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="left"
+    android:background="#ffffff">
+<LinearLayout
+        android:id="@+id/boxReportShow_TopProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@color/fbutton_color_peter_river" >
+        
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/shopNameValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20dp"
+        flatui:fl_fontWeight="bold"
+        android:textColor="#ffffff" />
+    
+</LinearLayout>
+ 
+<LinearLayout
+        android:id="@+id/boxReportShow_topproduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center" >
+        
+	        <LinearLayout
+            android:id="@+id/headTablepromo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_peter_river"
+            android:orientation="horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp" >
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_tablePromotionName"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:paddingBottom="3dp"
+	            android:paddingTop="2dp"
+	            android:text="Top Menu"
+	            android:textColor="#ffffff"
+	            android:textSize="20dp"
+	            android:background="@color/fbutton_color_peter_river"
+	            android:textStyle="bold"
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="bold" />
+	        
+        </LinearLayout>
+        
+</LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:orientation="vertical" >
+
+<android.support.v4.view.ViewPager
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+</android.support.v4.view.ViewPager>
+</LinearLayout>
+</LinearLayout>
+</ScrollView>

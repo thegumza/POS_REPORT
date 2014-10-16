@@ -13,8 +13,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 public class GetTopProductShopDao extends ReportDatabase{
-	SaleByDate sp = new SaleByDate();
-	String Saledate = sp.getDate();
+	String Saledate = SaleByDate.getDate();
 	public GetTopProductShopDao(Context context) {
 		super(context);
 	}
@@ -100,4 +99,38 @@ public class GetTopProductShopDao extends ReportDatabase{
 		}
 		return gettopproducttshop;
 	}
-	}
+	public List<TopProductShop> getTopQtyProductDetail(){
+		List<TopProductShop> gettopproducttshop = new ArrayList <TopProductShop>();
+		String TPSql = "Select * From "+ SumData_TopProductReportTable.TABLE_SUMDATA_TOP_PRODUCT_REPORT+" ORDER BY "+SumData_TopProductReportTable.COLUMN_SUM_AMOUNT+" DESC";
+		Cursor cursor =  getReadableDatabase().rawQuery(TPSql, null);
+		if (cursor.moveToFirst()){
+			do{
+				TopProductShop ts = new TopProductShop();
+				ts.setProductGroupName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_PRODUCT_GROUP_NAME)));
+				ts.setProductDeptName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_RODUCT_DEPT_NAME)));
+				ts.setProductName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_PRODUCT_NAME)));
+				ts.setSumAmount(cursor.getInt(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_SUM_AMOUNT)));
+				ts.setSumSalePrice(cursor.getInt(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_SUM_SALE_PRICE)));
+				gettopproducttshop.add(ts);
+			}while(cursor.moveToNext());
+		}
+		return gettopproducttshop;
+	}	
+	public List<TopProductShop> getTopSaleProductDetail(){
+		List<TopProductShop> gettopproducttshop = new ArrayList <TopProductShop>();
+		String TPSql = "Select * From "+ SumData_TopProductReportTable.TABLE_SUMDATA_TOP_PRODUCT_REPORT+" ORDER BY "+SumData_TopProductReportTable.COLUMN_SUM_SALE_PRICE+" DESC";
+		Cursor cursor =  getReadableDatabase().rawQuery(TPSql, null);
+		if (cursor.moveToFirst()){
+			do{
+				TopProductShop ts = new TopProductShop();
+				ts.setProductGroupName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_PRODUCT_GROUP_NAME)));
+				ts.setProductDeptName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_RODUCT_DEPT_NAME)));
+				ts.setProductName(cursor.getString(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_PRODUCT_NAME)));
+				ts.setSumAmount(cursor.getInt(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_SUM_AMOUNT)));
+				ts.setSumSalePrice(cursor.getInt(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_SUM_SALE_PRICE)));
+				gettopproducttshop.add(ts);
+			}while(cursor.moveToNext());
+		}
+		return gettopproducttshop;
+	}	
+}

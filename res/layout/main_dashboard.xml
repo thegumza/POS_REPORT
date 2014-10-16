@@ -265,8 +265,7 @@
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
             
-	        <Button
-	        android:id="@+id/showChart_payment"
+	        <com.example.flatuilibrary.FlatTextView
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:minHeight="30dp"
@@ -380,7 +379,22 @@
         </LinearLayout>
         
     </LinearLayout>
-
+<com.example.flatuilibrary.FlatButton
+	        android:id="@+id/showChart_payment"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@+id/selectZone"
+	        android:layout_below="@+id/selectZone"
+	        android:minHeight="30dp"
+	        android:textSize="16dp"
+	        android:textStyle="bold"
+	        android:text="Payment Chart"
+	        android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            flatui:fl_theme="@array/grape"
+            flatui:fl_textAppearance="light"
+            flatui:fl_blockButtonEffectHeight="3dp"
+            flatui:fl_fontWeight="regular" />
 <LinearLayout
         android:id="@+id/boxReportShow_promotion"
         android:layout_width="match_parent"
@@ -398,8 +412,7 @@
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
 	        
-	        <Button
-	        android:id="@+id/showChart_promotion"
+	        <com.example.flatuilibrary.FlatTextView
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:minHeight="30dp"
@@ -513,7 +526,22 @@
         </LinearLayout>
         
     </LinearLayout>
-    	
+    	<com.example.flatuilibrary.FlatButton
+	        android:id="@+id/showChart_promotion"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@+id/selectZone"
+	        android:layout_below="@+id/selectZone"
+	        android:minHeight="30dp"
+	        android:textSize="16dp"
+	        android:textStyle="bold"
+	        android:text="Promotion Chart"
+	        android:layout_marginTop="10dp"
+            android:textColor="@android:color/white"
+            flatui:fl_theme="@array/grass"
+            flatui:fl_textAppearance="light"
+            flatui:fl_blockButtonEffectHeight="3dp"
+            flatui:fl_fontWeight="regular" />
 
     	
 </LinearLayout>

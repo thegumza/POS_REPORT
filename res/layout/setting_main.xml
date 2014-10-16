@@ -145,7 +145,7 @@
        	android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Reset and Restart" 
+        android:text="Save" 
         android:layout_margin="15dp"
         android:textColor="@android:color/white"
         flatui:fl_theme="@array/dark"

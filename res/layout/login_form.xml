@@ -103,18 +103,43 @@
             flatui:fl_blockButtonEffectHeight="3dp"
             flatui:fl_theme="@array/orange"
             flatui:fl_fontWeight="regular" />
-        
-        <com.example.flatuilibrary.FlatButton
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="150dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                
+                <com.example.flatuilibrary.FlatButton
             android:id="@+id/btnUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Database"
             android:textColor="#ffffff"
-            android:layout_gravity="left"
+            android:layout_gravity="left|bottom"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="100dp"
             flatui:fl_blockButtonEffectHeight="3dp"
             flatui:fl_theme="@array/orange"
             flatui:fl_fontWeight="regular" />
+
+                <com.example.flatuilibrary.FlatButton
+                    android:id="@+id/btnSetting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginLeft="130dp"
+                    android:text="Setting"
+                    android:textColor="#ffffff"
+                    flatui:fl_blockButtonEffectHeight="3dp"
+                    flatui:fl_fontWeight="regular"
+                    flatui:fl_theme="@array/orange" />
+                
+            </LinearLayout>
+
+        </LinearLayout>
 
 </LinearLayout>

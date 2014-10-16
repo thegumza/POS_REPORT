@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/com/example/pos_report/SaleByDate_Detail.java=UTF-8
+encoding//src/com/example/pos_report/SaleByDate_Detail_TopProduct.java=UTF-8
+encoding//src/com/example/pos_report/SaleByDate_Detail_TopQty.java=UTF-8
+encoding//src/com/example/pos_report/SaleByDate_Detail_TopSale.java=UTF-8
 encoding//src/com/example/pos_report/graph/SalebyDate_Payment_PieGraph.java=UTF-8

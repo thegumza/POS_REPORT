@@ -7,7 +7,7 @@
 <LinearLayout 
               android:id="@+id/topproduct_detail_layout"
               android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="left"
     android:background="#ffffff">
@@ -57,7 +57,7 @@
 	            android:gravity="center"
 	            android:paddingBottom="3dp"
 	            android:paddingTop="2dp"
-	            android:text="Promotion"
+	            android:text="Top Menu"
 	            android:textColor="#ffffff"
 	            android:textSize="20dp"
 	            android:background="@color/fbutton_color_peter_river"
@@ -133,7 +133,7 @@
         </ListView>
         <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content" >
  <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chart1"
         android:layout_marginTop="20dp"

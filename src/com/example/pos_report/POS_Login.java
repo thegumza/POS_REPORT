@@ -28,7 +28,7 @@ import android.widget.Toast;
 
 public class POS_Login extends Activity{
 	private ProgressDialog  pdia;
-	FlatButton btnLogin,btnUpdate;
+	FlatButton btnLogin,btnUpdate,btnSetting;
 	public static String URL;
 	private ReportDatabase Database;
 	@Override
@@ -43,12 +43,10 @@ public class POS_Login extends Activity{
   	   pdia = new ProgressDialog(POS_Login.this);
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
+	   
         btnLogin = (FlatButton)findViewById(R.id.btnLogin);
         btnUpdate = (FlatButton)findViewById(R.id.btnUpdate);
-        
-        
-        btnLogin = (FlatButton)findViewById(R.id.btnLogin);
-        btnUpdate = (FlatButton)findViewById(R.id.btnUpdate);
+        btnSetting = (FlatButton)findViewById(R.id.btnSetting);
         
         btnLogin.setOnClickListener(new View.OnClickListener() {
 		    @Override
@@ -165,6 +163,15 @@ public class POS_Login extends Activity{
 						
 					}
 				}).execute(URL);
+				
+				btnSetting.setOnClickListener(new View.OnClickListener() {
+				    @Override
+					public void onClick(View v) {
+				    	
+				    	Intent intentMain = new Intent(POS_Login.this,Setting.class);
+				    	POS_Login.this.startActivity(intentMain);
+				    }
+				});
 		    }
 		});
         

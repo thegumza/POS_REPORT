@@ -3,11 +3,11 @@
     xmlns:flatui="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView1"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="match_parent" >
 <LinearLayout 
     android:id="@+id/saledate_linear_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="left"
     android:background="#ffffff"
@@ -53,7 +53,6 @@
             android:layout_height="wrap_content"
             android:background="@color/candy_primary"
             android:orientation="horizontal"
-            android:weightSum="1"
             android:layout_marginBottom="2dp" >
 	        
 	        <com.example.flatuilibrary.FlatTextView
@@ -223,7 +222,27 @@
         </LinearLayout>
     </LinearLayout>
 
- <LinearLayout
+        
+
+
+ 
+    </LinearLayout>
+    
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+ <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"/>
+</RelativeLayout>
+<LinearLayout 
+              
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+        <LinearLayout
         android:id="@+id/boxReportShow_payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -237,7 +256,6 @@
             android:layout_height="wrap_content"
             android:background="@color/fbutton_color_amethyst"
             android:orientation="horizontal"
-            android:weightSum="1"
             android:layout_marginBottom="2dp" >
 	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_tablePaymentName"
@@ -258,8 +276,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/fbutton_color_amethyst"
-            android:orientation="horizontal"
-            android:weightSum="1" >
+            android:orientation="horizontal" >
 	        
 	        <com.example.flatuilibrary.FlatTextView
 	            android:id="@+id/text_head_payment"
@@ -300,7 +317,7 @@
         </LinearLayout>
         
         <ListView
-            android:id="@+id/listPaymentDetail"
+            android:id="@+id/listPayment"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:paddingLeft="5dp"
@@ -355,21 +372,7 @@
         </LinearLayout>
         
     </LinearLayout>
-        
-        
-        <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
- <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart1"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"/>
-</RelativeLayout>
     </LinearLayout>
-
- 
-    
 </LinearLayout>
 
 

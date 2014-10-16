@@ -179,7 +179,7 @@ public class MainDashBoard extends Fragment{
 				return false;
 			}
 		});
-		showChart_payment = (Button)rootView.findViewById(R.id.showChart_payment);
+		showChart_payment = (FlatButton)rootView.findViewById(R.id.showChart_payment);
 		
 		showChart_payment.setOnClickListener(new View.OnClickListener() {
 		    @Override
@@ -192,7 +192,7 @@ public class MainDashBoard extends Fragment{
 		    	
 		    }
 		});
-		showChart_promotion = (Button)rootView.findViewById(R.id.showChart_promotion);
+		showChart_promotion = (FlatButton)rootView.findViewById(R.id.showChart_promotion);
 		
 		showChart_promotion.setOnClickListener(new View.OnClickListener() {
 		    @Override
