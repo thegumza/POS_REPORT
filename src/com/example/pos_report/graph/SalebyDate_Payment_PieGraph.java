@@ -11,8 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.SumPaymentShop;
 import com.example.pos_report.R;
+import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -26,7 +28,10 @@ import com.github.mikephil.charting.utils.Legend.LegendPosition;
 
 public class SalebyDate_Payment_PieGraph extends Activity{
 	private PieChart mChart;
-
+	String shopName = SaleByDate.getShopName();
+	int month = SaleByDate.getMonth();
+	int year = SaleByDate.getYear();
+	FlatTextView ShopNameValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +40,15 @@ public class SalebyDate_Payment_PieGraph extends Activity{
         setContentView(R.layout.salebydate_payment_piegraph);
         
 
-
+        ShopNameValue = (FlatTextView) findViewById(R.id.shopNameValue);
+        
+        ShopNameValue.setText(shopName+" ("+ year +" - "+ month +")");
         mChart = (PieChart) findViewById(R.id.chart1);
 
-        /*Typeface tf = Typeface.createFromAsset(getAssets(), "roboto_regular.ttf");
+        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 		
         mChart.setValueTypeface(tf);
-        mChart.setCenterTextTypeface(tf);*/
+        mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
         
         mChart.setHoleRadius(50f);
         mChart.setDescription("");
@@ -98,9 +105,7 @@ public class SalebyDate_Payment_PieGraph extends Activity{
             for (int i = 0; i < paytype.size(); i++)
                 xVals.add(paytypeArr[i]);
             PieDataSet set1 = new PieDataSet(yVals1, "");
-            set1.setSliceSpace(3f);
-            set1.setColors(ColorTemplate.createColors(getApplicationContext(),
-                    ColorTemplate.PASTEL_COLORS));
+            set1.setColors(ColorTemplate.PASTEL_COLORS);
 
             PieData data = new PieData(xVals, set1);
             mChart.setData(data);
@@ -113,10 +118,10 @@ public class SalebyDate_Payment_PieGraph extends Activity{
             Legend l = mChart.getLegend();
             l.setPosition(LegendPosition.RIGHT_OF_CHART);
             l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(9f);
+            l.setTextSize(14f);
             l.setXEntrySpace(7f);
             l.setYEntrySpace(5f);
-            
+            l.setTypeface(tf);
     }
 
     @Override

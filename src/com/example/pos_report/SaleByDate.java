@@ -7,38 +7,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-
-
+import progress.menu.item.ProgressMenuItemHelper;
 
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_peport.database.model.AllProductData;
 import com.example.pos_peport.database.model.GlobalProperty;
-import com.example.pos_peport.database.model.LastSaleDate;
-import com.example.pos_peport.database.model.PayType;
 import com.example.pos_peport.database.model.ProductGroup;
-import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_peport.database.model.ShopProperty;
 import com.example.pos_peport.database.model.SumPaymentShop;
+import com.example.pos_peport.database.model.SumProductShop;
 import com.example.pos_peport.database.model.SumPromotionShop;
 import com.example.pos_peport.database.model.SumTransactionShop;
-import com.example.pos_peport.database.model.TopProductShop;
-import com.example.pos_report.GetSumPromotionShop.GetSumPromotion;
 import com.example.pos_report.GetSumTransactionShop.GetSumTransacTion;
 import com.example.pos_report.database.GetSumPaymentShopDao;
+import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GetSumPromotionShopDao;
 import com.example.pos_report.database.GetSumTransactionShopDao;
-import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
-import com.example.pos_report.database.PayTypeDao;
-import com.example.pos_report.database.ProductDeptDao;
-import com.example.pos_report.database.ProductGroupDao;
-import com.example.pos_report.database.ProductItemDao;
-import com.example.pos_report.database.PromotionDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
-import com.example.pos_report.database.StaffsDao;
 import com.example.pos_report.graph.SalebyDate_Graph;
 import com.example.pos_report.graph.SalebyDate_Payment_PieGraph;
 import com.example.pos_report.graph.SalebyDate_Promotion_PieGraph;
@@ -51,15 +38,15 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -77,9 +64,9 @@ public class SaleByDate extends Fragment{
 	private ReportDatabase Database;
 	private FlatButton showReport;
 	private FlatButton showChart_sale,showChart_payment,showChart_promotion;
-	private int ShopID ,month,year;
+	private static int ShopID ,month,year;
 	private static int currentShopID;
-	private static String Date,payTypeName,promotionName;
+	private static String Date,payTypeName,promotionName,monthName;
 	private static int TotalBill,TotalCust;
 	private static double TotalVat,TotalRetail,TotalDis,TotalSale;
 	private static int payTypeID,promotionID;
@@ -92,6 +79,10 @@ public class SaleByDate extends Fragment{
 	private String lastsaledate;
 	private static String shopName;
 	private String ProductGroupCode="";
+	private ProgressMenuItemHelper progressHelper;
+	private static int CurrentShopID;
+	private int currentmonth,yearposition;
+	private String currentyear;
 	
 	 public static SaleByDate newInstance(int sectionNumber) {
 		 SaleByDate fragment = new SaleByDate();
@@ -109,17 +100,19 @@ public class SaleByDate extends Fragment{
 	@Override
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	   Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
 	  View rootView = inflater.inflate(R.layout.salebydate_main, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	  	//Database = new ReportDatabase(getActivity());
-	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
-	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
+	   String path_ip = sharedPreferences.getString("path_ip", "");
+	   String path_visual = sharedPreferences.getString("path_visual", "");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
 	  	 
 	   pdia = new ProgressDialog(getActivity());
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
+	   pdia.setTitle("Sale By Date");
 	  	text_sum_totalBill = (FlatTextView)rootView.findViewById(R.id.text_sum_totalBill);
 		text_sum_discount = (FlatTextView)rootView.findViewById(R.id.text_sum_discount);
 		text_sum_salePrice = (FlatTextView)rootView.findViewById(R.id.text_sum_salePrice);
@@ -141,56 +134,49 @@ public class SaleByDate extends Fragment{
 		 yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		 
 		 
-		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+		/*ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 
 		final List<ShopProperty> Shoplist = sp.getShopList();
 		shopSelect.setAdapter(new ShopSpinner(Shoplist));
-
-		/*
-		 * ShopProperty shoplist = new ShopProperty(); ShopID =
-		 * shoplist.getShopID();
-		 */
+		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
+		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
 		shopSelect.getItemAtPosition(0);
-		shopSelect.setSelection(0);
-		// ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>)
-		// shopSelect.getAdapter();
-		// int position = shopadapter.getPosition(shopadapter);
-		// shopSelect.setSelection(position);
-						
-		
-		 //set Progress Bar
-		 
-		 
-		/*new GetLastSaleDateShop(getActivity(),ShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
-			
-			@Override
-			public void onSuccess(String result) {
-				lastsaledate = result;
-				int currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
-				String currentyear = lastsaledate.substring(0,4);
-				monthSelect.setSelection(currentmonth-1);
-				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
-				int position = yearadapter.getPosition(currentyear);
-				yearSelect.setSelection(position);
-				pdia.dismiss();
-				
-			}
+		shopSelect.setSelection(0);*/
+		 ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
+			final List<ShopProperty> Shoplist = sp.getShopList();
+			shopSelect.setAdapter(new ShopSpinner(Shoplist));
+			ArrayList<Integer> saledate = new ArrayList<Integer>() ;
+			for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
+			CurrentShopID = saledate.get(0);
+			 
+			shopSelect.getItemAtPosition(0);
+			shopSelect.setSelection(0);
+			
+			new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
 				
-		        pdia.setMessage("Last shop data loading...");
-		        pdia.show();
-			}
-		}).execute(URL);*/
+				@Override
+				public void onSuccess(String result) {
+					lastsaledate = result;
+					month = Integer.parseInt(lastsaledate.substring(5, 7));
+					currentyear = (lastsaledate.substring(0,4));
+					monthSelect.setSelection(month-1);
+					ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
+					yearposition = yearadapter.getPosition(currentyear);
+					yearSelect.setSelection(yearposition);
+					onChangeData();
+					pdia.dismiss();
+				}
+
+				@Override
+				public void onLoad() {
+					// TODO Auto-generated method stub
+					
+			        pdia.setMessage("Loading...");
+			        pdia.show();
+				}
+			}).execute(URL);
 		
-		/*Database = new ReportDatabase(getActivity());*/
-		
-		//get Shoplist to Spinner
-		/*final ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-		final List<ShopProperty> Shoplist = sp.getShopList();
-		shopSelect.setAdapter(new KeySpinner(Shoplist));*/
 		
 		
 		listSale.setOnTouchListener(new ListView.OnTouchListener() {
@@ -287,6 +273,7 @@ public class SaleByDate extends Fragment{
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				month = Integer.valueOf(position+1);
+				//monthName = parent.getItemAtPosition(position+1).toString();
 				onChangeData();
 			}
 
@@ -326,7 +313,6 @@ public class SaleByDate extends Fragment{
 		showChart_sale.setOnClickListener(new View.OnClickListener() {
 		    @Override
 			public void onClick(View v) {
-		    	
 		    	Intent intentMain = new Intent(getActivity() , 
 						 SalebyDate_Graph.class);
 		    	
@@ -416,6 +402,16 @@ public class SaleByDate extends Fragment{
 	public static int getCurrentShopID() {
 		return currentShopID;
 	}
+	
+	
+	public static int getMonth() {
+		return month;
+	}
+
+	public static int getYear() {
+		return year;
+	}
+
 
 	@Override
 	 public void onAttach(Activity activity) {
@@ -447,18 +443,15 @@ public class SaleByDate extends Fragment{
 						//Set ListViewAdapter Salebydate
 				    	List<SumTransactionShop> Salebydate = gt.getSaleDate();
 						listSale.setAdapter(new SaleListAdapter(Salebydate));
-						pdia.dismiss();
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
-					
+					progressHelper.stopProgress();
 				}
 				
 				@Override
 				public void onLoad() {
-					// TODO Auto-generated method stub
-			        pdia.setMessage("Transaction data loading...");
-			        pdia.show();
+					progressHelper.startProgress();
 					
 				}
 			}).execute(URL);
@@ -480,19 +473,17 @@ public class SaleByDate extends Fragment{
 						List<SumPaymentShop> Paymentlist = gp.getPaymentlist();
 						listPayment.setAdapter(new PaymentlistAdapter(Paymentlist));
 						
-						pdia.dismiss();
+						
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
-					
+					progressHelper.stopProgress();
 					
 				}
 				
 				@Override
 				public void onLoad() {
-					// TODO Auto-generated method stub
-			        pdia.setMessage("Payment data loading...");
-			        pdia.show();
+					progressHelper.startProgress();
 					
 				}
 				
@@ -515,51 +506,44 @@ public class SaleByDate extends Fragment{
 						List<SumPromotionShop> Promotionlist = gpr.getSumPromoList();
 						listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
 						
-						pdia.dismiss();
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
-					
+					progressHelper.stopProgress();
 					
 				}
 				
 				@Override
 				public void onLoad() {
-					// TODO Auto-generated method stub
-					pdia.setMessage("Promotion data loading...");
-			        pdia.show();
+					progressHelper.startProgress();
 				}
 			}).execute(URL);
-	    	/*new GetTopProductShop(getActivity(), ShopID , month, year, ProductGroupCode,0, 10, "123",new GetTopProductShop.GetTopProduct() {
+	    	new GetSumProductShop(getActivity(),ShopID , month, year, "123",new GetSumProductShop.GetSumProduct() {
         		
         		@Override
         		public void onSuccess(String result) {
         			// TODO Auto-generated method stub
         			Gson gson = new Gson();
         			try {
-        				Type collectionType = new TypeToken<Collection<TopProductShop>>(){}.getType();
-        				@SuppressWarnings("unchecked")
-        				List<TopProductShop> st = (List<TopProductShop>) gson.fromJson(result, collectionType);
+        				Type collectionType = new TypeToken<Collection<SumProductShop>>(){}.getType();
+        				List<SumProductShop> sp = (List<SumProductShop>) gson.fromJson(result, collectionType);
         				
-        				// insert GetTopProductShopDao data into database
-        				GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
-        				gt.insertTopProductShopData(st);
-        					
+        				// insert GetSumProductShop data into database
+        				GetSumProductShopDao gp = new GetSumProductShopDao(getActivity());
+        				gp.insertSumProductShopData(sp);
         				
-        				pdia.dismiss();
         			} catch (JsonSyntaxException e) {
         				e.printStackTrace();
         			}
-        			
+        			pdia.dismiss();
         		}
         		
         		@Override
         		public void onLoad() {
-        			// TODO Auto-generated method stub
-        			pdia.setMessage("Top product data loading...");
+        			pdia.setMessage("Loading...");
         	        pdia.show();
         		}
-        	}).execute(URL);*/
+        	}).execute(URL);
 	    	
 			
 		}
@@ -836,7 +820,22 @@ public class SaleByDate extends Fragment{
 					}
 	 
 			}
-			
-		
+			@Override
+			public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+				super.onCreateOptionsMenu(menu, inflater);
+		        inflater.inflate(R.menu.refresh_menu, menu);
+		        progressHelper = new ProgressMenuItemHelper(menu, R.id.action_refresh, 1);
+		        
+		    }
 
+		    @Override
+		    public boolean onOptionsItemSelected(MenuItem item) {
+		        switch (item.getItemId()) {
+		            case R.id.action_refresh:
+		            	onChangeData();
+		                return true;
+		            default:
+		                return super.onOptionsItemSelected(item);
+		        }
+		    }
 }

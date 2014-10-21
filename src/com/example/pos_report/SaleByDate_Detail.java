@@ -135,8 +135,7 @@ public class SaleByDate_Detail extends Fragment {
         	                        xVals.add(paytypeArr[i]);
         	                    PieDataSet set1 = new PieDataSet(yVals1, "");
         	                    set1.setSliceSpace(3f);
-        	                    set1.setColors(ColorTemplate.createColors(getActivity(),
-        	                            ColorTemplate.PASTEL_COLORS));
+        	                    set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
         	                    PieData data = new PieData(xVals, set1);
         	                    if(data.getYValCount() == 0){}

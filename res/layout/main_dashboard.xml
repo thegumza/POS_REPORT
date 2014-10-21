@@ -19,7 +19,7 @@
             android:id="@+id/headTablesale"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/candy_primary"
+            android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1"
             >
@@ -260,7 +260,7 @@
             android:id="@+id/headTablepayment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_amethyst"
+            android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
@@ -272,15 +272,17 @@
 	        android:textSize="20dp"
 	        android:textStyle="bold"
 	        android:text="Payment"
+	        android:gravity="center"
             android:textColor="@android:color/white"
-            android:background="@color/fbutton_color_amethyst" />
+            android:background="@color/deep_primary"
+            flatui:fl_fontWeight="regular" />
 	        
         </LinearLayout>
         <LinearLayout
             android:id="@+id/headTablePayment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_amethyst"
+            android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
@@ -391,7 +393,7 @@
 	        android:text="Payment Chart"
 	        android:layout_marginTop="10dp"
             android:textColor="@android:color/white"
-            flatui:fl_theme="@array/grape"
+            flatui:fl_theme="@array/deep"
             flatui:fl_textAppearance="light"
             flatui:fl_blockButtonEffectHeight="3dp"
             flatui:fl_fontWeight="regular" />
@@ -407,7 +409,7 @@
             android:id="@+id/headTablepromo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_turquoise"
+            android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
@@ -420,14 +422,16 @@
 	        android:textStyle="bold"
 	        android:text="Promotion"
             android:textColor="@android:color/white"
-            android:background="@color/fbutton_color_turquoise" />
+            android:gravity="center"
+            android:background="@color/deep_primary"
+            flatui:fl_fontWeight="regular" />
 	        
         </LinearLayout>
         <LinearLayout
             android:id="@+id/headTablePromotion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_turquoise"
+            android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
@@ -538,7 +542,7 @@
 	        android:text="Promotion Chart"
 	        android:layout_marginTop="10dp"
             android:textColor="@android:color/white"
-            flatui:fl_theme="@array/grass"
+            flatui:fl_theme="@array/deep"
             flatui:fl_textAppearance="light"
             flatui:fl_blockButtonEffectHeight="3dp"
             flatui:fl_fontWeight="regular" />

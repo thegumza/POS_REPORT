@@ -2,8 +2,11 @@ package com.example.pos_report;
 
 import java.util.List;
 
+import progress.menu.item.ProgressMenuItemHelper;
+
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.ShopProperty;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -11,6 +14,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +23,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 
-public class MainActivity extends Activity implements
+public class MainActivity extends ActionBarActivity implements
 	NavigationDrawerFragment.NavigationDrawerCallbacks {
 	
 	private NavigationDrawerFragment mNavigationDrawerFragment;
 	private CharSequence mTitle;
-	
+	private ProgressMenuItemHelper progressHelper;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -159,5 +163,6 @@ public class MainActivity extends Activity implements
 			((MainActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}}
+	
 	
 }

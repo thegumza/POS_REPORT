@@ -104,8 +104,7 @@ public class SalebyProduct_Graph extends Activity{
                 xVals.add(deptArr[i]);
             PieDataSet set1 = new PieDataSet(yVals1, "");
             set1.setSliceSpace(3f);
-            set1.setColors(ColorTemplate.createColors(getApplicationContext(),
-                    ColorTemplate.PASTEL_COLORS));
+            set1.setColors(ColorTemplate.PASTEL_COLORS);
 
             PieData data = new PieData(xVals, set1);
             mChart.setData(data);
@@ -120,7 +119,7 @@ public class SalebyProduct_Graph extends Activity{
             Legend l = mChart.getLegend();
             l.setPosition(LegendPosition.RIGHT_OF_CHART);
             l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(10f);
+            l.setTextSize(12f);
             l.setXEntrySpace(7f);
             l.setYEntrySpace(5f);
     }

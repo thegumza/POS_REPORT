@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.pos_peport.database.model.SumProductShop;
+import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.table.ProductItemTable;
 import com.example.pos_report.database.table.SumData_ProductReportTable;
 
@@ -13,7 +14,7 @@ import android.database.Cursor;
 
 
 public class GetSumProductShopDao extends ReportDatabase{
-
+	String Saledate = SaleByDate.getDate();
 	public GetSumProductShopDao(Context context) {
 		super(context);
 	}
@@ -56,12 +57,45 @@ public class GetSumProductShopDao extends ReportDatabase{
 				sp.setSaleMode(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_SALE_MODE)));
 				sp.setQty(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_QTY)));
 				sp.setSalePrice(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_SALE_PRICE)));
-				sp.setProductName(cursor.getString(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_PRODUCT_NAME)));
+				sp.setProductName(cursor.getString(cursor.getColumnIndex(ProductItemTable.COLUMN_PRODUCT_NAME)));
 				getsumproducttshop.add(sp);
 			}while(cursor.moveToNext());
 		}
 		return getsumproducttshop;
 	}
 	
+	//Insert Data to List From SQLite Database
+		public List<SumProductShop> getTopQtyProduct(){
+			List<SumProductShop> getsumproducttshop = new ArrayList <SumProductShop>();
+			String SPSql = "Select ProductItem."+ProductItemTable.COLUMN_PRODUCT_NAME +",Qty,SalePrice From "+ SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" JOIN "+ProductItemTable.TABLE_PRODUCT_ITEM+" USING (ProductID) WHERE SaleDate='"+Saledate+"' ORDER BY Qty DESC";
+			Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+			if (cursor.moveToFirst()){
+				do{
+					SumProductShop sp = new SumProductShop();
+					sp.setQty(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_QTY)));
+					sp.setSalePrice(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_SALE_PRICE)));
+					sp.setProductName(cursor.getString(cursor.getColumnIndex(ProductItemTable.COLUMN_PRODUCT_NAME)));
+					getsumproducttshop.add(sp);
+				}while(cursor.moveToNext());
+			}
+			return getsumproducttshop;
+		}
+		
+		//Insert Data to List From SQLite Database
+				public List<SumProductShop> getTopSaleProduct(){
+					List<SumProductShop> getsumproducttshop = new ArrayList <SumProductShop>();
+					String SPSql = "Select ProductItem."+ProductItemTable.COLUMN_PRODUCT_NAME +",Qty,SalePrice From "+ SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" JOIN "+ProductItemTable.TABLE_PRODUCT_ITEM+" USING (ProductID) WHERE SaleDate='"+Saledate+"' ORDER BY SalePrice DESC";
+					Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+					if (cursor.moveToFirst()){
+						do{
+							SumProductShop sp = new SumProductShop();
+							sp.setQty(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_QTY)));
+							sp.setSalePrice(cursor.getInt(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_SALE_PRICE)));
+							sp.setProductName(cursor.getString(cursor.getColumnIndex(ProductItemTable.COLUMN_PRODUCT_NAME)));
+							getsumproducttshop.add(sp);
+						}while(cursor.moveToNext());
+					}
+					return getsumproducttshop;
+				}
 	
 }

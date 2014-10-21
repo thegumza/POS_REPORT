@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +17,9 @@ import android.widget.ListView;
 
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.GlobalProperty;
+import com.example.pos_peport.database.model.SumProductShop;
 import com.example.pos_peport.database.model.TopProductShop;
+import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.github.mikephil.charting.charts.PieChart;
@@ -39,7 +42,6 @@ public class SaleByDate_Detail_TopQty extends Fragment{
 	NumberFormat qtyformatter = new DecimalFormat(formatqty);
 	
 	String shopName = SaleByDate.getShopName();
-	String payTypeName = SaleByDate.getPayTypeName();
 	
 	private ListView list_TopProduct;
 	
@@ -61,48 +63,36 @@ public class SaleByDate_Detail_TopQty extends Fragment{
                 rootView.findViewById(R.id.salebyproduct_topqty_layout);
                 mChart = (PieChart) rootView.findViewById(R.id.chart1);
                 list_TopProduct = (ListView)rootView.findViewById(R.id.list_TopProduct);
-                GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
-                List<TopProductShop> Topqtyproduct = gt.getTopQtyProductDetail();
+                GetSumProductShopDao gt = new GetSumProductShopDao(getActivity());
+                
+                List<SumProductShop> Topqtyproduct = gt.getTopQtyProduct();
 				list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
-				
 
-				
-				final List<TopProductShop> tq = gt.getTopQtyProductDetail();
-				//final List<TopProductShop> ts = gt.getTopSaleProduct();
+				final List<SumProductShop> tq = gt.getTopQtyProduct();
 				
 				
 				ArrayList<String> productname = new ArrayList<String>() ;
 				ArrayList<String> saleprice = new ArrayList<String>() ;
 				
-				for (TopProductShop tps : tq) saleprice.add(Double.toString(tps.getSumSalePrice()));
-				for (TopProductShop tps : tq) productname.add(tps.getProductName()+" ("+tps.getSumSalePrice()+")");
+				for (SumProductShop tps : tq) saleprice.add(Double.toString(tps.getSalePrice()));
+				for (SumProductShop tps : tq) productname.add(tps.getProductName()+" ("+tps.getSalePrice()+")");
 				String[] productnameArr = new String[productname.size()];
 				productnameArr = productname.toArray(productnameArr);
 				
 		            ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-		            // ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-		            // IMPORTANT: In a PieChart, no values (Entry) should have the same
-		            // xIndex (even if from different DataSets), since no values can be
-		            // drawn above each other.
+		            
 		            for (int i = 0; i < productname.size(); i++) {
 		            	float val = Float.parseFloat(saleprice.get(i));
 		                yVals1.add(new Entry(val, i));
 		            }
 
-		            // for (int i = mSeekBarX.getProgress() / 2; i <
-		            // mSeekBarX.getProgress(); i++) {
-		            // yVals2.add(new Entry((float) (Math.random() * mult) + mult / 5, i));
-		            // }
 
 		            ArrayList<String> xVals = new ArrayList<String>();
 
 		            for (int i = 0; i < productname.size(); i++)
 		                xVals.add(productnameArr[i]);
 		            PieDataSet set1 = new PieDataSet(yVals1, "");
-		            set1.setSliceSpace(3f);
-		            set1.setColors(ColorTemplate.createColors(getActivity(),
-		                    ColorTemplate.PASTEL_COLORS));
+		            set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
 		            PieData data = new PieData(xVals, set1);
                     if(data.getYValCount() == 0){}
@@ -116,7 +106,7 @@ public class SaleByDate_Detail_TopQty extends Fragment{
 
                         // draws the corresponding description value into the slice
                         mChart.setDrawXValues(false);
-                        mChart.setTouchEnabled(true);
+                        mChart.setTouchEnabled(false);
 
                         // display percentage values
                         mChart.setUsePercentValues(true);
@@ -135,7 +125,7 @@ public class SaleByDate_Detail_TopQty extends Fragment{
                     Legend l = mChart.getLegend();
                     l.setPosition(LegendPosition.RIGHT_OF_CHART);
                     l.setForm(LegendForm.CIRCLE);
-                    l.setTextSize(10f);
+                    l.setTextSize(14f);
                     l.setXEntrySpace(7f);
                     l.setYEntrySpace(5f);}
                 return rootView;
@@ -143,8 +133,8 @@ public class SaleByDate_Detail_TopQty extends Fragment{
 	//ListViewAdapter
 	public class TopQtyProductListAdapter extends BaseAdapter{
 		
-		List<TopProductShop> topqtyproduct;
-		public TopQtyProductListAdapter(List<TopProductShop> tq) {
+		List<SumProductShop> topqtyproduct;
+		public TopQtyProductListAdapter(List<SumProductShop> tq) {
 			topqtyproduct = tq;
 		}
 		@Override
@@ -193,15 +183,11 @@ public class SaleByDate_Detail_TopQty extends Fragment{
 				NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 				NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 				
-				TopProductShop ts = topqtyproduct.get(position);
+				SumProductShop ts = topqtyproduct.get(position);
 				holder.number_QtyValue.setText(""+(position+1));
 				holder.item_QtyValue.setText(ts.getProductName());
-				holder.qty_QtyValue.setText(qtyformatter.format(ts.getSumAmount()));
-				holder.salePrice_QtyValue.setText(currencyformatter.format(ts.getSumSalePrice()));
-				//holder.percentValue.setText(formatter.format((st.getSalePrice())));
-				//text_sum_totalBill.setText(formatter.format(Sumsale.getTotalBill()));
-				//text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));
-				//text_sum_salePrice.setText(formatter.format(Sumsale.getSalePrice()));
+				holder.qty_QtyValue.setText(qtyformatter.format(ts.getQty()));
+				holder.salePrice_QtyValue.setText(currencyformatter.format(ts.getSalePrice()));
 			
 			return convertView;
 				}

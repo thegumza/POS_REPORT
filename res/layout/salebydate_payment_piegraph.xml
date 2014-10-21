@@ -8,26 +8,57 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/headpayment"
+        android:id="@+id/boxReportShow_Payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@color/fbutton_color_amethyst"
-        android:orientation="vertical" >
-
-        <com.example.flatuilibrary.FlatTextView
-            android:id="@+id/txtpayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Payment Chart"
-            android:textSize="18dp"
-            android:textColor="#ffffff"
-	        flatui:fl_fontWeight="regular" />
+        android:background="@color/fbutton_color_amethyst" >
         
-    </LinearLayout>
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/shopNameValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20dp"
+        flatui:fl_fontWeight="bold"
+        android:textColor="#ffffff" />
+    
+</LinearLayout>
+<LinearLayout
+        android:id="@+id/boxPayment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingTop="2dp" >
+   <LinearLayout
+            android:id="@+id/headTablePayment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_amethyst"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp" >
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_tablePayment"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:paddingBottom="3dp"
+	            android:paddingTop="2dp"
+	            android:text="Sale By Date Payment Chart"
+	            android:textColor="#ffffff"
+	            android:textSize="20dp"
+	            android:background="@color/fbutton_color_amethyst"
+	            android:textStyle="bold"
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="bold" />
+	        
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,5 +72,5 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
+</LinearLayout>
 </LinearLayout>

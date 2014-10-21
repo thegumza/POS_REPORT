@@ -269,7 +269,7 @@
 	            android:paddingTop="2dp"
 	            flatui:fl_customBackgroundColor="@color/fbutton_color_peter_river"
 	            flatui:fl_fontWeight="regular"
-	            android:text="Top 10 Product"
+	            android:text="Top 10 Product by Qty"
 	            android:textColor="#ffffff"
 	            android:textSize="18dp"
 	            android:textStyle="bold"
@@ -335,7 +335,7 @@
         <ListView
             android:id="@+id/list_TopProduct"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="260dp"
             android:background="@color/snow_dark"
             android:paddingBottom="5dp" >
         </ListView>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -37,11 +38,11 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
 
         mChart = (PieChart) findViewById(R.id.chart1);
 
-        /*Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
         mChart.setValueTypeface(tf);
         mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-*/
+
         mChart.setHoleRadius(40f);
 
         mChart.setDescription("");
@@ -98,8 +99,7 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
                 xVals.add(productnameArr[i]);
             PieDataSet set1 = new PieDataSet(yVals1, "");
             set1.setSliceSpace(3f);
-            set1.setColors(ColorTemplate.createColors(getApplicationContext(),
-                    ColorTemplate.PASTEL_COLORS));
+            set1.setColors(ColorTemplate.PASTEL_COLORS);
 
             PieData data = new PieData(xVals, set1);
             mChart.setData(data);
@@ -112,11 +112,13 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
             //mChart.invalidate();
             
             Legend l = mChart.getLegend();
-            l.setPosition(LegendPosition.RIGHT_OF_CHART);
+            l.setPosition(LegendPosition.RIGHT_OF_CHART_CENTER);
             l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(10f);
+            l.setTextSize(14f);
             l.setXEntrySpace(7f);
             l.setYEntrySpace(5f);
+            l.setTypeface(tf);
+            
     }
 
     @Override

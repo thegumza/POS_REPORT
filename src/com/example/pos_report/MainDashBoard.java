@@ -7,14 +7,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import progress.menu.item.ProgressMenuItemHelper;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +35,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
+import com.example.flatuilibrary.FlatUI;
 import com.example.pos_peport.database.model.GlobalProperty;
 import com.example.pos_peport.database.model.ProductGroup;
 import com.example.pos_peport.database.model.ShopProperty;
@@ -53,7 +60,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
-public class MainDashBoard extends Fragment{
+public class MainDashBoard extends Fragment  {
 	
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private Spinner shopSelect;
@@ -70,6 +77,10 @@ public class MainDashBoard extends Fragment{
 	private FlatTextView ShopNameValue,saledatevalue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
 	private int totalbill,totalcust;
 	private double totalvat,totalretail,totaldis,totalsale;
+	private ProgressMenuItemHelper progressHelper;
+	private static int CurrentShopID;
+	private final int APP_THEME = R.array.deep;
+	
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 	GlobalProperty format = gpd.getGlobalProperty();
 	String formatnumber = format.getCurrencyFormat();
@@ -93,6 +104,7 @@ public class MainDashBoard extends Fragment{
 	@Override
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	   Bundle savedInstanceState) {
+		setHasOptionsMenu(true);
 	  View rootView = inflater.inflate(R.layout.main_dashboard, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -100,7 +112,8 @@ public class MainDashBoard extends Fragment{
 	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
 	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
-	  	 
+       FlatUI.initDefaultValues(getActivity());
+       FlatUI.setDefaultTheme(APP_THEME);
 	   pdia = new ProgressDialog(getActivity());
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
@@ -128,18 +141,16 @@ public class MainDashBoard extends Fragment{
 		
 		shopSelect = (Spinner)rootView.findViewById(R.id.shopspinner);
 		 
-		 
 		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 
 		final List<ShopProperty> Shoplist = sp.getShopList();
 		shopSelect.setAdapter(new ShopSpinner(Shoplist));
 		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
 		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
-		final int CurrentShopID = saledate.get(0);
+		CurrentShopID = saledate.get(0);
 		 
 		shopSelect.getItemAtPosition(0);
 		shopSelect.setSelection(0);
-		
 		
 		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
 			
@@ -148,19 +159,18 @@ public class MainDashBoard extends Fragment{
 				lastsaledate = result;
 				currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
 				currentyear = Integer.parseInt(lastsaledate.substring(0,4));
-				onChangeData();
 				pdia.dismiss();
-				
 			}
 
 			@Override
 			public void onLoad() {
 				// TODO Auto-generated method stub
 				
-		        pdia.setMessage("Last shop data loading...");
+		        pdia.setMessage("Loading...");
 		        pdia.show();
 			}
 		}).execute(URL);
+		
 		
 		
 		listPayment.setOnTouchListener(new ListView.OnTouchListener() {
@@ -220,7 +230,7 @@ public class MainDashBoard extends Fragment{
 						currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
 						currentyear = Integer.parseInt(lastsaledate.substring(0,4));
 						onChangeData();
-						pdia.dismiss();
+						progressHelper.stopProgress();
 						
 					}
 
@@ -228,8 +238,7 @@ public class MainDashBoard extends Fragment{
 					public void onLoad() {
 						// TODO Auto-generated method stub
 						
-				        pdia.setMessage("Last shop data loading...");
-				        pdia.show();
+						progressHelper.startProgress();
 					}
 				}).execute(URL);
 			}
@@ -257,6 +266,8 @@ public class MainDashBoard extends Fragment{
 	 }
 	 
 		public void onChangeData(){
+			
+			
 	    	new GetSumTransactionShop(getActivity(),ShopID , currentmonth, currentyear, "123",new GetSumTransacTion() {
 				//not sure
 				@Override
@@ -288,7 +299,9 @@ public class MainDashBoard extends Fragment{
 						totalretailvalue.setText("" + formatter.format((totalretail)));
 						totaldisvalue.setText("" + formatter.format((totaldis)));
 						totalsalevalue.setText("" + formatter.format((totalsale)));
-						pdia.dismiss();
+						
+						progressHelper.stopProgress();
+						
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
@@ -298,8 +311,7 @@ public class MainDashBoard extends Fragment{
 				@Override
 				public void onLoad() {
 					// TODO Auto-generated method stub
-			        pdia.setMessage("Transaction data loading...");
-			        pdia.show();
+					progressHelper.startProgress();
 					
 				}
 			}).execute(URL);
@@ -321,7 +333,7 @@ public class MainDashBoard extends Fragment{
 						List<SumPaymentShop> Paymentlist = gp.getPaymentlist();
 						listPayment.setAdapter(new PaymentlistAdapter(Paymentlist));
 						
-						pdia.dismiss();
+						progressHelper.stopProgress();
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
@@ -332,8 +344,7 @@ public class MainDashBoard extends Fragment{
 				@Override
 				public void onLoad() {
 					// TODO Auto-generated method stub
-			        pdia.setMessage("Payment data loading...");
-			        pdia.show();
+					progressHelper.startProgress();
 					
 				}
 				
@@ -356,7 +367,7 @@ public class MainDashBoard extends Fragment{
 						List<SumPromotionShop> Promotionlist = gpr.getSumPromoList();
 						listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
 						
-						pdia.dismiss();
+						progressHelper.stopProgress();
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
@@ -367,8 +378,7 @@ public class MainDashBoard extends Fragment{
 				@Override
 				public void onLoad() {
 					// TODO Auto-generated method stub
-					pdia.setMessage("Promotion data loading...");
-			        pdia.show();
+					progressHelper.startProgress();
 				}
 			}).execute(URL);
 	    	
@@ -547,6 +557,24 @@ public class MainDashBoard extends Fragment{
 	 
 			}
 			
-		
+			@Override
+			public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+				super.onCreateOptionsMenu(menu, inflater);
+		        inflater.inflate(R.menu.refresh_menu, menu);
+		        progressHelper = new ProgressMenuItemHelper(menu, R.id.action_refresh, 1);
+		        
+		    }
+
+		    @Override
+		    public boolean onOptionsItemSelected(MenuItem item) {
+		        switch (item.getItemId()) {
+		            case R.id.action_refresh:
+		            	onChangeData();
+		                return true;
+		            default:
+		                return super.onOptionsItemSelected(item);
+		        }
+		    }
+			
 
 }

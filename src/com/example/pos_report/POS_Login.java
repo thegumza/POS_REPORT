@@ -37,8 +37,8 @@ public class POS_Login extends Activity{
         setContentView(R.layout.login_form);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(POS_Login.this);
   	  	//Database = new ReportDatabase(POS_Login.this);
-  	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
-  	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
+  	   String path_ip = sharedPreferences.getString("path_ip", "");
+  	   String path_visual = sharedPreferences.getString("path_visual", "");
   	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
   	   pdia = new ProgressDialog(POS_Login.this);
 	   pdia.setCancelable(true);
@@ -109,7 +109,7 @@ public class POS_Login extends Activity{
 					@Override
 					public void onLoad() {
 						// TODO Auto-generated method stub
-				        pdia.setMessage("Shop data loading...");
+				        pdia.setMessage("Loading...");
 				        pdia.show();
 						
 					}
@@ -143,9 +143,6 @@ public class POS_Login extends Activity{
 							pdia.dismiss();
 							
 							
-							//insert SaleMode Data into Database
-							//SaleModeDao sm = new SaleModeDao(mContext);
-							//sm.insertSaleModeData(ap.getSaleMode());
 							
 							
 									
@@ -158,7 +155,7 @@ public class POS_Login extends Activity{
 					@Override
 					public void onLoad() {
 						// TODO Auto-generated method stub
-				        pdia.setMessage("Product data loading...");
+				        pdia.setMessage("Loading...");
 				        pdia.show();
 						
 					}
@@ -169,7 +166,7 @@ public class POS_Login extends Activity{
 					public void onClick(View v) {
 				    	
 				    	Intent intentMain = new Intent(POS_Login.this,Setting.class);
-				    	POS_Login.this.startActivity(intentMain);
+				    	startActivity(intentMain);
 				    }
 				});
 		    }

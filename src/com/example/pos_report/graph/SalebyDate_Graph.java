@@ -3,22 +3,32 @@ package com.example.pos_report.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.SumTransactionShop;
 import com.example.pos_report.R;
+import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumTransactionShopDao;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.filter.Approximator;
 import com.github.mikephil.charting.data.filter.Approximator.ApproximatorType;
+import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Legend;
 import com.github.mikephil.charting.utils.XLabels;
 import com.github.mikephil.charting.utils.YLabels;
@@ -26,10 +36,13 @@ import com.github.mikephil.charting.utils.Legend.LegendPosition;
 import com.github.mikephil.charting.utils.XLabels.XLabelPosition;
 import com.github.mikephil.charting.utils.YLabels.YLabelPosition;
 
-public class SalebyDate_Graph extends Activity  {
-	private BarChart mChart;
-    //private TextView tvX, tvY;
+public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedListener {
 
+	private BarChart mChart;
+	String shopName = SaleByDate.getShopName();
+	int month = SaleByDate.getMonth();
+	int year = SaleByDate.getYear();
+	FlatTextView ShopNameValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,55 +50,30 @@ public class SalebyDate_Graph extends Activity  {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.salebydate_graph);
         
+        ShopNameValue = (FlatTextView) findViewById(R.id.shopNameValue);
         
-        //tvX = (TextView) findViewById(R.id.tvXMax);
-        //tvY = (TextView) findViewById(R.id.tvYMax);
-
+        ShopNameValue.setText(shopName+" ("+ year +" - "+ month +")");
+        
         mChart = (BarChart) findViewById(R.id.chart1);
-
-        // enable the drawing of values
+        mChart.setOnChartValueSelectedListener(this);
         mChart.setDrawYValues(true);
-
         mChart.setDescription("");
-
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
         mChart.setMaxVisibleValueCount(60);
-
-        // sets the number of digits for values inside the chart
-        mChart.setValueDigits(1);
-
-        // disable 3D
         mChart.set3DEnabled(false);
-
-        // scaling can now only be done on x- and y-axis separately
         mChart.setPinchZoom(false);
-
-        // draw shadows for each bar that show the maximum value
-//        mChart.setDrawBarShadow(true);
-
-        mChart.setUnit(" ฿");
-
-        // change the position of the y-labels
+        
         YLabels yLabels = mChart.getYLabels();
         yLabels.setPosition(YLabelPosition.LEFT);
 
         XLabels xLabels = mChart.getXLabels();
         xLabels.setPosition(XLabelPosition.TOP);
-        // mChart.setDrawXLabels(false);
 
         mChart.setDrawGridBackground(false);
         mChart.setDrawHorizontalGrid(true);
         mChart.setDrawVerticalGrid(false);
-        // mChart.setDrawYLabels(false);
-        
-        // sets the text size of the values inside the chart
         mChart.setValueTextSize(10f);
-
         mChart.setDrawBorder(false);
-        // mChart.setBorderPositions(new BorderPosition[] {BorderPosition.LEFT,
-        // BorderPosition.RIGHT});
-        /*
+        
         Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
         XLabels xl = mChart.getXLabels();
@@ -97,7 +85,7 @@ public class SalebyDate_Graph extends Activity  {
         yl.setTypeface(tf);
         yl.setLabelCount(8);
         
-        mChart.setValueTypeface(tf);*/
+        mChart.setValueTypeface(tf);
 
         // setting data
         GetSumTransactionShopDao gt = new GetSumTransactionShopDao(this);
@@ -105,26 +93,21 @@ public class SalebyDate_Graph extends Activity  {
         ArrayList<String> saledate = new ArrayList<String>() ;
         ArrayList<String> saleprice = new ArrayList<String>();
         // insert data from List<object> to List<String>;
-        for (SumTransactionShop st : sd) saledate.add(st.getSaleDate());
+        for (SumTransactionShop st : sd) saledate.add(st.getSaleDate().substring(8, 10));
         for (SumTransactionShop st : sd) saleprice.add(Double.toString(st.getSalePrice()));
         String[] saledateArr = new String[saledate.size()];
         saledateArr = saledate.toArray(saledateArr);
         
-        //float [] floatValues = new float[saleprice.size()];
-
-        //for (int i = 0; i < saledate.size(); i++) {
-          //  floatValues[i] = Float.parseFloat(saleprice.get(i));
-        //}
         
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < saledate.size(); i++) {
             xVals.add(saledateArr[i]);
         }
 
-        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
         for (int i = 0; i < saledate.size(); i++) {
         	float val = Float.parseFloat(saleprice.get(i));
-            yVals1.add(new Entry(val, i));
+            yVals1.add(new BarEntry(val, i));
         }
 
         BarDataSet set1 = new BarDataSet(yVals1, "Amount");
@@ -135,14 +118,12 @@ public class SalebyDate_Graph extends Activity  {
         BarData data = new BarData(xVals, dataSets);
 
         mChart.setData(data);
-        //mChart.invalidate();
         
         Legend l = mChart.getLegend();
         l.setPosition(LegendPosition.BELOW_CHART_LEFT);
         l.setFormSize(8f);
         l.setXEntrySpace(4f);
 
-         //mChart.setDrawLegend(false);
     }
 
     @Override
@@ -253,7 +234,22 @@ public class SalebyDate_Graph extends Activity  {
         }
         return true;
     }
-    
+    @SuppressLint("NewApi")
+    @Override
+    public void onValueSelected(Entry e, int dataSetIndex) {
+
+        if (e == null)
+            return;
+
+        RectF bounds = mChart.getBarBounds((BarEntry) e);
+        PointF position = mChart.getPosition(e);
+
+        Log.i("bounds", bounds.toString());
+        Log.i("position", position.toString());
+    }
+
+    public void onNothingSelected() {
+    };
 
     
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,8 +15,8 @@ import android.widget.ListView;
 
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.GlobalProperty;
-import com.example.pos_peport.database.model.TopProductShop;
-import com.example.pos_report.database.GetTopProductShopDao;
+import com.example.pos_peport.database.model.SumProductShop;
+import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -61,18 +60,19 @@ public class SaleByDate_Detail_TopSale extends Fragment{
                 rootView.findViewById(R.id.salebyproduct_topsale_layout);
                 mChart = (PieChart) rootView.findViewById(R.id.chart1);
                 list_TopProduct = (ListView)rootView.findViewById(R.id.list_TopProduct);
-                GetTopProductShopDao gt = new GetTopProductShopDao(getActivity());
-                List<TopProductShop> Topqtyproduct = gt.getTopSaleProductDetail();
+                
+                GetSumProductShopDao gt = new GetSumProductShopDao(getActivity());
+                List<SumProductShop> Topqtyproduct = gt.getTopSaleProduct();
 				list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
 				
-				final List<TopProductShop> ts = gt.getTopSaleProductDetail();
+				final List<SumProductShop> ts = gt.getTopSaleProduct();
 				
 				
 				ArrayList<String> productname = new ArrayList<String>() ;
 				ArrayList<String> saleprice = new ArrayList<String>() ;
 				
-				for (TopProductShop tps : ts) saleprice.add(Double.toString(tps.getSumSalePrice()));
-				for (TopProductShop tps : ts) productname.add(tps.getProductName()+" ("+tps.getSumSalePrice()+")");
+				for (SumProductShop tps : ts) saleprice.add(Double.toString(tps.getSalePrice()));
+				for (SumProductShop tps : ts) productname.add(tps.getProductName()+" ("+tps.getSalePrice()+")");
 				String[] productnameArr = new String[productname.size()];
 				productnameArr = productname.toArray(productnameArr);
 				
@@ -97,9 +97,7 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 		            for (int i = 0; i < productname.size(); i++)
 		                xVals.add(productnameArr[i]);
 		            PieDataSet set1 = new PieDataSet(yVals1, "");
-		            set1.setSliceSpace(3f);
-		            set1.setColors(ColorTemplate.createColors(getActivity(),
-		                    ColorTemplate.PASTEL_COLORS));
+		            set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
 		            PieData data = new PieData(xVals, set1);
                     if(data.getYValCount() == 0){}
@@ -113,7 +111,7 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 
                         // draws the corresponding description value into the slice
                         mChart.setDrawXValues(false);
-                        mChart.setTouchEnabled(true);
+                        mChart.setTouchEnabled(false);
 
                         // display percentage values
                         mChart.setUsePercentValues(true);
@@ -132,7 +130,7 @@ public class SaleByDate_Detail_TopSale extends Fragment{
                     Legend l = mChart.getLegend();
                     l.setPosition(LegendPosition.RIGHT_OF_CHART);
                     l.setForm(LegendForm.CIRCLE);
-                    l.setTextSize(10f);
+                    l.setTextSize(14f);
                     l.setXEntrySpace(7f);
                     l.setYEntrySpace(5f);}
                 return rootView;
@@ -140,8 +138,8 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 	//ListViewAdapter
 	public class TopQtyProductListAdapter extends BaseAdapter{
 		
-		List<TopProductShop> topqtyproduct;
-		public TopQtyProductListAdapter(List<TopProductShop> tq) {
+		List<SumProductShop> topqtyproduct;
+		public TopQtyProductListAdapter(List<SumProductShop> tq) {
 			topqtyproduct = tq;
 		}
 		@Override
@@ -190,11 +188,11 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 				NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 				NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 				
-				TopProductShop ts = topqtyproduct.get(position);
+				SumProductShop ts = topqtyproduct.get(position);
 				holder.number_QtyValue.setText(""+(position+1));
 				holder.item_QtyValue.setText(ts.getProductName());
-				holder.qty_QtyValue.setText(qtyformatter.format(ts.getSumAmount()));
-				holder.salePrice_QtyValue.setText(currencyformatter.format(ts.getSumSalePrice()));
+				holder.qty_QtyValue.setText(qtyformatter.format(ts.getQty()));
+				holder.salePrice_QtyValue.setText(currencyformatter.format(ts.getSalePrice()));
 				//holder.percentValue.setText(formatter.format((st.getSalePrice())));
 				//text_sum_totalBill.setText(formatter.format(Sumsale.getTotalBill()));
 				//text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));

@@ -9,6 +9,15 @@ import java.util.Collection;
 import java.util.List;
 
 
+
+
+
+
+
+
+
+import progress.menu.item.ProgressMenuItemHelper;
+
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_peport.database.model.GlobalProperty;
@@ -19,6 +28,7 @@ import com.example.pos_peport.database.model.SaleProductShop;
 import com.example.pos_peport.database.model.ShopProperty;
 import com.example.pos_peport.database.model.SumProductShop;
 import com.example.pos_peport.database.model.TopProductShop;
+import com.example.pos_report.SaleByDate.ShopSpinner;
 import com.example.pos_report.database.GetSaleProductShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GetTopProductShopDao;
@@ -27,6 +37,7 @@ import com.example.pos_report.database.ProductGroupDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
 import com.example.pos_report.graph.SalebyProduct_Graph;
+import com.example.pos_report.graph.SalebyProduct_Hello_Graph;
 import com.example.pos_report.graph.TopProduct_Qty_PieGraph;
 import com.example.pos_report.graph.TopProduct_Saleprice_PieGraph;
 import com.google.gson.Gson;
@@ -41,9 +52,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -64,13 +79,23 @@ public class SaleByProduct extends Fragment {
 	private int sumAmount;
 	private ListView listProduct,list_TopProduct;
 	private FlatButton showReportBtn,showReportBtn2,showChart_product,showChart_TopProduct;
-	private FlatTextView text_sum_qty,text_sum_price,text_sum_percent;
+	private FlatTextView text_sum_qty,text_sum_price,text_sum_percent,text_tableTopProductName;
 	private Double sumQty,sumTotalPrice,sumPercent,sumProduct,sumSalePrice;
 	private Spinner shopSelect,monthSelect, yearSelect,topProduct_productSelect, topProduct_modeSelect;
 	ReportDatabase Database;
 	private ProgressDialog pdia;
 	private String lastsaledate;
+	private static int CurrentShopID;
+	private int currentmonth,yearposition;
+	private String currentyear;
 	
+	
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+	GlobalProperty format = gpd.getGlobalProperty();
+	String currencyformat = format.getCurrencyFormat();
+	String qtyformat = format.getQtyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+	NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 	 public static SaleByProduct newInstance(int sectionNumber) {
 		 SaleByProduct fragment = new SaleByProduct();
 			Bundle args = new Bundle();
@@ -88,12 +113,13 @@ public class SaleByProduct extends Fragment {
 	 @Override
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	   Bundle savedInstanceState) {
+		 setHasOptionsMenu(true);
 	  View rootView = inflater.inflate(R.layout.salebyproduct_main, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 		
-	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
-	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
+	   String path_ip = sharedPreferences.getString("path_ip", "");
+	   String path_visual = sharedPreferences.getString("path_visual", "");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
 	   
 	   pdia = new ProgressDialog(getActivity());
@@ -102,8 +128,9 @@ public class SaleByProduct extends Fragment {
 	   pdia.getWindow().setBackgroundDrawableResource(android.R.color.transparent);*/
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
+	   pdia.setTitle("Sale By Product");
 	   
-        
+	   text_tableTopProductName = (FlatTextView)rootView.findViewById(R.id.text_tableTopProductName);
 	  text_sum_qty = (FlatTextView)rootView.findViewById(R.id.text_sum_qty);
 	  text_sum_price = (FlatTextView)rootView.findViewById(R.id.text_sum_price);
 	  text_sum_percent = (FlatTextView)rootView.findViewById(R.id.text_sum_percent);
@@ -118,15 +145,45 @@ public class SaleByProduct extends Fragment {
 		topProduct_productSelect = (Spinner) rootView.findViewById(R.id.topProduct_productSelect);
 		topProduct_modeSelect = (Spinner) rootView.findViewById(R.id.topProduct_modeSelect);
 		
-		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
+		/*ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 		final List<ShopProperty> Shoplist = sp.getShopList();
 		shopSelect.setAdapter(new ShopSpinner(Shoplist));
 		
 		//ShopProperty shoplist = new ShopProperty();
 		//ShopID = shoplist.getShopID();
 		shopSelect.getItemAtPosition(0);
-		shopSelect.setSelection(0);
+		shopSelect.setSelection(0);*/
+		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 
+		final List<ShopProperty> Shoplist = sp.getShopList();
+		shopSelect.setAdapter(new ShopSpinner(Shoplist));
+		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
+		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
+		CurrentShopID = saledate.get(0);
+		 
+		shopSelect.getItemAtPosition(0);
+		shopSelect.setSelection(0);
+		
+		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+			
+			@Override
+			public void onSuccess(String result) {
+				lastsaledate = result;
+				month = Integer.parseInt(lastsaledate.substring(5, 7));
+				currentyear = (lastsaledate.substring(0,4));
+				monthSelect.setSelection(month-1);
+				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
+				yearposition = yearadapter.getPosition(currentyear);
+				yearSelect.setSelection(yearposition);
+				pdia.dismiss();
+			}
+
+			@Override
+			public void onLoad() {
+				pdia.setMessage("Loding...");
+				pdia.show();
+			}
+		}).execute(URL);
 			//Database = new ReportDatabase(getActivity());
 			
 		elv.setOnTouchListener(new ListView.OnTouchListener() {
@@ -276,7 +333,7 @@ public class SaleByProduct extends Fragment {
 			public void onClick(View v) {
 		    	
 		    	Intent intentMain = new Intent(getActivity() , 
-						 SalebyProduct_Graph.class);
+		    			SalebyProduct_Graph.class);
 		    	
 		    	startActivity(intentMain);
 		    	
@@ -407,19 +464,17 @@ public void onDataChange(){
 				// insert GetSumProductShop data into database
 				GetSumProductShopDao gp = new GetSumProductShopDao(getActivity());
 				gp.insertSumProductShopData(sp);
-				pdia.dismiss();
 				
 			} catch (JsonSyntaxException e) {
 				e.printStackTrace();
 			}
-			
+			pdia.dismiss();;
 		}
 		
 		@Override
 		public void onLoad() {
-			// TODO Auto-generated method stub
-			pdia.setMessage("Summary product data loading...");
-	        pdia.show();
+			pdia.setMessage("Loading...");
+			pdia.show();
 		}
 	}).execute(URL);
 	new GetSaleProductShop(getActivity(), ShopID, month, year, ProductGroupCode, "123",new GetSaleProductShop.GetSaleProduct() {
@@ -450,18 +505,18 @@ public void onDataChange(){
 			                return true;
 			        }
 			    });
-			    pdia.dismiss();
+				
 			} catch (JsonSyntaxException e) {
 				e.printStackTrace();
 			}
+			pdia.dismiss();;
 			
 		}
 		
 		@Override
 		public void onLoad() {
-			// TODO Auto-generated method stub
-			 pdia.setMessage("Sale product data loading...");
-		     pdia.show();
+			pdia.setMessage("Loading...");
+			pdia.show();
 		}
 	}).execute(URL);
 	
@@ -488,10 +543,12 @@ public void onTopDataChange(){
 				gt.insertTopProductShopData(st);
 				if(mode == 0){
 					//Set ListViewAdapter TopqtyProduct
+					text_tableTopProductName.setText("Top 10 Product by Qty");
 					List<TopProductShop> Topqtyproduct = gt.getTopQtyProduct();
 					list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
 					}
 					else if(mode ==1){
+						text_tableTopProductName.setText("Top 10 Product by Saleprice");
 						List<TopProductShop> Topsaleproduct = gt.getTopSaleProduct();
 						list_TopProduct.setAdapter(new TopSaleProductListAdapter(Topsaleproduct));
 					}
@@ -505,9 +562,8 @@ public void onTopDataChange(){
 		
 		@Override
 		public void onLoad() {
-			// TODO Auto-generated method stub
-			pdia.setMessage("Top product data loading...");
-	        pdia.show();
+			pdia.setMessage("Loading...");
+			pdia.show();
 		}
 	}).execute(URL);
 	
@@ -570,12 +626,6 @@ public void onTopDataChange(){
 					holder.itemValue.setText(st.getProductName());
 					holder.qtyValue.setText(qtyformatter.format(st.getQty()));
 					holder.priceValue.setText(currencyformatter.format(st.getSalePrice()));
-					//GetSaleProductShopDao gsp = new GetSaleProductShopDao(getActivity());
-					/*SaleProductShop sum = new SaleProductShop();
-					sum = gsp.getSumProduct();
-					double totalprice = sum.getSumSalePrice();
-					double percent = (st.getSalePrice()* 100) / totalprice;*/
-					//holder.percentValue.setText(formatter.format((st.)));
 					
 				return convertView;
 					}
@@ -636,10 +686,6 @@ public void onTopDataChange(){
 							holder.itemValue.setText(st.getProductName());
 							holder.qtyValue.setText(qtyformatter.format(st.getQty()));
 							holder.priceValue.setText(currencyformatter.format(st.getSalePrice()));
-							//holder.percentValue.setText(formatter.format((st.getSalePrice())));
-							//text_sum_totalBill.setText(formatter.format(Sumsale.getTotalBill()));
-							//text_sum_discount.setText(formatter.format(Sumsale.getDiscount()));
-							//text_sum_salePrice.setText(formatter.format(Sumsale.getSalePrice()));
 						
 						return convertView;
 							}
@@ -917,5 +963,7 @@ public void onTopDataChange(){
 						return true;
 					}
 					}
+				
+				
 
 }

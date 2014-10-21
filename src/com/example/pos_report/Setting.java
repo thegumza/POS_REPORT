@@ -29,8 +29,8 @@ public class Setting extends Activity  {
 		
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-	    path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
-	    path_visual = sharedPreferences.getString("path_visual", "mpos6");
+	    path_ip = sharedPreferences.getString("path_ip", "");
+	    path_visual = sharedPreferences.getString("path_visual", "");
 	    
 	    udid = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
 	    setting_udid = (FlatTextView) findViewById(R.id.value_udid);	

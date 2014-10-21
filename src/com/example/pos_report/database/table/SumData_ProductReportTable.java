@@ -11,7 +11,6 @@ public class SumData_ProductReportTable {
 	public static final String COLUMN_SALE_MODE = "SaleMode";
 	public static final String COLUMN_QTY = "Qty";
 	public static final String COLUMN_SALE_PRICE = "SalePrice";
-	public static final String COLUMN_PRODUCT_NAME = "ProductName";
 	
 	private static String sqlCreate = 
 			"CREATE TABLE " + TABLE_SUMDATA_PRODUCTREPORT + "( "

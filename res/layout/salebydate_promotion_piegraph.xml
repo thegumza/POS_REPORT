@@ -7,27 +7,58 @@
     android:background="#ffffff"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/headpromo"
+     <LinearLayout
+        android:id="@+id/boxReportShow_Promotion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@color/fbutton_color_turquoise"
-        android:orientation="vertical" >
-
-        <com.example.flatuilibrary.FlatTextView
-            android:id="@+id/txtpayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Promotion Chart"
-            android:textSize="18dp"
-            android:textColor="#ffffff"
-	        flatui:fl_fontWeight="regular" />
+        android:background="@color/fbutton_color_turquoise" >
         
-    </LinearLayout>
+
+    <com.example.flatuilibrary.FlatTextView
+        android:id="@+id/shopNameValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textSize="20dp"
+        flatui:fl_fontWeight="bold"
+        android:textColor="#ffffff" />
+    
+</LinearLayout>
+<LinearLayout
+        android:id="@+id/boxPromotion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:paddingTop="2dp" >
+   <LinearLayout
+            android:id="@+id/headTablePromotion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_turquoise"
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp" >
+	        
+	        <com.example.flatuilibrary.FlatTextView
+	            android:id="@+id/text_tablePromotion"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:paddingBottom="3dp"
+	            android:paddingTop="2dp"
+	            android:text="Sale By Date Promotion Chart"
+	            android:textColor="#ffffff"
+	            android:textSize="20dp"
+	            android:background="@color/fbutton_color_turquoise"
+	            android:textStyle="bold"
+	            android:layout_marginBottom="2dp"
+	            flatui:fl_fontWeight="bold" />
+	        
+        </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -41,5 +72,5 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
+</LinearLayout>
 </LinearLayout>
