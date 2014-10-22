@@ -12,10 +12,10 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_peport.database.model.SumPromotionShop;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumPromotionShopDao;
+import com.example.pos_report.database.model.SumPromotionShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -31,14 +31,31 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
 	String shopName = SaleByDate.getShopName();
 	int month = SaleByDate.getMonth();
 	int year = SaleByDate.getYear();
-	FlatTextView ShopNameValue;
+	FlatTextView ShopNameValue,text_tablePromotion;
+	final ArrayList<String> months = new ArrayList<String>();
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.salebydate_promotion_piegraph);
-        ShopNameValue = (FlatTextView) findViewById(R.id.shopNameValue);
         
-        ShopNameValue.setText(shopName+" ("+ year +" - "+ month +")");
+        text_tablePromotion = (FlatTextView) findViewById(R.id.text_tablePromotion);
+        ShopNameValue = (FlatTextView) findViewById(R.id.shopNameValue);
+        months.add(0,"January");
+        months.add(1,"February");
+        months.add(2,"March");
+        months.add(3,"April");
+        months.add(4,"May");
+        months.add(5,"June");
+        months.add(6,"July");
+        months.add(7,"August");
+        months.add(8,"September");
+        months.add(9,"October");
+        months.add(10,"November");
+        months.add(11,"December");
+        
+        text_tablePromotion.setText("Sale By Date Promotion Chart");
+        ShopNameValue.setText(shopName+" ("+ year +" - "+ months.get(month-1) +")");
         
         mChart = (PieChart) findViewById(R.id.chart1);
 
@@ -60,8 +77,11 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
 		final List<SumPromotionShop> spr = gpr.getSumPromoList();
 		ArrayList<String> promotionname = new ArrayList<String>() ;
 		ArrayList<String> totaldiscount = new ArrayList<String>() ;
+		final SumPromotionShop gr = gpr.getSumPromotion();
+		double totaldis = gr.getDiscount();
+		//double percent = (spr.getDiscount()* 100) / totaldis;
 		for (SumPromotionShop sp : spr) totaldiscount.add(Double.toString(sp.getDiscount()));
-		for (SumPromotionShop sp : spr) promotionname.add(sp.getPromotionName()+" ("+sp.getDiscount()+")");
+		for (SumPromotionShop sp : spr) promotionname.add("("+(sp.getDiscount()* 100) / totaldis+"%)"+sp.getPromotionName()+" ("+sp.getDiscount()+")");
 		
 		
 		String[] pronameArr = new String[promotionname.size()];

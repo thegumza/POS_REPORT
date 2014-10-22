@@ -3,8 +3,9 @@ package com.example.pos_report.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.pos_peport.database.model.PayType;
+import com.example.pos_report.database.model.PayType;
 import com.example.pos_report.database.table.PayTypeTable;
+
 
 
 import android.content.ContentValues;

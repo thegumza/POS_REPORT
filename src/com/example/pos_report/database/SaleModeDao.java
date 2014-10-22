@@ -2,7 +2,7 @@ package com.example.pos_report.database;
 
 import java.util.List;
 
-import com.example.pos_peport.database.model.SaleMode;
+import com.example.pos_report.database.model.SaleMode;
 import com.example.pos_report.database.table.SaleModeTable;
 
 import android.content.ContentValues;

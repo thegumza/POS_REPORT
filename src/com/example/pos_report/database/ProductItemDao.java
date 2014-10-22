@@ -5,7 +5,7 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 
-import com.example.pos_peport.database.model.ProductItem;
+import com.example.pos_report.database.model.ProductItem;
 import com.example.pos_report.database.table.ProductItemTable;
 
 public class ProductItemDao extends ReportDatabase{

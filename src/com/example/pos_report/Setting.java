@@ -63,11 +63,8 @@ public class Setting extends Activity  {
 			        PendingIntent intent = PendingIntent.getActivity(Setting.this.getBaseContext(), 0, new Intent(getIntent()), getIntent().getFlags());
 			        AlarmManager manager = (AlarmManager) Setting.this.getSystemService(Context.ALARM_SERVICE);
 			        
-			        //manager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, intent);
 			        System.exit(2);
 			        
-			       // android.os.Process.killProcess(android.os.Process.myPid());
-			       // System.exit(1);  
 			   }
 			});
 		

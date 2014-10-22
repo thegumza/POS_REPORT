@@ -2,7 +2,7 @@ package com.example.pos_report.database;
 
 import java.util.List;
 
-import com.example.pos_peport.database.model.ProductDept;
+import com.example.pos_report.database.model.ProductDept;
 import com.example.pos_report.database.table.ProductDeptTable;
 
 import android.content.ContentValues;

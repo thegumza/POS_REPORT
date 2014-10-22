@@ -1522,27 +1522,27 @@ containing a value of this type.
         public static final int ProductDeptName=0x7f0c00d6;
         public static final int ProductGroupName=0x7f0c00d5;
         public static final int SaleDateValue=0x7f0c0062;
-        public static final int SumDeptPriceValue=0x7f0c00ef;
+        public static final int SumDeptPriceValue=0x7f0c00f0;
         public static final int ToTalCustValue=0x7f0c0064;
         public static final int TotalBillValue=0x7f0c0063;
         public static final int TotalDisValue=0x7f0c0067;
         public static final int TotalRetailValue=0x7f0c0066;
         public static final int TotalSaleValue=0x7f0c0068;
         public static final int TotalVatValue=0x7f0c0065;
-        public static final int actionDrawCenter=0x7f0c0113;
-        public static final int actionSave=0x7f0c010d;
-        public static final int actionToggle3D=0x7f0c0106;
-        public static final int actionToggleAdjustXLegend=0x7f0c010b;
-        public static final int actionToggleFilter=0x7f0c010c;
-        public static final int actionToggleHighlight=0x7f0c0104;
-        public static final int actionToggleHighlightArrow=0x7f0c0105;
-        public static final int actionToggleHole=0x7f0c0112;
-        public static final int actionTogglePercent=0x7f0c0111;
-        public static final int actionTogglePinch=0x7f0c010e;
-        public static final int actionToggleStartzero=0x7f0c010a;
-        public static final int actionToggleValues=0x7f0c0103;
-        public static final int actionToggleXVals=0x7f0c0110;
-        public static final int action_animate=0x7f0c011c;
+        public static final int actionDrawCenter=0x7f0c0114;
+        public static final int actionSave=0x7f0c010e;
+        public static final int actionToggle3D=0x7f0c0107;
+        public static final int actionToggleAdjustXLegend=0x7f0c010c;
+        public static final int actionToggleFilter=0x7f0c010d;
+        public static final int actionToggleHighlight=0x7f0c0105;
+        public static final int actionToggleHighlightArrow=0x7f0c0106;
+        public static final int actionToggleHole=0x7f0c0113;
+        public static final int actionTogglePercent=0x7f0c0112;
+        public static final int actionTogglePinch=0x7f0c010f;
+        public static final int actionToggleStartzero=0x7f0c010b;
+        public static final int actionToggleValues=0x7f0c0104;
+        public static final int actionToggleXVals=0x7f0c0111;
+        public static final int action_animate=0x7f0c011d;
         public static final int action_bar=0x7f0c0027;
         public static final int action_bar_activity_content=0x7f0c0001;
         public static final int action_bar_container=0x7f0c0026;
@@ -1550,30 +1550,30 @@ containing a value of this type.
         public static final int action_bar_root=0x7f0c0025;
         public static final int action_bar_subtitle=0x7f0c002e;
         public static final int action_bar_title=0x7f0c002d;
-        public static final int action_center_circle=0x7f0c0117;
-        public static final int action_center_text1=0x7f0c0118;
-        public static final int action_center_text2=0x7f0c0119;
+        public static final int action_center_circle=0x7f0c0118;
+        public static final int action_center_text1=0x7f0c0119;
+        public static final int action_center_text2=0x7f0c011a;
         public static final int action_context_bar=0x7f0c0028;
-        public static final int action_explode=0x7f0c0115;
+        public static final int action_explode=0x7f0c0116;
         public static final int action_menu_divider=0x7f0c0002;
         public static final int action_menu_presenter=0x7f0c0003;
         public static final int action_mode_close_button=0x7f0c002f;
-        public static final int action_refresh=0x7f0c011e;
-        public static final int action_reset=0x7f0c0114;
-        public static final int action_settings=0x7f0c010f;
-        public static final int action_single_arc_separation=0x7f0c0116;
-        public static final int action_toggle_labels=0x7f0c011a;
-        public static final int action_toggle_labels_outside=0x7f0c011b;
-        public static final int action_toggle_selection_mode=0x7f0c011d;
+        public static final int action_refresh=0x7f0c011f;
+        public static final int action_reset=0x7f0c0115;
+        public static final int action_settings=0x7f0c0110;
+        public static final int action_single_arc_separation=0x7f0c0117;
+        public static final int action_toggle_labels=0x7f0c011b;
+        public static final int action_toggle_labels_outside=0x7f0c011c;
+        public static final int action_toggle_selection_mode=0x7f0c011e;
         public static final int activity_chooser_view_content=0x7f0c0030;
         public static final int always=0x7f0c001b;
         public static final int amountPaymentValue=0x7f0c00c1;
         public static final int amountPaytypeValue=0x7f0c00c8;
         public static final int amountPromotionTypeValue=0x7f0c00d0;
         public static final int amountPromotionValue=0x7f0c00cb;
-        public static final int animateX=0x7f0c0107;
-        public static final int animateXY=0x7f0c0109;
-        public static final int animateY=0x7f0c0108;
+        public static final int animateX=0x7f0c0108;
+        public static final int animateXY=0x7f0c010a;
+        public static final int animateY=0x7f0c0109;
         public static final int beginning=0x7f0c0022;
         public static final int box=0x7f0c0009;
         public static final int boxDate=0x7f0c009f;
@@ -1581,6 +1581,7 @@ containing a value of this type.
         public static final int boxPayment=0x7f0c00c4;
         public static final int boxPromotion=0x7f0c00ce;
         public static final int boxReportShow_Payment=0x7f0c00c3;
+        public static final int boxReportShow_Product=0x7f0c00eb;
         public static final int boxReportShow_Promotion=0x7f0c00cd;
         public static final int boxReportShow_Sumsale=0x7f0c0092;
         public static final int boxReportShow_TopProduct=0x7f0c00a4;
@@ -1632,8 +1633,8 @@ containing a value of this type.
         public static final int headTablepromotion=0x7f0c0095;
         public static final int headTablesale=0x7f0c0054;
         public static final int headTablesaledate=0x7f0c00a0;
-        public static final int headproduct=0x7f0c00eb;
-        public static final int headsetting=0x7f0c00fa;
+        public static final int headproduct=0x7f0c00ec;
+        public static final int headsetting=0x7f0c00fb;
         public static final int home=0x7f0c0000;
         public static final int homeAsUp=0x7f0c0016;
         public static final int icon=0x7f0c0035;
@@ -1641,8 +1642,8 @@ containing a value of this type.
         public static final int image=0x7f0c0032;
         public static final int imageView1=0x7f0c004c;
         public static final int itemValue=0x7f0c00d2;
-        public static final int item_PriceValue=0x7f0c00f2;
-        public static final int item_QtyValue=0x7f0c00f6;
+        public static final int item_PriceValue=0x7f0c00f3;
+        public static final int item_QtyValue=0x7f0c00f7;
         public static final int light=0x7f0c0007;
         public static final int listMode=0x7f0c0012;
         public static final int listPayment=0x7f0c006f;
@@ -1659,11 +1660,11 @@ containing a value of this type.
         public static final int never=0x7f0c001e;
         public static final int none=0x7f0c0008;
         public static final int normal=0x7f0c0013;
-        public static final int number_PriceValue=0x7f0c00f1;
-        public static final int number_QtyValue=0x7f0c00f5;
+        public static final int number_PriceValue=0x7f0c00f2;
+        public static final int number_QtyValue=0x7f0c00f6;
         public static final int pager=0x7f0c00a6;
         public static final int payTypeValue=0x7f0c008c;
-        public static final int percentDeptValue=0x7f0c00f0;
+        public static final int percentDeptValue=0x7f0c00f1;
         public static final int percentPaymentValue=0x7f0c00c2;
         public static final int percentPaytypeValue=0x7f0c00c9;
         public static final int percentPromotionTypeValue=0x7f0c00d1;
@@ -1676,13 +1677,13 @@ containing a value of this type.
         public static final int promotionTypeValue=0x7f0c0096;
         public static final int promotion_detail_layout=0x7f0c0091;
         public static final int qtyValue=0x7f0c00d3;
-        public static final int qty_PriceValue=0x7f0c00f3;
-        public static final int qty_QtyValue=0x7f0c00f7;
+        public static final int qty_PriceValue=0x7f0c00f4;
+        public static final int qty_QtyValue=0x7f0c00f8;
         public static final int radio=0x7f0c003a;
-        public static final int reset=0x7f0c0102;
+        public static final int reset=0x7f0c0103;
         public static final int saleDateValue=0x7f0c00c7;
-        public static final int salePrice_PriceValue=0x7f0c00f4;
-        public static final int salePrice_QtyValue=0x7f0c00f8;
+        public static final int salePrice_PriceValue=0x7f0c00f5;
+        public static final int salePrice_QtyValue=0x7f0c00f9;
         public static final int salebyproduct_topqty_layout=0x7f0c00ae;
         public static final int salebyproduct_topsale_layout=0x7f0c00b0;
         public static final int saledate_linear_layout=0x7f0c009e;
@@ -1703,8 +1704,8 @@ containing a value of this type.
         public static final int selectShopZone=0x7f0c0056;
         public static final int selectTopProduct=0x7f0c00e6;
         public static final int selectZone=0x7f0c0059;
-        public static final int setting=0x7f0c00fb;
-        public static final int setting_layout_id=0x7f0c00f9;
+        public static final int setting=0x7f0c00fc;
+        public static final int setting_layout_id=0x7f0c00fa;
         public static final int shopNameValue=0x7f0c008b;
         public static final int shopspinner=0x7f0c0057;
         public static final int shortcut=0x7f0c0039;
@@ -1719,8 +1720,8 @@ containing a value of this type.
         public static final int showTitle=0x7f0c0019;
         public static final int split_action_bar=0x7f0c0029;
         public static final int submit_area=0x7f0c0044;
-        public static final int sumDeptAmountValue=0x7f0c00ee;
-        public static final int sumDeptText=0x7f0c00ed;
+        public static final int sumDeptAmountValue=0x7f0c00ef;
+        public static final int sumDeptText=0x7f0c00ee;
         public static final int summaryTableDate=0x7f0c00ba;
         public static final int summaryTablePayment=0x7f0c0070;
         public static final int summaryTableProduct=0x7f0c00de;
@@ -1782,12 +1783,12 @@ containing a value of this type.
         public static final int topproduct_detail_layout=0x7f0c00a3;
         public static final int totalBill=0x7f0c0086;
         public static final int transparent=0x7f0c000b;
-        public static final int txtIP=0x7f0c00fe;
+        public static final int txtIP=0x7f0c00ff;
         public static final int txtPassword=0x7f0c004e;
-        public static final int txtPath=0x7f0c0100;
-        public static final int txtUDID=0x7f0c00fc;
+        public static final int txtPath=0x7f0c0101;
+        public static final int txtUDID=0x7f0c00fd;
         public static final int txtUserName=0x7f0c004d;
-        public static final int txtproduct=0x7f0c00ec;
+        public static final int txtproduct=0x7f0c00ed;
         public static final int txtsaledate=0x7f0c005b;
         public static final int txttotalbill=0x7f0c005c;
         public static final int txttotalcust=0x7f0c005d;
@@ -1799,9 +1800,9 @@ containing a value of this type.
         public static final int typePromotionValue=0x7f0c00ca;
         public static final int up=0x7f0c002c;
         public static final int useLogo=0x7f0c001a;
-        public static final int value_ip=0x7f0c00ff;
-        public static final int value_udid=0x7f0c00fd;
-        public static final int value_visual=0x7f0c0101;
+        public static final int value_ip=0x7f0c0100;
+        public static final int value_udid=0x7f0c00fe;
+        public static final int value_visual=0x7f0c0102;
         public static final int withText=0x7f0c001f;
         public static final int yearspinner=0x7f0c00b2;
     }
@@ -1968,17 +1969,6 @@ containing a value of this type.
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
-
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    
- API 11 theme customizations can go here. 
-
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
 
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.

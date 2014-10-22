@@ -3,8 +3,8 @@ package com.example.pos_report.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.pos_peport.database.model.TopProductShop;
 import com.example.pos_report.SaleByDate;
+import com.example.pos_report.database.model.TopProductShop;
 import com.example.pos_report.database.table.SumData_ProductReportTable;
 import com.example.pos_report.database.table.SumData_TopProductReportTable;
 

@@ -1,5 +1,8 @@
 package com.example.pos_report;
 
+import com.example.pos_report.detail.SaleByDate_Detail_TopQty;
+import com.example.pos_report.detail.SaleByDate_Detail_TopSale;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;

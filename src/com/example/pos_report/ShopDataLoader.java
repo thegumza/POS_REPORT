@@ -5,11 +5,11 @@ import org.ksoap2.serialization.PropertyInfo;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.PayTypeDao;
 import com.example.pos_report.database.ShopPropertyDao;
 import com.example.pos_report.database.StaffsDao;
+import com.example.pos_report.database.model.ShopData;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

@@ -3,9 +3,8 @@ package com.example.pos_report.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.pos_peport.database.model.ShopProperty;
+import com.example.pos_report.database.model.ShopProperty;
 import com.example.pos_report.database.table.ShopPropertyTable;
-
 
 import android.content.ContentValues;
 import android.content.Context;

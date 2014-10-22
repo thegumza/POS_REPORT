@@ -3,8 +3,9 @@ package com.example.pos_report.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.pos_peport.database.model.Promotion;
+import com.example.pos_report.database.model.Promotion;
 import com.example.pos_report.database.table.PromotionTable;
+
 
 
 import android.content.ContentValues;

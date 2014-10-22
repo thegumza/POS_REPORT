@@ -2,7 +2,7 @@ package com.example.pos_report.database;
 
 import java.util.List;
 
-import com.example.pos_peport.database.model.GlobalProperty;
+import com.example.pos_report.database.model.GlobalProperty;
 import com.example.pos_report.database.table.GlobalPropertyTable;
 
 import android.content.ContentValues;

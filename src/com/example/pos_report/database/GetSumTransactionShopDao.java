@@ -6,7 +6,8 @@ import java.util.List;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import com.example.pos_peport.database.model.SumTransactionShop;
+
+import com.example.pos_report.database.model.SumTransactionShop;
 import com.example.pos_report.database.table.SumData_TransReportTable;
 
 public class GetSumTransactionShopDao extends ReportDatabase{

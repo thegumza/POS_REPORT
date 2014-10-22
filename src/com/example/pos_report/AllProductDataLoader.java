@@ -6,12 +6,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.example.pos_peport.database.model.AllProductData;
 import com.example.pos_report.GetLastSaleDateShop.GetLastSaleDate;
 import com.example.pos_report.database.ProductDeptDao;
 import com.example.pos_report.database.ProductGroupDao;
 import com.example.pos_report.database.ProductItemDao;
 import com.example.pos_report.database.PromotionDao;
+import com.example.pos_report.database.model.AllProductData;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 

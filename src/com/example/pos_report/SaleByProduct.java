@@ -8,26 +8,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-
-
-
-
-
-
-
 import progress.menu.item.ProgressMenuItemHelper;
 
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_peport.database.model.GlobalProperty;
-import com.example.pos_peport.database.model.ProductGroup;
-import com.example.pos_peport.database.model.ProductModel;
-import com.example.pos_peport.database.model.ProductModel.ProductNameModel;
-import com.example.pos_peport.database.model.SaleProductShop;
-import com.example.pos_peport.database.model.ShopProperty;
-import com.example.pos_peport.database.model.SumProductShop;
-import com.example.pos_peport.database.model.TopProductShop;
 import com.example.pos_report.SaleByDate.ShopSpinner;
 import com.example.pos_report.database.GetSaleProductShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
@@ -36,8 +20,15 @@ import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.ProductGroupDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
+import com.example.pos_report.database.model.ProductGroup;
+import com.example.pos_report.database.model.ProductModel;
+import com.example.pos_report.database.model.SaleProductShop;
+import com.example.pos_report.database.model.ShopProperty;
+import com.example.pos_report.database.model.SumProductShop;
+import com.example.pos_report.database.model.TopProductShop;
+import com.example.pos_report.database.model.ProductModel.ProductNameModel;
 import com.example.pos_report.graph.SalebyProduct_Graph;
-import com.example.pos_report.graph.SalebyProduct_Hello_Graph;
 import com.example.pos_report.graph.TopProduct_Qty_PieGraph;
 import com.example.pos_report.graph.TopProduct_Saleprice_PieGraph;
 import com.google.gson.Gson;
@@ -75,19 +66,20 @@ public class SaleByProduct extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	public static String URL;
 	private String ProductGroupCode="";
-	private int ShopID,month,year,mode;
+	private static int ShopID,month,year,mode;
 	private int sumAmount;
 	private ListView listProduct,list_TopProduct;
 	private FlatButton showReportBtn,showReportBtn2,showChart_product,showChart_TopProduct;
 	private FlatTextView text_sum_qty,text_sum_price,text_sum_percent,text_tableTopProductName;
 	private Double sumQty,sumTotalPrice,sumPercent,sumProduct,sumSalePrice;
 	private Spinner shopSelect,monthSelect, yearSelect,topProduct_productSelect, topProduct_modeSelect;
-	ReportDatabase Database;
+	private ReportDatabase Database;
 	private ProgressDialog pdia;
-	private String lastsaledate;
+	private static String lastsaledate;
 	private static int CurrentShopID;
 	private int currentmonth,yearposition;
 	private String currentyear;
+	private static String shopName;
 	
 	
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
@@ -123,9 +115,6 @@ public class SaleByProduct extends Fragment {
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
 	   
 	   pdia = new ProgressDialog(getActivity());
-	   /*pdia.requestWindowFeature(Window.FEATURE_NO_TITLE);
-	   pdia.getWindow().setContentView(R.layout.progress_dialog);
-	   pdia.getWindow().setBackgroundDrawableResource(android.R.color.transparent);*/
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
 	   pdia.setTitle("Sale By Product");
@@ -145,20 +134,14 @@ public class SaleByProduct extends Fragment {
 		topProduct_productSelect = (Spinner) rootView.findViewById(R.id.topProduct_productSelect);
 		topProduct_modeSelect = (Spinner) rootView.findViewById(R.id.topProduct_modeSelect);
 		
-		/*ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-		final List<ShopProperty> Shoplist = sp.getShopList();
-		shopSelect.setAdapter(new ShopSpinner(Shoplist));
-		
-		//ShopProperty shoplist = new ShopProperty();
-		//ShopID = shoplist.getShopID();
-		shopSelect.getItemAtPosition(0);
-		shopSelect.setSelection(0);*/
 		ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 
 		final List<ShopProperty> Shoplist = sp.getShopList();
+	
 		shopSelect.setAdapter(new ShopSpinner(Shoplist));
 		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
 		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
+		
 		CurrentShopID = saledate.get(0);
 		 
 		shopSelect.getItemAtPosition(0);
@@ -212,7 +195,6 @@ public class SaleByProduct extends Fragment {
 		 item = new ProductGroup();
 		 item.setProductGroupCode("");
 		 item.setProductGroupName("All Product");
-		 //Productgroup.add(0,item);
 		 
 		 Productgroup = pg.getProductGroup();
 		 Productgroup.add(0,item);
@@ -363,8 +345,24 @@ public class SaleByProduct extends Fragment {
 		return rootView;
 	
 }
+	
 	 
-	 @Override
+	 
+	 public static int getMonth() {
+		return month;
+	}
+
+	public static int getYear() {
+		return year;
+	}
+
+	public static String getLastsaledate() {
+		return lastsaledate;
+	}
+
+	
+
+	@Override
 	 public void onAttach(Activity activity) {
 	  super.onAttach(activity);
 	  super.onAttach(activity);
@@ -401,9 +399,15 @@ public class SaleByProduct extends Fragment {
 				convertView = inflater.inflate(R.layout.spinner_item, parent,false);
 				TextView textView = (TextView)convertView.findViewById(R.id.textView1);
 				ShopProperty sp = Shoplist.get(position);
+				shopName = sp.getShopName();
 				textView.setText(sp.getShopName());
 				return convertView;
 			}}
+	 
+	 public static String getShopName() {
+			return shopName;
+		}
+	 
 	 public class GroupSpinner extends BaseAdapter {
 			
 			List<ProductGroup> Productgroup;

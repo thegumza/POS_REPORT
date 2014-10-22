@@ -11,13 +11,6 @@ import progress.menu.item.ProgressMenuItemHelper;
 
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_peport.database.model.GlobalProperty;
-import com.example.pos_peport.database.model.ProductGroup;
-import com.example.pos_peport.database.model.ShopProperty;
-import com.example.pos_peport.database.model.SumPaymentShop;
-import com.example.pos_peport.database.model.SumProductShop;
-import com.example.pos_peport.database.model.SumPromotionShop;
-import com.example.pos_peport.database.model.SumTransactionShop;
 import com.example.pos_report.GetSumTransactionShop.GetSumTransacTion;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
@@ -26,6 +19,15 @@ import com.example.pos_report.database.GetSumTransactionShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
+import com.example.pos_report.database.model.ProductGroup;
+import com.example.pos_report.database.model.ShopProperty;
+import com.example.pos_report.database.model.SumPaymentShop;
+import com.example.pos_report.database.model.SumProductShop;
+import com.example.pos_report.database.model.SumPromotionShop;
+import com.example.pos_report.database.model.SumTransactionShop;
+import com.example.pos_report.detail.SaleByDate_Detail_Paytype;
+import com.example.pos_report.detail.SaleByDate_Detail_PromotionType;
 import com.example.pos_report.graph.SalebyDate_Graph;
 import com.example.pos_report.graph.SalebyDate_Payment_PieGraph;
 import com.example.pos_report.graph.SalebyDate_Promotion_PieGraph;
@@ -587,9 +589,6 @@ public class SaleByDate extends Fragment{
 		return shopName;
 	}
 
-	public void setShopName(String shopName) {
-		SaleByDate.shopName = shopName;
-	}
 
 	public class TypeSpinner extends BaseAdapter {
 			

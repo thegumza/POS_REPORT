@@ -12,10 +12,10 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_peport.database.model.SumPaymentShop;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumPaymentShopDao;
+import com.example.pos_report.database.model.SumPaymentShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -31,7 +31,9 @@ public class SalebyDate_Payment_PieGraph extends Activity{
 	String shopName = SaleByDate.getShopName();
 	int month = SaleByDate.getMonth();
 	int year = SaleByDate.getYear();
-	FlatTextView ShopNameValue;
+	FlatTextView ShopNameValue,text_tablePayment;
+	final ArrayList<String> months = new ArrayList<String>();
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +41,23 @@ public class SalebyDate_Payment_PieGraph extends Activity{
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
         setContentView(R.layout.salebydate_payment_piegraph);
         
-
+        months.add(0,"January");
+        months.add(1,"February");
+        months.add(2,"March");
+        months.add(3,"April");
+        months.add(4,"May");
+        months.add(5,"June");
+        months.add(6,"July");
+        months.add(7,"August");
+        months.add(8,"September");
+        months.add(9,"October");
+        months.add(10,"November");
+        months.add(11,"December");
+        text_tablePayment = (FlatTextView) findViewById(R.id.text_tablePayment);
         ShopNameValue = (FlatTextView) findViewById(R.id.shopNameValue);
         
-        ShopNameValue.setText(shopName+" ("+ year +" - "+ month +")");
+        text_tablePayment.setText("Sale By Date Payment Chart");
+        ShopNameValue.setText(shopName+" ("+ year +" - "+ months.get(month-1) +")");
         mChart = (PieChart) findViewById(R.id.chart1);
 
         Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
@@ -71,11 +86,15 @@ public class SalebyDate_Payment_PieGraph extends Activity{
 		
         final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(this);
 		final List<SumPaymentShop> spl = gp.getPaymentlist();
+		final SumPaymentShop gsp = gp.getSumPayment();
 		
 		ArrayList<String> paytype = new ArrayList<String>() ;
 		ArrayList<String> totalpay = new ArrayList<String>() ;
+		double sumtotalpay = gsp.getTotalPay();
+		//double percent = (sp.getTotalPay()* 100) / totalpays;
+		
 		for (SumPaymentShop sp : spl) totalpay.add(Double.toString(sp.getTotalPay()));
-		for (SumPaymentShop sp : spl) paytype.add(sp.getPayTypeName()+" ("+sp.getTotalPay()+")");
+		for (SumPaymentShop sp : spl) paytype.add("("+(sp.getTotalPay()*100) /sumtotalpay+"%) "+sp.getPayTypeName()+" ("+sp.getTotalPay()+")");
 		String[] paytypeArr = new String[paytype.size()];
 		paytypeArr = paytype.toArray(paytypeArr);
 		

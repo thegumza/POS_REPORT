@@ -1,5 +1,9 @@
 package com.example.pos_report;
 
+import com.example.pos_report.detail.SaleByDate_Detail;
+import com.example.pos_report.detail.SaleByDate_Detail_Promotion;
+import com.example.pos_report.detail.SaleByDate_Detail_TopProduct;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

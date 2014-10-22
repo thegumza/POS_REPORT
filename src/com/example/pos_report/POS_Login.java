@@ -3,8 +3,6 @@ package com.example.pos_report;
 import java.util.List;
 
 import com.example.flatuilibrary.FlatButton;
-import com.example.pos_peport.database.model.AllProductData;
-import com.example.pos_peport.database.model.ShopData;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.PayTypeDao;
 import com.example.pos_report.database.ProductDeptDao;
@@ -14,6 +12,8 @@ import com.example.pos_report.database.PromotionDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
 import com.example.pos_report.database.StaffsDao;
+import com.example.pos_report.database.model.AllProductData;
+import com.example.pos_report.database.model.ShopData;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -24,6 +24,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 public class POS_Login extends Activity{
@@ -34,13 +35,16 @@ public class POS_Login extends Activity{
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
         setContentView(R.layout.login_form);
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(POS_Login.this);
+        
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
   	  	//Database = new ReportDatabase(POS_Login.this);
   	   String path_ip = sharedPreferences.getString("path_ip", "");
   	   String path_visual = sharedPreferences.getString("path_visual", "");
   	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
-  	   pdia = new ProgressDialog(POS_Login.this);
+  	   pdia = new ProgressDialog(this);
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
 	   
@@ -54,10 +58,7 @@ public class POS_Login extends Activity{
 		    	
 		    	Intent intentMain = new Intent(POS_Login.this , 
 						 MainActivity.class);
-		    	if(Database == null){
-		    		Toast.makeText(POS_Login.this, "No Data Please Update", Toast.LENGTH_LONG).show();}
-		    	else{
-		    		startActivity(intentMain);}
+		    		startActivity(intentMain);
 		    }
 		});
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -89,17 +90,7 @@ public class POS_Login extends Activity{
 							StaffsDao st = new StaffsDao(POS_Login.this);
 							st.insertStaffsData(sd.getStaffs());
 							
-							/*final List<ShopProperty> Shoplist = sp.getShopList();
-							shopSelect.setAdapter(new ShopSpinner(Shoplist));
-							
-							ShopProperty shoplist = new ShopProperty();
-							ShopID = shoplist.getShopID();
-							shopSelect.getItemAtPosition(0);
-							shopSelect.setSelection(0);*/
 							pdia.dismiss();
-							//ArrayAdapter<ShopProperty> shopadapter = (ArrayAdapter<ShopProperty>) shopSelect.getAdapter();
-							//int position = shopadapter.getPosition(shopadapter);
-							//shopSelect.setSelection(position);
 							
 						} catch (JsonSyntaxException e) {
 							e.printStackTrace();
@@ -161,14 +152,15 @@ public class POS_Login extends Activity{
 					}
 				}).execute(URL);
 				
-				btnSetting.setOnClickListener(new View.OnClickListener() {
-				    @Override
-					public void onClick(View v) {
-				    	
-				    	Intent intentMain = new Intent(POS_Login.this,Setting.class);
-				    	startActivity(intentMain);
-				    }
-				});
+				
+		    }
+		});
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+		    @Override
+			public void onClick(View v) {
+		    	
+		    	Intent intentMain = new Intent(POS_Login.this ,Setting.class);
+		    	startActivity(intentMain);
 		    }
 		});
         

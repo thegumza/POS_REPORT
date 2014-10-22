@@ -50,13 +50,13 @@
 	            android:gravity="center"
 	            android:paddingBottom="3dp"
 	            android:paddingTop="2dp"
-	            android:text="Sale By Date Payment Chart"
+	            android:text=""
 	            android:textColor="#ffffff"
 	            android:textSize="20dp"
 	            android:background="@color/fbutton_color_amethyst"
 	            android:textStyle="bold"
 	            android:layout_marginBottom="2dp"
-	            flatui:fl_fontWeight="bold" />
+	            flatui:fl_fontWeight="regular" />
 	        
         </LinearLayout>
 

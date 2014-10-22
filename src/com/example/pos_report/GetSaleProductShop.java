@@ -10,9 +10,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.example.pos_peport.database.model.SaleProductShop;
 import com.example.pos_report.GetSumPaymentShop.GetSumPayment;
 import com.example.pos_report.database.GetSaleProductShopDao;
+import com.example.pos_report.database.model.SaleProductShop;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;

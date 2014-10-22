@@ -5,7 +5,7 @@ import java.util.List;
 import progress.menu.item.ProgressMenuItemHelper;
 
 import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_peport.database.model.ShopProperty;
+import com.example.pos_report.database.model.ShopProperty;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -104,36 +104,6 @@ public class MainActivity extends ActionBarActivity implements
 		actionBar.setTitle(mTitle);
 	}
 	
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		if (!mNavigationDrawerFragment.isDrawerOpen()) {
-			// Only show items in the action bar relevant to this screen
-			// if the drawer is not showing. Otherwise, let the drawer
-			// decide what to show in the action bar.
-			getMenuInflater().inflate(R.menu.main, menu);
-			restoreActionBar();
-			return true;
-		}
-		return super.onCreateOptionsMenu(menu);
-	}
-	
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			  Intent intentMain = new Intent(MainActivity.this,Setting.class);
-			  MainActivity.this.startActivity(intentMain);
-		}
-		return super.onOptionsItemSelected(item);
-	}*/
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
 	public static class PlaceholderFragment extends Fragment {
 		
 		private static final String ARG_SECTION_NUMBER = "section_number";

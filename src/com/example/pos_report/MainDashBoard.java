@@ -36,12 +36,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import com.example.flatuilibrary.FlatButton;
 import com.example.flatuilibrary.FlatTextView;
 import com.example.flatuilibrary.FlatUI;
-import com.example.pos_peport.database.model.GlobalProperty;
-import com.example.pos_peport.database.model.ProductGroup;
-import com.example.pos_peport.database.model.ShopProperty;
-import com.example.pos_peport.database.model.SumPaymentShop;
-import com.example.pos_peport.database.model.SumPromotionShop;
-import com.example.pos_peport.database.model.SumTransactionShop;
 import com.example.pos_report.GetSumTransactionShop.GetSumTransacTion;
 import com.example.pos_report.SaleByDate.PaymentlistAdapter;
 import com.example.pos_report.SaleByDate.PromotionlistAdapter;
@@ -53,6 +47,14 @@ import com.example.pos_report.database.GetSumTransactionShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
+import com.example.pos_report.database.model.ProductGroup;
+import com.example.pos_report.database.model.ShopProperty;
+import com.example.pos_report.database.model.SumPaymentShop;
+import com.example.pos_report.database.model.SumPromotionShop;
+import com.example.pos_report.database.model.SumTransactionShop;
+import com.example.pos_report.graph.MainDashBoard_Payment_PieGraph;
+import com.example.pos_report.graph.MainDashBoard_Promotion_PieGraph;
 import com.example.pos_report.graph.SalebyDate_Graph;
 import com.example.pos_report.graph.SalebyDate_Payment_PieGraph;
 import com.example.pos_report.graph.SalebyDate_Promotion_PieGraph;
@@ -65,14 +67,15 @@ public class MainDashBoard extends Fragment  {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private Spinner shopSelect;
 	private int ShopID;
-	private int currentmonth,currentyear;
+	private static int currentmonth,currentyear;
 	private FlatTextView text_sum_payment_amount,text_sum_payment_percent;
 	private FlatTextView text_sum_promo_amount,text_sum_promo_percent;
 	private Button showChart_payment,showChart_promotion;
 	public static String URL;
 	private ListView listPayment,listPromotion;
 	private ProgressDialog  pdia;
-	private String lastsaledate,saledate;
+	private static String lastsaledate;
+	private String saledate;
 	private static String shopName;
 	private FlatTextView ShopNameValue,saledatevalue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
 	private int totalbill,totalcust;
@@ -109,8 +112,8 @@ public class MainDashBoard extends Fragment  {
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 	  //Database = new ReportDatabase(getActivity());
-	   String path_ip = sharedPreferences.getString("path_ip", "27.254.23.18");
-	   String path_visual = sharedPreferences.getString("path_visual", "mpos6");
+	   String path_ip = sharedPreferences.getString("path_ip", "");
+	   String path_visual = sharedPreferences.getString("path_visual", "");
 	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
        FlatUI.initDefaultValues(getActivity());
        FlatUI.setDefaultTheme(APP_THEME);
@@ -196,7 +199,7 @@ public class MainDashBoard extends Fragment  {
 			public void onClick(View v) {
 		    	
 		    	Intent intentMain = new Intent(getActivity() , 
-						 SalebyDate_Payment_PieGraph.class);
+						 MainDashBoard_Payment_PieGraph.class);
 		    	
 		    	startActivity(intentMain);
 		    	
@@ -209,7 +212,7 @@ public class MainDashBoard extends Fragment  {
 			public void onClick(View v) {
 		    	
 		    	Intent intentMain = new Intent(getActivity() , 
-						 SalebyDate_Promotion_PieGraph.class);
+						 MainDashBoard_Promotion_PieGraph.class);
 		    	
 		    	startActivity(intentMain);
 		    	
@@ -255,7 +258,10 @@ public class MainDashBoard extends Fragment  {
 	
 }
 	
-	
+
+	public static String getLastsaledate() {
+		return lastsaledate;
+	}
 
 	@Override
 	 public void onAttach(Activity activity) {

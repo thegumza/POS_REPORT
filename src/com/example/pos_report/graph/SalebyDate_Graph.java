@@ -17,10 +17,10 @@ import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_peport.database.model.SumTransactionShop;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumTransactionShopDao;
+import com.example.pos_report.database.model.SumTransactionShop;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -43,6 +43,7 @@ public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedL
 	int month = SaleByDate.getMonth();
 	int year = SaleByDate.getYear();
 	FlatTextView ShopNameValue;
+	final ArrayList<String> months = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +51,22 @@ public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedL
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.salebydate_graph);
         
+        months.add(0,"January");
+        months.add(1,"February");
+        months.add(2,"March");
+        months.add(3,"April");
+        months.add(4,"May");
+        months.add(5,"June");
+        months.add(6,"July");
+        months.add(7,"August");
+        months.add(8,"September");
+        months.add(9,"October");
+        months.add(10,"November");
+        months.add(11,"December");
+        
         ShopNameValue = (FlatTextView) findViewById(R.id.shopNameValue);
         
-        ShopNameValue.setText(shopName+" ("+ year +" - "+ month +")");
+        ShopNameValue.setText(shopName+" ("+ year +" - "+ months.get(month-1) +")");
         
         mChart = (BarChart) findViewById(R.id.chart1);
         mChart.setOnChartValueSelectedListener(this);
@@ -74,16 +88,18 @@ public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedL
         mChart.setValueTextSize(10f);
         mChart.setDrawBorder(false);
         
-        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
         XLabels xl = mChart.getXLabels();
         xl.setPosition(XLabelPosition.BOTTOM);
         xl.setCenterXLabelText(true);
         xl.setTypeface(tf);
+        xl.setTextSize(14f);
         
         YLabels yl = mChart.getYLabels();
         yl.setTypeface(tf);
-        yl.setLabelCount(8);
+        yl.setLabelCount(10);
+        yl.setTextSize(14f);
         
         mChart.setValueTypeface(tf);
 
@@ -121,8 +137,10 @@ public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedL
         
         Legend l = mChart.getLegend();
         l.setPosition(LegendPosition.BELOW_CHART_LEFT);
+        l.setTypeface(tf);
         l.setFormSize(8f);
         l.setXEntrySpace(4f);
+        l.setTextSize(14f);
 
     }
 

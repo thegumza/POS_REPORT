@@ -11,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
-import com.example.pos_peport.database.model.TopProductShop;
+import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_report.R;
+import com.example.pos_report.SaleByProduct;
 import com.example.pos_report.database.GetTopProductShopDao;
+import com.example.pos_report.database.model.TopProductShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -26,14 +28,33 @@ import com.github.mikephil.charting.utils.Legend.LegendPosition;
 
 public class TopProduct_Saleprice_PieGraph extends Activity{
 	private PieChart mChart;
-
+	private String shopName = SaleByProduct.getShopName();
+	private int month = SaleByProduct.getMonth();
+	private int year = SaleByProduct.getYear();
+	FlatTextView ShopNameValue;
+	final ArrayList<String> months = new ArrayList<String>();
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.topproduct_piegraph);
-
+        ShopNameValue = (FlatTextView)findViewById(R.id.shopNameValue);
+        
+        months.add(0,"January");
+        months.add(1,"February");
+        months.add(2,"March");
+        months.add(3,"April");
+        months.add(4,"May");
+        months.add(5,"June");
+        months.add(6,"July");
+        months.add(7,"August");
+        months.add(8,"September");
+        months.add(9,"October");
+        months.add(10,"November");
+        months.add(11,"December");
+        ShopNameValue.setText(shopName+" ("+ year +" - "+ months.get(month-1) +")");
 
 
         mChart = (PieChart) findViewById(R.id.chart1);
