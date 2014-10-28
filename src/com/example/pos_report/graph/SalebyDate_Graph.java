@@ -1,5 +1,7 @@
 package com.example.pos_report.graph;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,8 @@ import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumTransactionShopDao;
+import com.example.pos_report.database.GlobalPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
 import com.example.pos_report.database.model.SumTransactionShop;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -44,11 +48,16 @@ public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedL
 	int year = SaleByDate.getYear();
 	FlatTextView ShopNameValue;
 	final ArrayList<String> months = new ArrayList<String>();
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(this);
+	GlobalProperty format = gpd.getGlobalProperty();
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
         setContentView(R.layout.salebydate_graph);
         
         months.add(0,"January");

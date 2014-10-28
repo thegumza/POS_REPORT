@@ -35,33 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:layout_marginBottom="2dp" >
         
-	        <LinearLayout
-            android:id="@+id/headTablepromo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_peter_river"
-            android:orientation="horizontal"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_tablePromotionName"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center"
-	            android:paddingBottom="3dp"
-	            android:paddingTop="2dp"
-	            android:text="Top Menu"
-	            android:textColor="#ffffff"
-	            android:textSize="20dp"
-	            android:background="@color/fbutton_color_peter_river"
-	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp"
-	            flatui:fl_fontWeight="bold" />
-	        
-        </LinearLayout>
         
 </LinearLayout>
 

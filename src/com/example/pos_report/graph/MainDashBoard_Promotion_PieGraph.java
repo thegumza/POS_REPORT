@@ -75,7 +75,7 @@ public class MainDashBoard_Promotion_PieGraph extends Activity{
 		//double percent = (spr.getDiscount()* 100) / totaldis;
 		
 		for (SumPromotionShop sp : spr) totaldiscount.add(Double.toString(sp.getDiscount()));
-		for (SumPromotionShop sp : spr) promotionname.add("("+(sp.getDiscount()*100)/totaldis+"%) "+sp.getPromotionName()+" ("+sp.getDiscount()+")");
+		for (SumPromotionShop sp : spr) promotionname.add("("+(currencyformatter.format((sp.getDiscount()*100)/totaldis))+"%) "+sp.getPromotionName()+" ("+(currencyformatter.format(sp.getDiscount()))+")");
 		
 		
 		String[] pronameArr = new String[promotionname.size()];

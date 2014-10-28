@@ -20,8 +20,7 @@ public class StaffsTable {
 			+ COLUMN_STAFF_NAME + " TEXT, "
 			+ COLUMN_STAFF_PASSWORD + " TEXT, "
 			+ COLUMN_STAFF_ROLE_ID + " INTEGER, "
-			+ COLUMN_STAFF_ROLE_NAME + " TEXT, "
-			+ " PRIMARY KEY (" + COLUMN_STAFF_ID + "));";
+			+ COLUMN_STAFF_ROLE_NAME + " TEXT )";
 	
 	public static void onCreate(SQLiteDatabase db){
 		db.execSQL(sqlCreate);

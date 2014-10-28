@@ -20,8 +20,7 @@ public class ProductGroupTable {
 			+ COLUMN_PRODUCT_GROUP_TYPE + " INTEGER, "
 			+ COLUMN_ORDERING + " INTEGER, "
 			+ COLUMN_ISCOMMENT + " INTEGER, "
-			+ COLUMN_SHOP_ID + " INTEGER, " 
-			+ " PRIMARY KEY (" + COLUMN_PRODUCT_GROUP_ID + "));";
+			+ COLUMN_SHOP_ID + " INTEGER  );";
 	
 	public static void onCreate(SQLiteDatabase db){
 		db.execSQL(sqlCreate);

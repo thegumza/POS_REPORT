@@ -29,7 +29,7 @@
 	            flatui:fl_fontWeight="regular"
 	            android:text="Top 10 Product by Qty"
 	            android:textColor="#ffffff"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            android:textStyle="bold"
 	            android:layout_marginBottom="2dp" />
         <LinearLayout

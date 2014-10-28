@@ -1,5 +1,7 @@
 package com.example.pos_report.graph;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,8 @@ import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByProduct;
 import com.example.pos_report.database.GetTopProductShopDao;
+import com.example.pos_report.database.GlobalPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
 import com.example.pos_report.database.model.TopProductShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -31,8 +35,12 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
 	private String shopName = SaleByProduct.getShopName();
 	private int month = SaleByProduct.getMonth();
 	private int year = SaleByProduct.getYear();
-	FlatTextView ShopNameValue;
+	FlatTextView ShopNameValue,txtproduct;
 	final ArrayList<String> months = new ArrayList<String>();
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(this);
+	GlobalProperty format = gpd.getGlobalProperty();
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,7 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.topproduct_piegraph);
         ShopNameValue = (FlatTextView)findViewById(R.id.shopNameValue);
-        
+        txtproduct = (FlatTextView)findViewById(R.id.txtproduct);
         months.add(0,"January");
         months.add(1,"February");
         months.add(2,"March");
@@ -55,7 +63,7 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
         months.add(10,"November");
         months.add(11,"December");
         ShopNameValue.setText(shopName+" ("+ year +" - "+ months.get(month-1) +")");
-
+        txtproduct.setText("Top 10 Product by Saleprice");
 
         mChart = (PieChart) findViewById(R.id.chart1);
 
@@ -94,7 +102,7 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
 		ArrayList<String> saleprice = new ArrayList<String>() ;
 		
 		for (TopProductShop tps : ts) saleprice.add(Double.toString(tps.getSumSalePrice()));
-		for (TopProductShop tps : ts) productname.add(tps.getProductName()+" ("+tps.getSumSalePrice()+")");
+		for (TopProductShop tps : ts) productname.add(tps.getProductName()+" ("+(currencyformatter.format(tps.getSumSalePrice()))+")");
 		String[] productnameArr = new String[productname.size()];
 		productnameArr = productname.toArray(productnameArr);
 		
@@ -133,7 +141,7 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
             //mChart.invalidate();
             
             Legend l = mChart.getLegend();
-            l.setPosition(LegendPosition.RIGHT_OF_CHART_CENTER);
+            l.setPosition(LegendPosition.RIGHT_OF_CHART);
             l.setForm(LegendForm.CIRCLE);
             l.setTextSize(14f);
             l.setXEntrySpace(7f);

@@ -14,8 +14,7 @@ public class PayTypeTable {
 			+ COLUMN_PAYTYPE_ID + " INTEGER, "
 			+ COLUMN_PAYTYPE_CODE + " TEXT, "
 			+ COLUMN_PAYTYPE_NAME + " TEXT, "
-			+ COLUMN_ORDERING + " INTEGER, " 
-			+ " PRIMARY KEY (" + COLUMN_PAYTYPE_ID + "));";
+			+ COLUMN_ORDERING + " INTEGER );";
 	
 	public static void oncreate (SQLiteDatabase db){
 		db.execSQL(sqlCreate);

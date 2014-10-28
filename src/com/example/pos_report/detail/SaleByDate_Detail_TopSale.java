@@ -76,32 +76,22 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 				ArrayList<String> saleprice = new ArrayList<String>() ;
 				
 				for (SumProductShop tps : ts) saleprice.add(Double.toString(tps.getSalePrice()));
-				for (SumProductShop tps : ts) productname.add(tps.getProductName()+" ("+tps.getSalePrice()+")");
+				for (SumProductShop tps : ts) productname.add(tps.getProductName()+" ("+(formatter.format(tps.getSalePrice()))+")");
 				String[] productnameArr = new String[productname.size()];
 				productnameArr = productname.toArray(productnameArr);
 				
 		            ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-		            // ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-		            // IMPORTANT: In a PieChart, no values (Entry) should have the same
-		            // xIndex (even if from different DataSets), since no values can be
-		            // drawn above each other.
 		            for (int i = 0; i < productname.size(); i++) {
 		            	float val = Float.parseFloat(saleprice.get(i));
 		                yVals1.add(new Entry(val, i));
 		            }
-
-		            // for (int i = mSeekBarX.getProgress() / 2; i <
-		            // mSeekBarX.getProgress(); i++) {
-		            // yVals2.add(new Entry((float) (Math.random() * mult) + mult / 5, i));
-		            // }
 
 		            ArrayList<String> xVals = new ArrayList<String>();
 
 		            for (int i = 0; i < productname.size(); i++)
 		                xVals.add(productnameArr[i]);
 		            PieDataSet set1 = new PieDataSet(yVals1, "");
-		            set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+		            set1.setColors(ColorTemplate.PASTEL_COLORS);
 
 		            PieData data = new PieData(xVals, set1);
                     if(data.getYValCount() == 0){}
@@ -112,31 +102,19 @@ public class SaleByDate_Detail_TopSale extends Fragment{
                         mChart.setDrawYValues(true);
                         mChart.setDrawCenterText(true);
                         mChart.setDrawHoleEnabled(true);
-
-                        // draws the corresponding description value into the slice
                         mChart.setDrawXValues(false);
                         mChart.setTouchEnabled(false);
-
-                        // display percentage values
                         mChart.setUsePercentValues(true);
-                        // mChart.setUnit(" €");
-                        // mChart.setDrawUnitsInChart(true);
-
-                        // add a selection listener
-
                         mChart.animateXY(1500, 1500);
-                    mChart.setData(data);
-                    // undo all highlights
-                    mChart.highlightValues(null);
-                    // set a text for the chart center
-                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
-                    //mChart.invalidate();
-                    Legend l = mChart.getLegend();
-                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
-                    l.setForm(LegendForm.CIRCLE);
-                    l.setTextSize(14f);
-                    l.setXEntrySpace(7f);
-                    l.setYEntrySpace(5f);}
+	                    mChart.setData(data);
+	                    mChart.highlightValues(null);
+	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
+	                    Legend l = mChart.getLegend();
+	                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
+	                    l.setForm(LegendForm.CIRCLE);
+	                    l.setTextSize(14f);
+	                    l.setXEntrySpace(7f);
+	                    l.setYEntrySpace(5f);}
                 return rootView;
 	}
 	//ListViewAdapter

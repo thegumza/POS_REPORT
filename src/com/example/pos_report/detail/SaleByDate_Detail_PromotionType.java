@@ -25,12 +25,11 @@ import android.widget.ListView;
 
 public class SaleByDate_Detail_PromotionType extends Activity{
 	
-	final GlobalPropertyDao gpd = new GlobalPropertyDao(this);
+	//Number Format
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(getApplicationContext());
 	GlobalProperty format = gpd.getGlobalProperty();
-	String formatnumber = format.getCurrencyFormat();
-	String formatqty = format.getQtyFormat();
-	NumberFormat formatter = new DecimalFormat(formatnumber);
-	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
 	String shopName = SaleByDate.getShopName();
 	String promotionName = SaleByDate.getPromotionName();
@@ -109,11 +108,7 @@ public class SaleByDate_Detail_PromotionType extends Activity{
 				}else{
 					holder=(ViewHolder)convertView.getTag();
 				}
-				//Number Format
-				final GlobalPropertyDao gpd = new GlobalPropertyDao(getApplicationContext());
-				GlobalProperty format = gpd.getGlobalProperty();
-				String currencyformat = format.getCurrencyFormat();
-				NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+				
 				
 				final GetSumPromotionShopDao gp = new GetSumPromotionShopDao(SaleByDate_Detail_PromotionType.this);
 				final SumPromotionShop gpr = gp.getSumPromotionType();

@@ -13,8 +13,7 @@ public class PromotionTable {
 			"CREATE TABLE " + TABLE_PROMOTION + " ("
 			+ COLUMN_PROMOTION_ID + " INTEGER, "
 			+ COLUMN_TYPE_ID + " INTEGER, "
-			+ COLUMN_PROMOTION_NAME + " TEXT, "
-			+ " PRIMARY KEY (" + COLUMN_PROMOTION_ID + "))";
+			+ COLUMN_PROMOTION_NAME + " TEXT )";
 	
 	public static void onCreate(SQLiteDatabase db){
 		db.execSQL(sqlCreate);

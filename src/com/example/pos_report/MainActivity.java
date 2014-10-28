@@ -9,8 +9,10 @@ import com.example.pos_report.database.model.ShopProperty;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -46,12 +48,12 @@ public class MainActivity extends ActionBarActivity implements
 	}
 	
 	@Override
-	public void onNavigationDrawerItemSelected(int position) {
+	public void onNavigationDrawerItemSelected(final int position) {
 		// update the main content by replacing fragments
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager
+		final FragmentManager fragmentManager = getFragmentManager();
+		/*fragmentManager
 				.beginTransaction()
-				.replace(R.id.container,PlaceholderFragment.newInstance(position + 1)).commit();
+				.replace(R.id.container,PlaceholderFragment.newInstance(position + 1)).commit();*/
 			
 		if (position == 0) {
 			fragmentManager.beginTransaction()
@@ -70,6 +72,29 @@ public class MainActivity extends ActionBarActivity implements
 				  fragmentManager.beginTransaction()
 					.replace(R.id.container, SaleByProduct.newInstance(position + 1))
 					.commit();
+				  
+			  }
+			  else if (position == 3) {
+				  AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+		            builder1.setMessage("Do you want to exit?");
+		            builder1.setCancelable(true);
+		            builder1.setPositiveButton("Yes",
+		                    new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int id) {
+		                    dialog.cancel();
+		                    finish();
+		                }
+		            });
+		            builder1.setNegativeButton("Cancel",
+		                    new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int id) {
+		                    dialog.cancel();
+		                }
+		            });
+
+		            AlertDialog alert11 = builder1.create();
+		            alert11.show();
+				  
 				  
 			  }
 			  else {
@@ -93,7 +118,8 @@ public class MainActivity extends ActionBarActivity implements
 		case 3:
 			mTitle = getString(R.string.title_section3);
 			break;
-	
+		case 4:
+			mTitle = getString(R.string.title_logout);
 		}
 	}
 

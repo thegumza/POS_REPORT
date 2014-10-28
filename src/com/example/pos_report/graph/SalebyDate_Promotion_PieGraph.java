@@ -1,5 +1,7 @@
 package com.example.pos_report.graph;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,8 @@ import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumPromotionShopDao;
+import com.example.pos_report.database.GlobalPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
 import com.example.pos_report.database.model.SumPromotionShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -33,6 +37,10 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
 	int year = SaleByDate.getYear();
 	FlatTextView ShopNameValue,text_tablePromotion;
 	final ArrayList<String> months = new ArrayList<String>();
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(this);
+	GlobalProperty format = gpd.getGlobalProperty();
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +89,7 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
 		double totaldis = gr.getDiscount();
 		//double percent = (spr.getDiscount()* 100) / totaldis;
 		for (SumPromotionShop sp : spr) totaldiscount.add(Double.toString(sp.getDiscount()));
-		for (SumPromotionShop sp : spr) promotionname.add("("+(sp.getDiscount()* 100) / totaldis+"%)"+sp.getPromotionName()+" ("+sp.getDiscount()+")");
+		for (SumPromotionShop sp : spr) promotionname.add("("+(currencyformatter.format((sp.getDiscount()* 100) / totaldis))+"%)"+sp.getPromotionName()+" ("+(currencyformatter.format(sp.getDiscount()))+")");
 		
 		
 		String[] pronameArr = new String[promotionname.size()];

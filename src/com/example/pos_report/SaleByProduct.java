@@ -35,13 +35,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.internal.view.menu.MenuView.ItemView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -903,9 +906,7 @@ public void onTopDataChange(){
 					    
 					    return(convertView);
 					  }
-					
-					@Override
-					public View getChildView(int groupPosition,int childPosition, boolean isLastChild,
+					 public View getChildView(int groupPosition,int childPosition, boolean isLastChild,
 							View convertView, ViewGroup parent) {
 						ViewHolder  holder;
 						LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -916,12 +917,12 @@ public void onTopDataChange(){
 						
 						holder = new ViewHolder();
 						
+						
 						holder.itemValue=(FlatTextView)convertView.findViewById(R.id.itemValue);
 						holder.qtyValue=(FlatTextView)convertView.findViewById(R.id.qtyValue);
 						holder.priceValue=(FlatTextView)convertView.findViewById(R.id.priceValue);
 						holder.percentValue=(FlatTextView)convertView.findViewById(R.id.percentValue);
-						//holder.sumDeptAmountValue=(FlatTextView)convertView.findViewById(R.id.sumDeptAmountValue);
-						//holder.SumDeptPriceValue=(FlatTextView)convertView.findViewById(R.id.SumDeptPriceValue);
+						
 						convertView.setTag(holder);
 						}else{
 							holder=(ViewHolder)convertView.getTag();
@@ -935,28 +936,43 @@ public void onTopDataChange(){
 						NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 						NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 						
+						if(ss.getProductName() == "Summary"){
+							/*holder.itemValue.setTextColor(Color.WHITE);
+							holder.qtyValue.setTextColor(Color.WHITE);
+							holder.priceValue.setTextColor(Color.WHITE);
+							holder.percentValue.setTextColor(Color.WHITE);*/
+							holder.itemValue.setBackgroundColor(Color.rgb(248,148,6));
+							holder.qtyValue.setBackgroundColor(Color.rgb(248,148,6));
+							holder.priceValue.setBackgroundColor(Color.rgb(248,148,6));
+							holder.percentValue.setBackgroundColor(Color.rgb(248,148,6));
+							
+							holder.itemValue.setText(ss.getProductName().toString());
+							holder.qtyValue.setText(qtyformatter.format(ss.getSumAmount()));
+							holder.priceValue.setText(currencyformatter.format(ss.getSumSalePrice()));
+						}
+						else{
+							
+							holder.itemValue.setBackgroundColor(Color.rgb(221,221,221));
+							holder.qtyValue.setBackgroundColor(Color.rgb(221,221,221));
+							holder.priceValue.setBackgroundColor(Color.rgb(221,221,221));
+							holder.percentValue.setBackgroundColor(Color.rgb(221,221,221));
+							
 						holder.itemValue.setText(ss.getProductName().toString());
 						holder.qtyValue.setText(qtyformatter.format(ss.getSumAmount()));
 						holder.priceValue.setText(currencyformatter.format(ss.getSumSalePrice()));
+						}
 						
 						SaleProductShop sum = new SaleProductShop();
 						sum = gsp.getSumProduct();
 						double totalprice = sum.getSumSalePrice();
 						double percent = (ss.getSumSalePrice()* 100) / totalprice;
-						//holder.sumDeptAmountValue.setText(""+ss.getSumAmount());
-						//holder.SumDeptPriceValue.setText(""+ss.getSumSalePrice());
 						holder.percentValue.setText(currencyformatter.format((percent)));
-						
-						//Summary ProductGroup
-						
 						SaleProductShop s = gsp.getSumProduct();
 						sumAmount = s.getSumAmount();
 						sumSalePrice = s.getSumSalePrice();
 						text_sum_qty.setText(qtyformatter.format(sumAmount));
 						text_sum_price.setText(currencyformatter.format((sumSalePrice)));
 						text_sum_percent.setText("100%");
-						//text_sum_percent.setText(formatter.format(Sumsale.getSalePrice()));
-	
 					return convertView;
 						
 					}

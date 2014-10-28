@@ -95,7 +95,7 @@ public class SaleByDate_Detail extends Fragment {
         		text_sum_payment_percent = (FlatTextView) rootView.findViewById(R.id.text_sum_payment_percent);
         		
         		
-        		listPaymentDetail = (ListView) rootView.findViewById(R.id.listPayment);
+        		listPaymentDetail = (ListView) rootView.findViewById(R.id.listPaymentdetail);
 
         		final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
         		// Set ListViewAdapter Payment
@@ -108,38 +108,20 @@ public class SaleByDate_Detail extends Fragment {
         	        		ArrayList<String> paytype = new ArrayList<String>() ;
         	        		ArrayList<String> totalpay = new ArrayList<String>() ;
         	        		for (SumPaymentShop ss : spl) totalpay.add(Double.toString(ss.getTotalPay()));
-        	        		for (SumPaymentShop ss : spl) paytype.add(ss.getPayTypeName()+" ("+ss.getTotalPay()+")");
+        	        		for (SumPaymentShop ss : spl) paytype.add(ss.getPayTypeName()+" ("+(formatter.format(ss.getTotalPay()))+")");
         	        		String[] paytypeArr = new String[paytype.size()];
         	        		paytypeArr = paytype.toArray(paytypeArr);
-        	        		
-        	                //String[] mParties = new String[] {
-        	                       // "Party A", "Party B", "Party C", "Party D", "Party E"
-        	               // };
-
-
         	                    ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-        	                    // ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-        	                    // IMPORTANT: In a PieChart, no values (Entry) should have the same
-        	                    // xIndex (even if from different DataSets), since no values can be
-        	                    // drawn above each other.
         	                    for (int i = 0; i < paytype.size(); i++) {
         	                    	float val = Float.parseFloat(totalpay.get(i));
         	                        yVals1.add(new Entry(val, i));
         	                    }
-
-        	                    // for (int i = mSeekBarX.getProgress() / 2; i <
-        	                    // mSeekBarX.getProgress(); i++) {
-        	                    // yVals2.add(new Entry((float) (Math.random() * mult) + mult / 5, i));
-        	                    // }
-
         	                    ArrayList<String> xVals = new ArrayList<String>();
 
         	                    for (int i = 0; i < paytype.size(); i++)
         	                        xVals.add(paytypeArr[i]);
         	                    PieDataSet set1 = new PieDataSet(yVals1, "");
-        	                    set1.setSliceSpace(3f);
-        	                    set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        	                    set1.setColors(ColorTemplate.PASTEL_COLORS);
 
         	                    PieData data = new PieData(xVals, set1);
         	                    if(data.getYValCount() == 0){}
@@ -151,31 +133,19 @@ public class SaleByDate_Detail extends Fragment {
         	                        mChart.setDrawYValues(true);
         	                        mChart.setDrawCenterText(true);
         	                        mChart.setDrawHoleEnabled(true);
-
-        	                        // draws the corresponding description value into the slice
         	                        mChart.setDrawXValues(false);
-        	                        mChart.setTouchEnabled(true);
-
-        	                        // display percentage values
+        	                        mChart.setTouchEnabled(false);
         	                        mChart.setUsePercentValues(true);
-        	                        // mChart.setUnit(" โ�ฌ");
-        	                        // mChart.setDrawUnitsInChart(true);
-
-        	                        // add a selection listener
-
         	                        mChart.animateXY(1500, 1500);
-        	                    mChart.setData(data);
-        	                    // undo all highlights
-        	                    mChart.highlightValues(null);
-        	                    // set a text for the chart center
-        	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
-        	                    //mChart.invalidate();
-        	                    Legend l = mChart.getLegend();
-        	                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
-        	                    l.setForm(LegendForm.CIRCLE);
-        	                    l.setTextSize(10f);
-        	                    l.setXEntrySpace(7f);
-        	                    l.setYEntrySpace(5f);}
+	        	                    mChart.setData(data);
+	        	                    mChart.highlightValues(null);
+	        	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
+	        	                    Legend l = mChart.getLegend();
+	        	                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
+	        	                    l.setForm(LegendForm.CIRCLE);
+	        	                    l.setTextSize(14f);
+	        	                    l.setXEntrySpace(7f);
+	        	                    l.setYEntrySpace(5f);}
         return rootView;
     }
 public class PaymentlistDetailAdapter extends BaseAdapter{
@@ -217,7 +187,6 @@ public class PaymentlistDetailAdapter extends BaseAdapter{
 				holder.typePaymentValue=(TextView)convertView.findViewById(R.id.typePaymentValue);
 				holder.amountPaymentValue=(TextView)convertView.findViewById(R.id.amountPaymentValue);
 				holder.percentPaymentValue=(TextView)convertView.findViewById(R.id.percentPaymentValue);
-				
 				convertView.setTag(holder);
 				}else{
 					holder=(ViewHolder)convertView.getTag();
@@ -233,7 +202,6 @@ public class PaymentlistDetailAdapter extends BaseAdapter{
 				holder.percentPaymentValue.setText(formatter.format(percent));
 				text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));
 				text_sum_payment_percent.setText("100%");
-				
 			return convertView;
 				}}
 	

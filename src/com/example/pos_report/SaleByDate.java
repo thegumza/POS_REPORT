@@ -172,8 +172,6 @@ public class SaleByDate extends Fragment{
 
 				@Override
 				public void onLoad() {
-					// TODO Auto-generated method stub
-					
 			        pdia.setMessage("Loading...");
 			        pdia.show();
 				}

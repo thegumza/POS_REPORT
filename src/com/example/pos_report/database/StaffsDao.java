@@ -1,12 +1,17 @@
 package com.example.pos_report.database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 
+import com.example.pos_report.POS_Login;
 import com.example.pos_report.database.model.Staffs;
+import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.table.StaffsTable;
+import com.example.pos_report.database.table.SumData_PaymentReportTable;
 
 public class StaffsDao extends ReportDatabase{
 
@@ -36,7 +41,21 @@ public class StaffsDao extends ReportDatabase{
 			getWritableDatabase().endTransaction();
 		}
 	}
-	
+public List<Staffs> getStaffs(){
+		
+	String SPSql = "Select * From "+ StaffsTable.TABLE_STAFFS;
+	Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+		List<Staffs> getstaff = new ArrayList <Staffs>();
+		if (cursor.moveToFirst()){
+			do{
+				Staffs st = new Staffs();
+				st.setStaffCode(cursor.getString(cursor.getColumnIndex(StaffsTable.COLUMN_STAFF_CODE)));
+				st.setStaffPassword(cursor.getString(cursor.getColumnIndex(StaffsTable.COLUMN_STAFF_PASSWORD)));
+				getstaff.add(st);
+			}while(cursor.moveToNext());
+		}
+		return getstaff;
+	}
 }
 
 

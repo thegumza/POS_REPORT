@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -90,55 +91,28 @@ public class SaleByDate_Detail_Promotion extends Fragment {
         		List<SumPromotionShop> Promotionlist = gpr.getPromoDetail();
         		listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
         		
-        		
-        		
-
-                /*Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-                mChart.setValueTypeface(tf);
-                mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-        */		
-                
-
-        		
                 final GetSumPromotionShopDao gp = new GetSumPromotionShopDao(getActivity());
         		final List<SumPromotionShop> spl = gp.getPromoDetailGraph();
         		
         		ArrayList<String> promotionname = new ArrayList<String>() ;
         		ArrayList<String> totaldiscount = new ArrayList<String>() ;
         		for (SumPromotionShop ss : spl) totaldiscount.add(Double.toString(ss.getDiscount()));
-        		for (SumPromotionShop ss : spl) promotionname.add(ss.getPromotionName()+" ("+ss.getDiscount()+")");
+        		for (SumPromotionShop ss : spl) promotionname.add(ss.getPromotionName()+" ("+(formatter.format(ss.getDiscount()))+")");
         		String[] promotArr = new String[promotionname.size()];
         		promotArr = promotionname.toArray(promotArr);
         		
-                //String[] mParties = new String[] {
-                       // "Party A", "Party B", "Party C", "Party D", "Party E"
-               // };
-
-
                     ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-                    // ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-                    // IMPORTANT: In a PieChart, no values (Entry) should have the same
-                    // xIndex (even if from different DataSets), since no values can be
-                    // drawn above each other.
                     for (int i = 0; i < promotionname.size(); i++) {
                     	float val = Float.parseFloat(totaldiscount.get(i));
                         yVals1.add(new Entry(val, i));
                     }
-
-                    // for (int i = mSeekBarX.getProgress() / 2; i <
-                    // mSeekBarX.getProgress(); i++) {
-                    // yVals2.add(new Entry((float) (Math.random() * mult) + mult / 5, i));
-                    // }
 
                     ArrayList<String> xVals = new ArrayList<String>();
 
                     for (int i = 0; i < promotionname.size(); i++)
                         xVals.add(promotArr[i]);
                     PieDataSet set1 = new PieDataSet(yVals1, "");
-                    set1.setSliceSpace(3f);
-                    set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+                    set1.setColors(ColorTemplate.PASTEL_COLORS);
 
                     PieData data = new PieData(xVals, set1);
                     if(data.getYValCount() == 0){}
@@ -149,31 +123,19 @@ public class SaleByDate_Detail_Promotion extends Fragment {
                         mChart.setDrawYValues(true);
                         mChart.setDrawCenterText(true);
                         mChart.setDrawHoleEnabled(true);
-
-                        // draws the corresponding description value into the slice
                         mChart.setDrawXValues(false);
-                        mChart.setTouchEnabled(true);
-
-                        // display percentage values
+                        mChart.setTouchEnabled(false);
                         mChart.setUsePercentValues(true);
-                        // mChart.setUnit(" €");
-                        // mChart.setDrawUnitsInChart(true);
-
-                        // add a selection listener
-
                         mChart.animateXY(1500, 1500);
-                    mChart.setData(data);
-                    // undo all highlights
-                    mChart.highlightValues(null);
-                    // set a text for the chart center
-                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
-                    //mChart.invalidate();
-                    Legend l = mChart.getLegend();
-                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
-                    l.setForm(LegendForm.CIRCLE);
-                    l.setTextSize(10f);
-                    l.setXEntrySpace(7f);
-                    l.setYEntrySpace(5f);}
+	                    mChart.setData(data);
+	                    mChart.highlightValues(null);
+	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
+	                    Legend l = mChart.getLegend();
+	                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
+	                    l.setForm(LegendForm.CIRCLE);
+	                    l.setTextSize(14f);
+	                    l.setXEntrySpace(7f);
+	                    l.setYEntrySpace(5f);}
         return rootView;
     }
 	

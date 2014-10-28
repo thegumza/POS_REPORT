@@ -21,8 +21,7 @@ public class ProductItemTable {
 			+ COLUMN_PRODUCT_BARCODE + " TEXT, "
 			+ COLUMN_PRODUCT_NAME + " TEXT, "
 			+ COLUMN_PRODUCT_TYPE_ID + " INTEGER, "
-			+ COLUMN_PRODUCT_UNIT_NAME + " TEXT, "
-			+ " PRIMARY KEY (" + COLUMN_PRODUCT_ID + "));";
+			+ COLUMN_PRODUCT_UNIT_NAME + " TEXT );";
 	
 	public static void onCreate(SQLiteDatabase db){
 		db.execSQL(sqlCreate);

@@ -43,7 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.25"
-        android:gravity="center"
+        android:gravity="right"
         android:singleLine="true"
         android:text="25"
         android:textColor="#000000"

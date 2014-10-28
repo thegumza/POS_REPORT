@@ -1,5 +1,7 @@
 package com.example.pos_report.graph;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,8 @@ import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByProduct;
 import com.example.pos_report.database.GetSaleProductShopDao;
+import com.example.pos_report.database.GlobalPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
 import com.example.pos_report.database.model.ProductGroup;
 import com.example.pos_report.database.model.ProductModel;
 import com.example.pos_report.database.model.SaleProductShop;
@@ -36,6 +40,10 @@ public class SalebyProduct_Graph extends Activity{
 	private int year = SaleByProduct.getYear();
 	FlatTextView ShopNameValue;
 	final ArrayList<String> months = new ArrayList<String>();
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(this);
+	GlobalProperty format = gpd.getGlobalProperty();
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +108,7 @@ public class SalebyProduct_Graph extends Activity{
 		sum = gp.getSumProduct();
 		double totalproductprice = sum.getSumSalePrice();
 		//double percent = (ss.getSumSalePrice()* 100) / totalprice;
-		for (SaleProductShop pmm : sp) productdeptname.add("("+(pmm.getSumSalePrice()* 100)/totalproductprice+"%) "+(pmm.getProductDeptName())+" ("+pmm.getSumSalePrice()+")");
+		for (SaleProductShop pmm : sp) productdeptname.add("("+(currencyformatter.format((pmm.getSumSalePrice()* 100)/totalproductprice))+"%) "+(pmm.getProductDeptName())+" ("+(currencyformatter.format(pmm.getSumSalePrice()))+")");
 		
 		for (SaleProductShop pmm : sp) totalprice.add(Double.toString(pmm.getSumSalePrice()));
 		

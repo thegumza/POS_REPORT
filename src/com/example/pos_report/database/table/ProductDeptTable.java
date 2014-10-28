@@ -16,8 +16,7 @@ public class ProductDeptTable {
 			+ COLUMN_PRODUCT_GROUP_ID + " INTEGER, "
 			+ COLUMN_PRODUCT_DEPT_CODE + " TEXT, "
 			+ COLUMN_PRODUCT_DEPT_NAME + " TEXT, "
-			+ COLUMN_ORDERING + " INTEGER, " 
-			+ " PRIMARY KEY (" + COLUMN_PRODUCT_DEPT_ID + "));";
+			+ COLUMN_ORDERING + " INTEGER );";
 	public static void onCreate(SQLiteDatabase db){
 		db.execSQL(sqlCreate);
 	}

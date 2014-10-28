@@ -430,9 +430,6 @@ public class MainDashBoard extends Fragment  {
 		return shopName;
 	}
 
-	public void setShopName(String shopName) {
-		MainDashBoard.shopName = shopName;
-	}
 
 	 public class PaymentlistAdapter extends BaseAdapter{
 			

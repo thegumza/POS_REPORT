@@ -87,8 +87,8 @@ public class MainDashBoard_Payment_PieGraph extends Activity{
 		double sumtotalpay = gsp.getTotalPay();
 		//double percent = (sp.getTotalPay()* 100) / totalpays;
 		
-		for (SumPaymentShop sp : spl) totalpay.add(Double.toString(sp.getTotalPay()));
-		for (SumPaymentShop sp : spl) paytype.add("("+((sp.getTotalPay()*100) / sumtotalpay)+"%) "+sp.getPayTypeName()+" ("+sp.getTotalPay()+")");
+		for (SumPaymentShop sp : spl) totalpay.add((Double.toString(sp.getTotalPay())));
+		for (SumPaymentShop sp : spl) paytype.add("("+(currencyformatter.format((sp.getTotalPay()*100) / sumtotalpay))+"%) "+sp.getPayTypeName()+" ("+(currencyformatter.format(sp.getTotalPay()))+")");
 		String[] paytypeArr = new String[paytype.size()];
 		paytypeArr = paytype.toArray(paytypeArr);
 		

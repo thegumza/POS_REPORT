@@ -16,8 +16,7 @@ public class ShopPropertyTable {
 			+ COLUMN_SHOP_CODE + " TEXT, "
 			+ COLUMN_SHOP_NAME + " TEXT, "
 			+ COLUMN_SHOP_TYPE + " INTEGER, "
-			+ COLUMN_SHOP_GROUP_ID + " INTEGER, "
-			+ " PRIMARY KEY (" + COLUMN_SHOP_ID + "));";
+			+ COLUMN_SHOP_GROUP_ID + " INTEGER );";
 	
 	public static void onCreate(SQLiteDatabase db){
 		db.execSQL(sqlCreate);

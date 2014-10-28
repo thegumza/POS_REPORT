@@ -138,7 +138,7 @@ public class ReportDatabase{
 				SumData_TopProductReportTable.onUpgrade(db, oldVersion, newVersion);
 				SumData_TopProductReportTable.onUpgrade(db, oldVersion, newVersion);
 		}
-		public void dropAllTable() {
+		/*public void dropAllTable() {
 			SQLiteDatabase db = this.getWritableDatabase();
 
 			db.execSQL("DROP TABLE IF EXISTS " + ShopPropertyTable.TABLE_SHOP);
@@ -158,11 +158,11 @@ public class ReportDatabase{
 			db.execSQL("DROP TABLE IF EXISTS " + SumData_TopProductReportTable.TABLE_SUMDATA_TOP_PRODUCT_REPORT);
 			onCreate(db);
 
-		}
+		}*/
 		
 	}
 
-	public void dropAllTable() {
+	/*public void dropAllTable() {
 		// TODO Auto-generated method stub
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -201,7 +201,7 @@ public class ReportDatabase{
 		SumData_ProductReportTable.onCreate(db);
 		SaleData_ProductReportTable.onCreate(db);
 		SumData_TopProductReportTable.onCreate(db);
-	}
+	}*/
 
 	
 	

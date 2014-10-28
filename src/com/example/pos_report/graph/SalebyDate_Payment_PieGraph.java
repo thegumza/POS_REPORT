@@ -1,5 +1,7 @@
 package com.example.pos_report.graph;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,8 @@ import com.example.flatuilibrary.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumPaymentShopDao;
+import com.example.pos_report.database.GlobalPropertyDao;
+import com.example.pos_report.database.model.GlobalProperty;
 import com.example.pos_report.database.model.SumPaymentShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -33,6 +37,10 @@ public class SalebyDate_Payment_PieGraph extends Activity{
 	int year = SaleByDate.getYear();
 	FlatTextView ShopNameValue,text_tablePayment;
 	final ArrayList<String> months = new ArrayList<String>();
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(this);
+	GlobalProperty format = gpd.getGlobalProperty();
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +102,8 @@ public class SalebyDate_Payment_PieGraph extends Activity{
 		//double percent = (sp.getTotalPay()* 100) / totalpays;
 		
 		for (SumPaymentShop sp : spl) totalpay.add(Double.toString(sp.getTotalPay()));
-		for (SumPaymentShop sp : spl) paytype.add("("+(sp.getTotalPay()*100) /sumtotalpay+"%) "+sp.getPayTypeName()+" ("+sp.getTotalPay()+")");
-		String[] paytypeArr = new String[paytype.size()];
+		for (SumPaymentShop sp : spl) paytype.add("("+(currencyformatter.format(sp.getTotalPay()*100 / sumtotalpay))+"%) "+sp.getPayTypeName()+" ("+(currencyformatter.format(sp.getTotalPay()))+")");
+		String[] paytypeArr = new String[paytype.size()]; 
 		paytypeArr = paytype.toArray(paytypeArr);
 		
         //String[] mParties = new String[] {

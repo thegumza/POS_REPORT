@@ -16,8 +16,7 @@ public class SaleModeTable {
 			+ COLUMN_SALE_MODE_NAME + " TEXT, "
 			+ COLUMN_POSITION_PREFIX + " INTEGER, "
 			+ COLUMN_PREFIX_TEXT + " TEXT, "
-			+ COLUMN_PREFIX_QUEUE + " INTEGER, "
-			+ " PRIMARY KEY (" + COLUMN_SALE_MODE_ID + "));";
+			+ COLUMN_PREFIX_QUEUE + " INTEGER );";
 	
 	public static void onCreate(SQLiteDatabase db){
 		db.execSQL(sqlCreate);
