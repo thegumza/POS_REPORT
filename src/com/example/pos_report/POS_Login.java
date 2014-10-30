@@ -49,24 +49,23 @@ public class POS_Login extends Activity {
 	private static ReportDatabase Database;
 	private AlertDialog ald;
 	private FlatEditText edtuserName,edtpassWord;
-	String userName,passWord;
+	String userName,passWord; 
 	String enPass;
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
 		getActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_form);
-        Database = new ReportDatabase(POS_Login.this);
-       final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+       //final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
       
-    	 
-  	   String path_ip = sharedPreferences.getString("path_ip", "");
+       Database = new ReportDatabase(this);
+  	   /*String path_ip = sharedPreferences.getString("path_ip", "");
   	   String path_visual = sharedPreferences.getString("path_visual", "");
-  	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
+  	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";*/
   	   pdia = new ProgressDialog(this);
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
-	   
+	    
        
         btnLogin = (FlatButton)findViewById(R.id.btnLogin);
         btnUpdate = (FlatButton)findViewById(R.id.btnUpdate);
@@ -128,7 +127,10 @@ public class POS_Login extends Activity {
 }
 
 	public void onUpdate() {
-		Database = new ReportDatabase(POS_Login.this);
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+	  	   String path_ip = sharedPreferences.getString("path_ip", "");
+	  	   String path_visual = sharedPreferences.getString("path_visual", "");
+	  	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
     	new ShopDataLoader(POS_Login.this, "123", new ShopDataLoader.GetShopDataLoader() {
 			 
 			@Override
@@ -236,6 +238,17 @@ public class POS_Login extends Activity {
         byte[] sha1hash = md.digest();
         return convertToHex(sha1hash);
     }
+ 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+			super.onResume();
+			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		  	String path_ip = sharedPreferences.getString("path_ip", "");
+		  	String path_visual = sharedPreferences.getString("path_visual", "");
+		  	URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
+	  	   
+	}
 
 
     

@@ -37,10 +37,8 @@ public class SaleByDate_Detail extends Fragment {
 	private PieChart mChart;
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 	GlobalProperty format = gpd.getGlobalProperty();
-	String formatnumber = format.getCurrencyFormat();
-	String formatqty = format.getQtyFormat();
-	NumberFormat formatter = new DecimalFormat(formatnumber);
-	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	String shopName = SaleByDate.getShopName();
 	String saledate = SaleByDate.getDate();
 	
@@ -87,10 +85,10 @@ public class SaleByDate_Detail extends Fragment {
         		ShopNameValue.setText(shopName+" ("+ saledate +")");
         		totalbillvalue.setText("" + totalbill);
         		totalcustvalue.setText("" + totalcust);
-        		totalvatvalue.setText("" + formatter.format((totalvat)));
-        		totalretailvalue.setText("" + formatter.format((totalretail)));
-        		totaldisvalue.setText("" + formatter.format((totaldis)));
-        		totalsalevalue.setText("" + formatter.format((totalsale)));
+        		totalvatvalue.setText("" + currencyformatter.format((totalvat)));
+        		totalretailvalue.setText("" + currencyformatter.format((totalretail)));
+        		totaldisvalue.setText("" + currencyformatter.format((totaldis)));
+        		totalsalevalue.setText("" + currencyformatter.format((totalsale)));
         		text_sum_payment_amount = (FlatTextView) rootView.findViewById(R.id.text_sum_payment_amount);
         		text_sum_payment_percent = (FlatTextView) rootView.findViewById(R.id.text_sum_payment_percent);
         		
@@ -98,8 +96,9 @@ public class SaleByDate_Detail extends Fragment {
         		listPaymentDetail = (ListView) rootView.findViewById(R.id.listPaymentdetail);
 
         		final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
-        		// Set ListViewAdapter Payment
         		List<SumPaymentShop> Paymentlist = gp.getPaymentDetail();
+        		final SumPaymentShop gsp = gp.getSumDetailPayment();
+        		
         		listPaymentDetail.setAdapter(new PaymentlistDetailAdapter(Paymentlist));
         		
         		
@@ -107,8 +106,10 @@ public class SaleByDate_Detail extends Fragment {
         	        		
         	        		ArrayList<String> paytype = new ArrayList<String>() ;
         	        		ArrayList<String> totalpay = new ArrayList<String>() ;
+        	        		double sumtotalpay = gsp.getTotalPay();
+        	        		
         	        		for (SumPaymentShop ss : spl) totalpay.add(Double.toString(ss.getTotalPay()));
-        	        		for (SumPaymentShop ss : spl) paytype.add(ss.getPayTypeName()+" ("+(formatter.format(ss.getTotalPay()))+")");
+        	        		for (SumPaymentShop ss : spl) paytype.add("("+(currencyformatter.format((ss.getTotalPay()*100) / sumtotalpay))+"%) "+ss.getPayTypeName()+" ("+(currencyformatter.format(ss.getTotalPay()))+")");
         	        		String[] paytypeArr = new String[paytype.size()];
         	        		paytypeArr = paytype.toArray(paytypeArr);
         	                    ArrayList<Entry> yVals1 = new ArrayList<Entry>();
@@ -196,11 +197,11 @@ public class PaymentlistDetailAdapter extends BaseAdapter{
 				
 				SumPaymentShop sp = Paymentlist.get(position);
 				holder.typePaymentValue.setText(sp.getPayTypeName());
-				holder.amountPaymentValue.setText(formatter.format(sp.getTotalPay()));
+				holder.amountPaymentValue.setText(currencyformatter.format(sp.getTotalPay()));
 				double totalpay = gsp.getTotalPay();
 				double percent = (sp.getTotalPay()* 100) / totalpay;
-				holder.percentPaymentValue.setText(formatter.format(percent));
-				text_sum_payment_amount.setText(formatter.format(gsp.getTotalPay()));
+				holder.percentPaymentValue.setText(currencyformatter.format(percent));
+				text_sum_payment_amount.setText(currencyformatter.format(gsp.getTotalPay()));
 				text_sum_payment_percent.setText("100%");
 			return convertView;
 				}}

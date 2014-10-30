@@ -117,6 +117,19 @@ public class GetSumPromotionShopDao extends ReportDatabase{
 		return spr;
 		
 	}
+	public SumPromotionShop getSumDetailPromotion(){
+		String SPSql = "SELECT sum( "+SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT+" ) as TotalDiscount from "
+	+SumData_PromotionReportTable.TABLE_SUMDATA_PROMOTIONREPORT+" WHERE SaleDate = '"+Saledate+"'";
+		Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+		SumPromotionShop spr = new SumPromotionShop();
+		if (cursor.moveToFirst()){
+			
+			spr.setDiscount(cursor.getDouble(cursor.getColumnIndex(SumData_PromotionReportTable.COLUMN_TOTAL_DISCOUNT)));
+			
+		}
+		return spr;
+		
+	}
 	public List<SumPromotionShop> getPromoDetail(){
 		List<SumPromotionShop> getsumpromolist = new ArrayList <SumPromotionShop>();
 		String GPSql = ";Select "+PromotionTable.TABLE_PROMOTION+"." +PromotionTable.COLUMN_PROMOTION_NAME+" , SUM( "

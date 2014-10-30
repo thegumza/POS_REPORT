@@ -96,13 +96,14 @@ public class TopProduct_Saleprice_PieGraph extends Activity{
 
         final GetTopProductShopDao gt = new GetTopProductShopDao(this);
 		final List<TopProductShop> ts = gt.getTopSaleProduct();
-		
+		final TopProductShop gsp = gt.getSumTopProduct();
+		double sumtotalpay = gsp.getSumSalePrice();
 		
 		ArrayList<String> productname = new ArrayList<String>() ;
 		ArrayList<String> saleprice = new ArrayList<String>() ;
 		
 		for (TopProductShop tps : ts) saleprice.add(Double.toString(tps.getSumSalePrice()));
-		for (TopProductShop tps : ts) productname.add(tps.getProductName()+" ("+(currencyformatter.format(tps.getSumSalePrice()))+")");
+		for (TopProductShop tps : ts) productname.add("("+(currencyformatter.format(tps.getSumSalePrice()*100 / sumtotalpay))+"%) "+tps.getProductName()+" ("+(currencyformatter.format(tps.getSumSalePrice()))+")");
 		String[] productnameArr = new String[productname.size()];
 		productnameArr = productname.toArray(productnameArr);
 		

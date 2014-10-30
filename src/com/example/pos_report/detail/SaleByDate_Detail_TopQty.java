@@ -40,10 +40,8 @@ public class SaleByDate_Detail_TopQty extends Fragment{
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 	GlobalProperty format = gpd.getGlobalProperty();
-	String formatnumber = format.getCurrencyFormat();
-	String formatqty = format.getQtyFormat();
-	NumberFormat formatter = new DecimalFormat(formatnumber);
-	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
 	String shopName = SaleByDate.getShopName();
 	
@@ -67,7 +65,9 @@ public class SaleByDate_Detail_TopQty extends Fragment{
                 rootView.findViewById(R.id.salebyproduct_topqty_layout);
                 mChart = (PieChart) rootView.findViewById(R.id.chart1);
                 list_TopProduct = (ListView)rootView.findViewById(R.id.list_TopProduct);
+                
                 GetSumProductShopDao gt = new GetSumProductShopDao(getActivity());
+                final SumProductShop gsp = gt.getSumTopDetailProduct();
                 
                 List<SumProductShop> Topqtyproduct = gt.getTopQtyProduct();
 				list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
@@ -77,9 +77,10 @@ public class SaleByDate_Detail_TopQty extends Fragment{
 				
 				ArrayList<String> productname = new ArrayList<String>() ;
 				ArrayList<String> saleprice = new ArrayList<String>() ;
+				double sumtotalpay = gsp.getSalePrice();
 				
 				for (SumProductShop tps : tq) saleprice.add(Double.toString(tps.getSalePrice()));
-				for (SumProductShop tps : tq) productname.add(tps.getProductName()+" ("+(formatter.format(tps.getSalePrice()))+")");
+				for (SumProductShop tps : tq) productname.add("("+(currencyformatter.format(tps.getSalePrice()*100 / sumtotalpay))+"%) "+tps.getProductName()+" ("+(currencyformatter.format(tps.getSalePrice()))+")");
 				String[] productnameArr = new String[productname.size()];
 				productnameArr = productname.toArray(productnameArr);
 				

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.pos_report.SaleByDate;
+import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.model.TopProductShop;
+import com.example.pos_report.database.table.SumData_PaymentReportTable;
 import com.example.pos_report.database.table.SumData_ProductReportTable;
 import com.example.pos_report.database.table.SumData_TopProductReportTable;
 
@@ -59,6 +61,15 @@ public class GetTopProductShopDao extends ReportDatabase{
 			}while(cursor.moveToNext());
 		}
 		return gettopproducttshop;
+	}
+	public TopProductShop getSumTopProduct(){
+		String SPSql = "SELECT sum( "+SumData_TopProductReportTable.COLUMN_SUM_SALE_PRICE+" ) as SumSalePrice from "+SumData_TopProductReportTable.TABLE_SUMDATA_TOP_PRODUCT_REPORT;
+		Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+		TopProductShop ps = new TopProductShop();
+		if (cursor.moveToFirst()){
+				ps.setSumSalePrice(cursor.getDouble(cursor.getColumnIndex(SumData_TopProductReportTable.COLUMN_SUM_SALE_PRICE)));
+		}
+		return ps;
 	}
 	public List<TopProductShop> getTopSaleProduct(){
 		List<TopProductShop> gettopproducttshop = new ArrayList <TopProductShop>();

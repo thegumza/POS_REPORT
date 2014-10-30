@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.model.SumProductShop;
+import com.example.pos_report.database.model.TopProductShop;
 import com.example.pos_report.database.table.ProductItemTable;
 import com.example.pos_report.database.table.SumData_ProductReportTable;
+import com.example.pos_report.database.table.SumData_TopProductReportTable;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -97,5 +99,14 @@ public class GetSumProductShopDao extends ReportDatabase{
 					}
 					return getsumproducttshop;
 				}
+	public SumProductShop getSumTopDetailProduct(){
+		String SPSql = "Select sum(SalePrice) as SalePrice From "+ SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" JOIN "+ProductItemTable.TABLE_PRODUCT_ITEM+" USING (ProductID) WHERE SaleDate='"+Saledate+"' ORDER BY SalePrice DESC";
+	Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+	SumProductShop ps = new SumProductShop();
+	if (cursor.moveToFirst()){
+			ps.setSalePrice(cursor.getDouble(cursor.getColumnIndex(SumData_ProductReportTable.COLUMN_SALE_PRICE)));
+	}
+	return ps;
+	}
 	
 }

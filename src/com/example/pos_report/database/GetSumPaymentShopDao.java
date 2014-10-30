@@ -91,7 +91,15 @@ public class GetSumPaymentShopDao extends ReportDatabase{
 		}
 		return ps;
 	}
-	
+	public SumPaymentShop getSumDetailPayment(){
+		String SPSql = "SELECT sum( "+SumData_PaymentReportTable.COLUMN_TOTAL_PAY+" ) as TotalPay from "+SumData_PaymentReportTable.TABLE_SUMDATA_PAYMENT_REPORT+" WHERE SaleDate ='"+Saledate+"'";
+		Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
+		SumPaymentShop ps = new SumPaymentShop();
+		if (cursor.moveToFirst()){
+				ps.setTotalPay(cursor.getDouble(cursor.getColumnIndex(SumData_PaymentReportTable.COLUMN_TOTAL_PAY)));
+		}
+		return ps;
+	}
 	public List<SumPaymentShop> getPaymentDetail(){
 		
 		String SPSql = 

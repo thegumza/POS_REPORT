@@ -36,10 +36,8 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 	GlobalProperty format = gpd.getGlobalProperty();
-	String formatnumber = format.getCurrencyFormat();
-	String formatqty = format.getQtyFormat();
-	NumberFormat formatter = new DecimalFormat(formatnumber);
-	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
 	String shopName = SaleByDate.getShopName();
 	String payTypeName = SaleByDate.getPayTypeName();
@@ -66,6 +64,8 @@ public class SaleByDate_Detail_TopSale extends Fragment{
                 list_TopProduct = (ListView)rootView.findViewById(R.id.list_TopProduct);
                 
                 GetSumProductShopDao gt = new GetSumProductShopDao(getActivity());
+                final SumProductShop gsp = gt.getSumTopDetailProduct();
+                
                 List<SumProductShop> Topqtyproduct = gt.getTopSaleProduct();
 				list_TopProduct.setAdapter(new TopQtyProductListAdapter(Topqtyproduct));
 				
@@ -74,9 +74,10 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 				
 				ArrayList<String> productname = new ArrayList<String>() ;
 				ArrayList<String> saleprice = new ArrayList<String>() ;
+				double sumtotalpay = gsp.getSalePrice();
 				
 				for (SumProductShop tps : ts) saleprice.add(Double.toString(tps.getSalePrice()));
-				for (SumProductShop tps : ts) productname.add(tps.getProductName()+" ("+(formatter.format(tps.getSalePrice()))+")");
+				for (SumProductShop tps : ts) productname.add("("+(currencyformatter.format(tps.getSalePrice()*100 / sumtotalpay))+"%) "+tps.getProductName()+" ("+(currencyformatter.format(tps.getSalePrice()))+")");
 				String[] productnameArr = new String[productname.size()];
 				productnameArr = productname.toArray(productnameArr);
 				

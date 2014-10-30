@@ -20,6 +20,7 @@ import com.example.pos_report.SaleByProduct;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
+import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.model.TopProductShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -69,61 +70,38 @@ public class TopProduct_Qty_PieGraph extends Activity{
         txtproduct.setText("Top 10 Product by QTY");
 
         mChart = (PieChart) findViewById(R.id.chart1);
-
         Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
         mChart.setValueTypeface(tf);
         mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-
         mChart.setHoleRadius(40f);
-
         mChart.setDescription("");
-
         mChart.setDrawYValues(true);
         mChart.setDrawCenterText(true);
-
         mChart.setDrawHoleEnabled(true);
-
-        // draws the corresponding description value into the slice
         mChart.setDrawXValues(false);
         mChart.setTouchEnabled(true);
-
-        // display percentage values
         mChart.setUsePercentValues(true);
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-
         mChart.animateXY(1500, 1500);
 
         final GetTopProductShopDao gt = new GetTopProductShopDao(this);
 		final List<TopProductShop> ts = gt.getTopQtyProduct();
-		
+		final TopProductShop gsp = gt.getSumTopProduct();
 		
 		ArrayList<String> productname = new ArrayList<String>() ;
 		ArrayList<String> saleprice = new ArrayList<String>() ;
+		double sumtotalpay = gsp.getSumSalePrice();
 		
 		for (TopProductShop tps : ts) saleprice.add(Double.toString(tps.getSumSalePrice()));
-		for (TopProductShop tps : ts) productname.add(tps.getProductName()+" ("+(currencyformatter.format(tps.getSumSalePrice()))+")");
+		for (TopProductShop tps : ts) productname.add("("+(currencyformatter.format(tps.getSumSalePrice()*100 / sumtotalpay))+"%) "+tps.getProductName()+" ("+(currencyformatter.format(tps.getSumSalePrice()))+")");
 		String[] productnameArr = new String[productname.size()];
 		productnameArr = productname.toArray(productnameArr);
 		
             ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-            // ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-            // IMPORTANT: In a PieChart, no values (Entry) should have the same
-            // xIndex (even if from different DataSets), since no values can be
-            // drawn above each other.
             for (int i = 0; i < productname.size(); i++) {
             	float val = Float.parseFloat(saleprice.get(i));
                 yVals1.add(new Entry(val, i));
             }
-
-            // for (int i = mSeekBarX.getProgress() / 2; i <
-            // mSeekBarX.getProgress(); i++) {
-            // yVals2.add(new Entry((float) (Math.random() * mult) + mult / 5, i));
-            // }
 
             ArrayList<String> xVals = new ArrayList<String>();
 
@@ -132,17 +110,10 @@ public class TopProduct_Qty_PieGraph extends Activity{
             PieDataSet set1 = new PieDataSet(yVals1, "");
             set1.setSliceSpace(3f);
             set1.setColors(ColorTemplate.PASTEL_COLORS);
-
             PieData data = new PieData(xVals, set1);
             mChart.setData(data);
-
-            // undo all highlights
             mChart.highlightValues(null);
-
-            // set a text for the chart center
             mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
-            //mChart.invalidate();
-            
             Legend l = mChart.getLegend();
             l.setPosition(LegendPosition.RIGHT_OF_CHART);
             l.setForm(LegendForm.CIRCLE);

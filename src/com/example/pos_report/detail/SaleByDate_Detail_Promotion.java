@@ -44,10 +44,8 @@ public class SaleByDate_Detail_Promotion extends Fragment {
 	private PieChart mChart;
 	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
 	GlobalProperty format = gpd.getGlobalProperty();
-	String formatnumber = format.getCurrencyFormat();
-	String formatqty = format.getQtyFormat();
-	NumberFormat formatter = new DecimalFormat(formatnumber);
-	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	
 	
 	public static SaleByDate_Detail_Promotion newInstance(int sectionNumber) {
@@ -92,12 +90,14 @@ public class SaleByDate_Detail_Promotion extends Fragment {
         		listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
         		
                 final GetSumPromotionShopDao gp = new GetSumPromotionShopDao(getActivity());
+                final SumPromotionShop gr = gpr.getSumDetailPromotion();
+                double totaldis = gr.getDiscount();
         		final List<SumPromotionShop> spl = gp.getPromoDetailGraph();
         		
         		ArrayList<String> promotionname = new ArrayList<String>() ;
         		ArrayList<String> totaldiscount = new ArrayList<String>() ;
         		for (SumPromotionShop ss : spl) totaldiscount.add(Double.toString(ss.getDiscount()));
-        		for (SumPromotionShop ss : spl) promotionname.add(ss.getPromotionName()+" ("+(formatter.format(ss.getDiscount()))+")");
+        		for (SumPromotionShop ss : spl) promotionname.add("("+(currencyformatter.format((ss.getDiscount()* 100) / totaldis))+"%)"+ss.getPromotionName()+" ("+(currencyformatter.format(ss.getDiscount()))+")");
         		String[] promotArr = new String[promotionname.size()];
         		promotArr = promotionname.toArray(promotArr);
         		
@@ -189,11 +189,11 @@ public class SaleByDate_Detail_Promotion extends Fragment {
 				
 				SumPromotionShop spr = Promotiontlist.get(position);
 				holder.typePromotionValue.setText(spr.getPromotionName());
-				holder.amountPromotionValue.setText(formatter.format(spr.getDiscount()));
+				holder.amountPromotionValue.setText(currencyformatter.format(spr.getDiscount()));
 				double totaldis = gpr.getDiscount();
 				double percent = (spr.getDiscount()* 100) / totaldis;
-				holder.percentPromotionValue.setText(formatter.format(percent));
-				text_sum_promo_amount.setText(formatter.format(gpr.getDiscount()));
+				holder.percentPromotionValue.setText(currencyformatter.format(percent));
+				text_sum_promo_amount.setText(currencyformatter.format(gpr.getDiscount()));
 				text_sum_promo_percent.setText("100%");
 			return convertView;
 				}

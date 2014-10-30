@@ -46,11 +46,13 @@ public class Setting extends Activity  {
 		pdia = new ProgressDialog(this);
 		   pdia.setCancelable(true);
 		   pdia.setIndeterminate(true);
-		   
+
+			Database = new ReportDatabase(this);
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
 	    path_ip = sharedPreferences.getString("path_ip", "");
 	    path_visual = sharedPreferences.getString("path_visual", "");
+	    URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
 	    
 	    udid = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
 	    setting_udid = (FlatTextView) findViewById(R.id.value_udid);	
@@ -71,9 +73,8 @@ public class Setting extends Activity  {
 			        editor.putString("path_visual", setting_visual.getText().toString());
 			        editor.commit();
 			   	 
-			        SharedPreferences prefs = getSharedPreferences("com.example.pos_report", MODE_PRIVATE);
-			        PendingIntent intent = PendingIntent.getActivity(Setting.this.getBaseContext(), 0, new Intent(getIntent()), getIntent().getFlags());
-			        AlarmManager manager = (AlarmManager) Setting.this.getSystemService(Context.ALARM_SERVICE);
+			        //PendingIntent intent = PendingIntent.getActivity(Setting.this.getBaseContext(), 0, new Intent(getIntent()), getIntent().getFlags());
+			        //AlarmManager manager = (AlarmManager) Setting.this.getSystemService(Context.ALARM_SERVICE);
 			        
 			        
 			        onUpdate();
@@ -84,7 +85,6 @@ public class Setting extends Activity  {
 		
 	}
 	public void onUpdate() {
-		Database = new ReportDatabase(Setting.this);
     	new ShopDataLoader(Setting.this, "123", new ShopDataLoader.GetShopDataLoader() {
 			 
 			@Override
@@ -152,7 +152,7 @@ public class Setting extends Activity  {
 					
 					
 					pdia.dismiss();
-					
+					 
 					
 					
 					
