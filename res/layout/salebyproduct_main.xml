@@ -15,13 +15,53 @@
     android:paddingTop="5dp"
      android:id="@+id/saleyproduct_main_id"
     tools:context="com.example.pos_report.MainActivity$SaleByProduct" 
-    android:background="@color/snow_dark">
+    android:background="@android:color/white">
     <LinearLayout
+            android:id="@+id/headTablepayment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/grass_primary"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+        
+	        <com.cengalabs.flatui.views.FlatTextView
+	            android:id="@+id/text_tableProductName"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:layout_gravity="center"
+	            android:text="Sale By Product"
+	            android:textColor="#ffffff"
+	            android:textSize="25dp"
+	            android:textStyle="bold"
+	            android:layout_weight="0.85"
+	            flatui:fl_fontWeight="regular" />
+	        
+	        <com.cengalabs.flatui.views.FlatButton
+			    android:id="@+id/showChart_product"
+			    android:layout_width="0dp"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="0.15"
+			    android:gravity="center"
+			    android:layout_margin="3dp"
+			    android:layout_gravity="center"
+			    android:drawableLeft="@drawable/ic_data_usage_black_24dp"
+			    android:textColor="@android:color/white"
+			    android:textSize="18dp"
+			    flatui:fl_blockButtonEffectHeight="3dp"
+			    flatui:fl_fontWeight="regular"
+			    flatui:fl_textAppearance="light"
+			    flatui:fl_theme="@array/snow" />
+	        
+        </LinearLayout>
+    <LinearLayout
+        
 	        android:id="@+id/selectProduct"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentTop="true"
-	        android:orientation="horizontal" >
+	        android:orientation="horizontal"
+	        android:background="@android:color/white" >
 	        <Spinner
 	            android:id="@+id/shopspinner"
 	            android:layout_width="match_parent"
@@ -38,36 +78,41 @@
 	        android:id="@+id/selectZone"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_alignParentTop="True"
 	        android:orientation="horizontal"
-	        android:paddingBottom="10dp" >
+	        android:background="@android:color/white" >
 	
 	
 	        <Spinner
 	            android:id="@+id/monthspinner"
-	            android:layout_width="match_parent"
+	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3" />
 	
 	        <Spinner
 	            android:id="@+id/yearspinner"
-	            android:layout_width="match_parent"
+	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3" />
 	        
-	    </LinearLayout>
-	
-	    
-	    <com.example.flatuilibrary.FlatButton
+	        <com.cengalabs.flatui.views.FlatButton
             android:id="@+id/BtnshowProductReport"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="ShowReport"
-            android:textColor="#ffffff"
+            android:layout_weight="0.3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Report"
+            android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/ic_search_white_24dp"
             flatui:fl_blockButtonEffectHeight="3dp"
             flatui:fl_theme="@array/dark"
             flatui:fl_fontWeight="regular"
                  />
+	        
+	    </LinearLayout>
+	
+	    
+	    
     
     </LinearLayout>
 
@@ -77,121 +122,116 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp" >
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_tableProductName"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center"
-	            android:paddingBottom="3dp"
-	            android:paddingTop="2dp"
-	            flatui:fl_customBackgroundColor="@color/HEADGROUP_COLOR"
-	            flatui:fl_fontWeight="regular"
-	            android:text="Sale By Product"
-	            android:textColor="#ffffff"
-	            android:textSize="18dp"
-	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp" />
+        android:weightSum="1" >
         
-        <LinearLayout
-            android:id="@+id/headTableProduct"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/HEADGROUP_COLOR"
-            android:orientation="horizontal"
-            android:weightSum="1" >
-	        
-        
-        </LinearLayout>
         	<ExpandableListView
-			android:id="@+id/elv"
-			android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:background="@color/snow_dark">
-
-		</ExpandableListView>
+        	    android:id="@+id/elv"
+        	    android:layout_width="match_parent"
+        	    android:layout_height="300dp"
+        	    android:background="@android:color/white"
+        	    android:childDivider="@color/grass_light"
+        	    android:childIndicator="@null"
+        	    android:divider="@android:color/black"
+        	    android:dividerHeight="3dp"
+        	    android:groupIndicator="@null" >
+	        </ExpandableListView>
         
-        <LinearLayout
+        <LinearLayout 
+           android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+<LinearLayout
             android:id="@+id/summaryTableProduct"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/HEADGROUP_COLOR" 
-            android:orientation="horizontal"
-            android:weightSum="1"
-             >
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_sum_item"
+            android:background="@color/grass_primary"
+            android:orientation="horizontal" >
+        
+	        <com.cengalabs.flatui.views.FlatTextView
+	            android:id="@+id/text_totalQty"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
-	            android:layout_weight="0.4"
-	            android:text="Summary"
+	            android:layout_weight="0.25"
+	            android:text="TotalQty: "
 	            android:textColor="#ffffff"
-	            android:gravity="center"
+	            android:gravity="left"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular"
-	            flatui:fl_customBackgroundColor="@color/HEADGROUP_COLOR" />
+	            android:layout_marginLeft="2dp"
+	             />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_qty"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
-	            android:layout_weight="0.1"
+	            android:layout_weight="0.55"
 	            android:text=""
 	            android:textColor="#ffffff"
-	            android:gravity="center"
+	            android:gravity="left"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular"
-	            flatui:fl_customBackgroundColor="@color/HEADGROUP_COLOR" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_sum_price"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.3"
-	            android:text=""
-	            android:textColor="#ffffff"
-	            android:gravity="center"
-	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular"
-	            flatui:fl_customBackgroundColor="@color/HEADGROUP_COLOR" />
-	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.2"
 	            android:text=""
 	            android:textColor="#ffffff"
-	            android:gravity="center"
+	            android:gravity="right"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular"
-	            flatui:fl_customBackgroundColor="@color/HEADGROUP_COLOR" />
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
 	        
+        
+        </LinearLayout>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/grass_primary" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+    <com.cengalabs.flatui.views.FlatTextView
+        		android:id="@+id/text_price"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:text="TotalSalePrice: "
+	            android:layout_weight="0.4"
+	            android:textColor="#ffffff"
+	            android:gravity="left"
+	            android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular"
+	            android:layout_marginLeft="2dp" />
+    
+            <com.cengalabs.flatui.views.FlatTextView
+		        android:id="@+id/text_sum_price"
+		        android:layout_width="0dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="0.6"
+		        android:gravity="left"
+		        android:singleLine="true"
+		        android:text=""
+		        android:textColor="#ffffff"
+		        android:textStyle="bold"
+	            android:textSize="20dp"
+	            flatui:fl_fontWeight="regular" />
+    
+    
+        </LinearLayout>
+
+    </LinearLayout>
+           
         </LinearLayout>
         
-    </LinearLayout>
     
-    	<com.example.flatuilibrary.FlatButton
-	        android:id="@+id/showChart_product"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/selectZone"
-	        android:layout_below="@+id/selectZone"
-	        android:minHeight="30dp"
-	        android:textSize="16dp"
-	        android:textStyle="bold"
-	        android:text="Sale By Product Chart"
-	        android:layout_marginTop="10dp" 
-            android:textColor="@android:color/white"
-            flatui:fl_fontWeight="regular"
-            flatui:fl_theme="@array/orange"
-            flatui:fl_blockButtonEffectHeight="3dp" />
+    
+    	
     	
 
 <LinearLayout
@@ -199,81 +239,92 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="20dp" >
+        android:paddingTop="10dp" >
+
     	
     	<LinearLayout
 	        android:id="@+id/boxHeadTopic"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="vertical" >
-        
-	    	<com.example.flatuilibrary.FlatTextView
-		            android:id="@+id/text_HeadTopic_TopProduct"
-		            android:layout_width="fill_parent"
-		            android:layout_height="wrap_content"
-		            android:gravity="center"
-		            android:text="Top 10 Product"
-		            android:textColor="#000000"
-		            android:textSize="18dp"
-		            android:textStyle="bold" 
-		            flatui:fl_fontWeight="regular"
-		            android:background="@color/snow_dark"/>
 	    	
-	    	<LinearLayout
+	    	 
+    	</LinearLayout>
+	        <LinearLayout
+            android:id="@+id/headTabletopproduct"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_peter_river"
+            android:orientation="horizontal"
+            android:weightSum="1" >
+        
+	        <com.cengalabs.flatui.views.FlatTextView
+	            android:id="@+id/text_tableTopProductName"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:gravity="center"
+	            android:layout_gravity="center"
+	            android:text="Top 10 Product by Qty"
+	            android:textColor="#ffffff"
+	            android:textSize="20dp"
+	            android:textStyle="bold"
+	            android:layout_weight="0.85"
+	            flatui:fl_fontWeight="regular" />
+	        
+	        <com.cengalabs.flatui.views.FlatButton
+			    android:id="@+id/showChart_TopProduct"
+			    android:layout_width="0dp"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="0.15"
+			    android:gravity="center"
+			    android:layout_margin="3dp"
+			    android:layout_gravity="center"
+			    android:drawableLeft="@drawable/ic_data_usage_black_24dp"
+			    android:textColor="@android:color/white"
+			    android:textSize="18dp"
+			    flatui:fl_blockButtonEffectHeight="3dp"
+			    flatui:fl_fontWeight="regular"
+			    flatui:fl_textAppearance="light"
+			    flatui:fl_theme="@array/snow" />
+	        
+        </LinearLayout>
+        <LinearLayout
 		        android:id="@+id/selectTopProduct"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:layout_alignParentTop="True"
 		        android:orientation="horizontal"
-		        android:paddingBottom="10dp"
-		        android:background="@color/snow_dark" >
+		        android:background="@android:color/white" >
 		
 		        <Spinner
 		            android:id="@+id/topProduct_productSelect"
-		            android:layout_width="match_parent"
+		            android:layout_width="0dp"
 		            android:layout_height="wrap_content"
-		            android:layout_weight="0.3" 
-		            android:padding="14dp" />
+		            android:layout_weight="0.3"
+		            android:padding="14dp"  />
 		
 		        <Spinner
 		            android:id="@+id/topProduct_modeSelect"
-		            android:layout_width="match_parent"
+		            android:layout_width="0dp"
 		            android:layout_height="wrap_content"
 		            android:layout_weight="0.3" />
 		        
-		    </LinearLayout>
-	    	
-	    	 <com.example.flatuilibrary.FlatButton
-	        android:id="@+id/showReportBtn2"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/selectZone"
-	        android:layout_below="@+id/selectZone"
-	        android:minHeight="30dp"
-	        android:text="Show Report"
-	        android:textSize="16dp" 
-	        android:textStyle="bold"
+		        <com.cengalabs.flatui.views.FlatButton
+            android:id="@+id/showReportBtn2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Report"
             android:textColor="@android:color/white"
+            android:drawableLeft="@drawable/ic_search_white_24dp"
+            flatui:fl_blockButtonEffectHeight="3dp"
             flatui:fl_theme="@array/dark"
             flatui:fl_fontWeight="regular"
-            flatui:fl_blockButtonEffectHeight="3dp"
-            android:layout_marginBottom="10dp" />
-	    	 
-    	</LinearLayout>
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_tableTopProductName"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:gravity="center"
-	            android:paddingBottom="3dp"
-	            android:paddingTop="2dp"
-	            flatui:fl_customBackgroundColor="@color/fbutton_color_peter_river"
-	            flatui:fl_fontWeight="regular"
-	            android:text="Top 10 Product by Qty"
-	            android:textColor="#ffffff"
-	            android:textSize="18dp"
-	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp" />
+                 />
+		        
+		    </LinearLayout>
         <LinearLayout
             android:id="@+id/headTableTopProduct"
             android:layout_width="fill_parent"
@@ -282,7 +333,7 @@
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_no"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -294,7 +345,7 @@
 	            android:textSize="18dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_item"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -306,7 +357,7 @@
 	            android:textSize="18dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_qty"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -318,7 +369,7 @@
 	            android:textSize="18dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_price"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -336,28 +387,20 @@
             android:id="@+id/list_TopProduct"
             android:layout_width="match_parent"
             android:layout_height="260dp"
-            android:background="@color/snow_dark"
-            android:paddingBottom="5dp" >
+            android:background="@android:color/white"
+             >
         </ListView>
-        
+        <LinearLayout
+            android:id="@+id/footerTabletopproduct"
+            android:padding="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/fbutton_color_peter_river"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp" >
+	        
+        </LinearLayout>
     </LinearLayout>
-    
-    	<com.example.flatuilibrary.FlatButton
-	        android:id="@+id/showChart_TopProduct"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/selectZone"
-	        android:layout_below="@+id/selectZone"
-	        android:minHeight="30dp"
-	        android:textSize="16dp"
-	        android:textStyle="bold"
-	        android:text="Top 10 Product Chart"
-	        android:layout_marginTop="10dp"
-            android:textColor="@android:color/white"
-            flatui:fl_theme="@array/sea"
-            flatui:fl_blockButtonEffectHeight="3dp"
-            flatui:fl_fontWeight="regular"  />
-    	
-</LinearLayout>
-    	
+    	</LinearLayout>
+    	</LinearLayout>
 </ScrollView>

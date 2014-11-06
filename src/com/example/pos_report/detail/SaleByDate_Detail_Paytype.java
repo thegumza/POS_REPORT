@@ -13,11 +13,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
-import com.example.pos_report.R.id;
-import com.example.pos_report.R.layout;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;

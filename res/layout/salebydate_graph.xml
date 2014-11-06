@@ -28,7 +28,7 @@
         android:background="@color/candy_primary" >
         
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/shopNameValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:orientation="horizontal"
             android:layout_marginBottom="2dp" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_tableSaledatename"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"

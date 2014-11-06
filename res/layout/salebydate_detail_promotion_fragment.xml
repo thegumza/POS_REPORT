@@ -17,10 +17,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@color/fbutton_color_turquoise" >
+        android:background="@color/orange_primary" >
         
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/shopNameValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,13 +44,13 @@
             android:id="@+id/headTablepromo"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_turquoise"
+            android:background="@color/orange_primary"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_tablePromotionName"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
 	            android:text="Promotion"
 	            android:textColor="#ffffff"
 	            android:textSize="20dp"
-	            android:background="@color/fbutton_color_turquoise"
+	            android:background="@color/orange_primary"
 	            android:textStyle="bold"
 	            android:layout_marginBottom="2dp"
 	            flatui:fl_fontWeight="bold" />
@@ -70,11 +70,11 @@
             android:id="@+id/headTablePromotion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_turquoise"
+            android:background="@color/orange_primary"
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_promotion"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="bold" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_promo_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="bold"/>
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_promo_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -127,9 +127,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:background="@color/fbutton_color_turquoise" >
+            android:background="@color/orange_primary" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_promotion"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="bold" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_promo_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="bold" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_promo_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"

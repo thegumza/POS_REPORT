@@ -1,8 +1,8 @@
 package com.example.pos_report;
 
-import com.example.flatuilibrary.FlatButton;
-import com.example.flatuilibrary.FlatEditText;
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatButton;
+import com.cengalabs.flatui.views.FlatEditText;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.PayTypeDao;
 import com.example.pos_report.database.ProductDeptDao;
@@ -18,17 +18,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings.Secure;
 import android.view.View;
 
 public class Setting extends Activity  {
@@ -39,14 +33,15 @@ public class Setting extends Activity  {
 	FlatTextView setting_udid;
 	public static String URL;
 	private static ReportDatabase Database;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setTitle("Setting");
 		setContentView(R.layout.setting_main);
 		pdia = new ProgressDialog(this);
 		   pdia.setCancelable(true);
 		   pdia.setIndeterminate(true);
-
 			Database = new ReportDatabase(this);
 		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		
@@ -54,11 +49,8 @@ public class Setting extends Activity  {
 	    path_visual = sharedPreferences.getString("path_visual", "");
 	    URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
 	    
-	    udid = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
-	    setting_udid = (FlatTextView) findViewById(R.id.value_udid);	
 		 setting_ip = (FlatEditText) findViewById(R.id.value_ip);
 		 setting_visual = (FlatEditText) findViewById(R.id.value_visual);
-		 setting_udid.setText(udid);
 		 setting_ip.setText(path_ip);
 		 setting_visual.setText(path_visual);
 		 
@@ -73,10 +65,6 @@ public class Setting extends Activity  {
 			        editor.putString("path_visual", setting_visual.getText().toString());
 			        editor.commit();
 			   	 
-			        //PendingIntent intent = PendingIntent.getActivity(Setting.this.getBaseContext(), 0, new Intent(getIntent()), getIntent().getFlags());
-			        //AlarmManager manager = (AlarmManager) Setting.this.getSystemService(Context.ALARM_SERVICE);
-			        
-			        
 			        onUpdate();
 			        finish();
 			        
@@ -85,7 +73,11 @@ public class Setting extends Activity  {
 		
 	}
 	public void onUpdate() {
-    	new ShopDataLoader(Setting.this, "123", new ShopDataLoader.GetShopDataLoader() {
+		final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+	  	   String path_ip = sharedPreferences.getString("path_ip", "");
+	  	   String path_visual = sharedPreferences.getString("path_visual", "");
+	  	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
+ 	new ShopDataLoader(Setting.this, "123", new ShopDataLoader.GetShopDataLoader() {
 			 
 			@Override
 			public void onSuccess(String result) {
@@ -152,11 +144,7 @@ public class Setting extends Activity  {
 					
 					
 					pdia.dismiss();
-					 
 					
-					
-					
-							
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
@@ -175,4 +163,3 @@ public class Setting extends Activity  {
 	}
 	
 }
-

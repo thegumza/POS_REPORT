@@ -18,7 +18,7 @@
     android:layout_gravity="left"
     android:background="#ffffff"
      >
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_tableTopProductName"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -31,7 +31,8 @@
 	            android:textColor="#ffffff"
 	            android:textSize="20dp"
 	            android:textStyle="bold"
-	            android:layout_marginBottom="2dp" />
+	            android:layout_marginBottom="2dp"
+	            android:drawableLeft="@drawable/ic_navigate_before_black_24dp" />
         <LinearLayout
             android:id="@+id/headTableTopProduct"
             android:layout_width="fill_parent"
@@ -40,7 +41,7 @@
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_no"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -52,7 +53,7 @@
 	            android:textSize="18dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_item"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -64,7 +65,7 @@
 	            android:textSize="18dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_qty"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -76,7 +77,7 @@
 	            android:textSize="18dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_TopProduct_price"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"

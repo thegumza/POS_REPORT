@@ -16,9 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Toast;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumTransactionShopDao;
@@ -56,8 +55,8 @@ public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.salebydate_graph);
         
         months.add(0,"January");
@@ -275,7 +274,8 @@ public class SalebyDate_Graph extends Activity  implements OnChartValueSelectedL
         Log.i("position", position.toString());
     }
 
-    public void onNothingSelected() {
+    @Override
+	public void onNothingSelected() {
     };
 
     

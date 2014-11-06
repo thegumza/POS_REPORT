@@ -1,21 +1,10 @@
 package com.example.pos_report;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
 
 import org.ksoap2.serialization.PropertyInfo;
-
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
-
-import com.example.pos_report.GetSumPromotionShop.GetSumPromotion;
-import com.example.pos_report.database.GetSumPaymentShopDao;
-import com.example.pos_report.database.model.SumPaymentShop;
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 public class GetSumPaymentShop extends Ksoap2WebService{
 	
@@ -23,7 +12,6 @@ public class GetSumPaymentShop extends Ksoap2WebService{
 	public static final String GET_SUM_PAYMENT_OF_SHOP_FROM_MONTH_YEAR_METHOD = "WsDashBoard_GetSumPaymentOfShopFromMonthYear";
 	
 	public static final int TIME_OUT = 10 * 1000;
-	private ProgressDialog pdia;
 	GetSumPayment mlistener;
 	
 	public GetSumPaymentShop(Context c,final int iShopID,final int iMonth,final int iYear,String deviceCode,GetSumPayment listener) {

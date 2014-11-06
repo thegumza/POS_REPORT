@@ -13,10 +13,9 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,39 +24,28 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-import com.example.flatuilibrary.FlatButton;
-import com.example.flatuilibrary.FlatTextView;
-import com.example.flatuilibrary.FlatUI;
+import com.cengalabs.flatui.views.FlatButton;
+import com.cengalabs.flatui.views.FlatTextView;
+import com.cengalabs.flatui.FlatUI;
 import com.example.pos_report.GetSumTransactionShop.GetSumTransacTion;
-import com.example.pos_report.SaleByDate.PaymentlistAdapter;
-import com.example.pos_report.SaleByDate.PromotionlistAdapter;
-import com.example.pos_report.SaleByDate.SaleListAdapter;
-import com.example.pos_report.SaleByDate.ShopSpinner;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GetSumPromotionShopDao;
 import com.example.pos_report.database.GetSumTransactionShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
-import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
-import com.example.pos_report.database.model.ProductGroup;
 import com.example.pos_report.database.model.ShopProperty;
 import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.model.SumPromotionShop;
 import com.example.pos_report.database.model.SumTransactionShop;
 import com.example.pos_report.graph.MainDashBoard_Payment_PieGraph;
 import com.example.pos_report.graph.MainDashBoard_Promotion_PieGraph;
-import com.example.pos_report.graph.SalebyDate_Graph;
-import com.example.pos_report.graph.SalebyDate_Payment_PieGraph;
-import com.example.pos_report.graph.SalebyDate_Promotion_PieGraph;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -77,7 +65,7 @@ public class MainDashBoard extends Fragment  {
 	private static String lastsaledate;
 	private String saledate;
 	private static String shopName;
-	private FlatTextView ShopNameValue,saledatevalue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
+	private FlatTextView saledatevalue,totalbillvalue,totalcustvalue,totalvatvalue,totalretailvalue,totaldisvalue,totalsalevalue;
 	private int totalbill,totalcust;
 	private double totalvat,totalretail,totaldis,totalsale;
 	private ProgressMenuItemHelper progressHelper;
@@ -90,6 +78,7 @@ public class MainDashBoard extends Fragment  {
 	String formatqty = format.getQtyFormat();
 	NumberFormat formatter = new DecimalFormat(formatnumber);
 	NumberFormat qtyformatter = new DecimalFormat(formatqty);
+	String currencysymbol = format.getCurrencySymbol();
 	
 	 public static MainDashBoard newInstance(int sectionNumber) {
 		 MainDashBoard fragment = new MainDashBoard();
@@ -108,6 +97,7 @@ public class MainDashBoard extends Fragment  {
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	   Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
+		
 	  View rootView = inflater.inflate(R.layout.main_dashboard, container,
 	    false);
 	  final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -151,29 +141,8 @@ public class MainDashBoard extends Fragment  {
 		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
 		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
 		CurrentShopID = saledate.get(0);
-		 
 		shopSelect.getItemAtPosition(0);
 		shopSelect.setSelection(0);
-		
-		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
-			
-			@Override
-			public void onSuccess(String result) {
-				lastsaledate = result;
-				currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
-				currentyear = Integer.parseInt(lastsaledate.substring(0,4));
-				pdia.dismiss();
-			}
-
-			@Override
-			public void onLoad() {
-				// TODO Auto-generated method stub
-				
-		        pdia.setMessage("Loading...");
-		        pdia.show();
-			}
-		}).execute(URL);
-		
 		
 		
 		listPayment.setOnTouchListener(new ListView.OnTouchListener() {
@@ -230,8 +199,10 @@ public class MainDashBoard extends Fragment  {
 					@Override
 					public void onSuccess(String result) {
 						lastsaledate = result;
-						currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
 						currentyear = Integer.parseInt(lastsaledate.substring(0,4));
+						Log.d("Maindashboard Year",String.valueOf(currentyear));
+						currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
+						Log.d("Maindashboard Month",String.valueOf(currentmonth));
 						onChangeData();
 						progressHelper.stopProgress();
 						
@@ -239,7 +210,6 @@ public class MainDashBoard extends Fragment  {
 
 					@Override
 					public void onLoad() {
-						// TODO Auto-generated method stub
 						
 						progressHelper.startProgress();
 					}
@@ -253,7 +223,26 @@ public class MainDashBoard extends Fragment  {
 		});
 		
 		
-		
+		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+			
+			@Override
+			public void onSuccess(String result) {
+				lastsaledate = result;
+				currentyear = Integer.parseInt(lastsaledate.substring(0,4));
+				Log.d("Maindashboard Year",String.valueOf(currentyear));
+				currentmonth = Integer.parseInt(lastsaledate.substring(5, 7));
+				Log.d("Maindashboard Month",String.valueOf(currentmonth));
+				pdia.dismiss();
+			}
+
+			@Override
+			public void onLoad() {
+				// TODO Auto-generated method stub
+				
+		        pdia.setMessage("Loading...");
+		        pdia.show();
+			}
+		}).execute(URL);
 	return rootView;
 	
 }
@@ -299,12 +288,13 @@ public class MainDashBoard extends Fragment  {
 						totalsale = LastSaleDate.getSalePrice();
 						
 						saledatevalue.setText(""+ saledate);
-						totalbillvalue.setText("" + totalbill);
-						totalcustvalue.setText("" + totalcust);
-						totalvatvalue.setText("" + formatter.format((totalvat)));
-						totalretailvalue.setText("" + formatter.format((totalretail)));
-						totaldisvalue.setText("" + formatter.format((totaldis)));
-						totalsalevalue.setText("" + formatter.format((totalsale)));
+						totalbillvalue.setText("" + totalbill+" ");
+						totalcustvalue.setText("" + totalcust+" ");
+						totalvatvalue.setText("" + formatter.format((totalvat))+" "+currencysymbol);
+						totalretailvalue.setText("" + formatter.format((totalretail))+" "+currencysymbol);
+						totaldisvalue.setText("" + formatter.format((totaldis))+" "+currencysymbol);
+						totalsalevalue.setText("" + formatter.format((totalsale))+" "+currencysymbol);
+						
 						
 						progressHelper.stopProgress();
 						
@@ -338,7 +328,7 @@ public class MainDashBoard extends Fragment  {
 						//Set ListViewAdapter Payment
 						List<SumPaymentShop> Paymentlist = gp.getPaymentlist();
 						listPayment.setAdapter(new PaymentlistAdapter(Paymentlist));
-						
+						Log.d("List View", "Set Payment List");
 						progressHelper.stopProgress();
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
@@ -372,7 +362,7 @@ public class MainDashBoard extends Fragment  {
 						//Set ListViewAdapter Promotion 
 						List<SumPromotionShop> Promotionlist = gpr.getSumPromoList();
 						listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
-						
+						Log.d("List View", "Set Promotion List");
 						progressHelper.stopProgress();
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
@@ -415,14 +405,26 @@ public class MainDashBoard extends Fragment  {
 				return position;
 			}
 			
+			private class ViewHolder {
+				FlatTextView textView;
+			}
+			
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
+				ViewHolder  holder;
 				LayoutInflater inflater = getActivity().getLayoutInflater();
+				
+			if(convertView == null){
 				convertView = inflater.inflate(R.layout.spinner_item_main, parent,false);
-				FlatTextView textView = (FlatTextView)convertView.findViewById(R.id.textView1);
+				holder = new ViewHolder();
+				holder.textView = (FlatTextView)convertView.findViewById(R.id.textView1);
+				convertView.setTag(holder);
+				}else{
+					holder=(ViewHolder)convertView.getTag();
+				}
 				ShopProperty sp = Shoplist.get(position);
 				shopName = sp.getShopName();
-				textView.setText(sp.getShopName());
+				holder.textView.setText(sp.getShopName());
 				return convertView;
 			}}
 	 

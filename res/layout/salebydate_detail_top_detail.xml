@@ -17,7 +17,7 @@
         android:background="@color/fbutton_color_peter_river" >
         
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/shopNameValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

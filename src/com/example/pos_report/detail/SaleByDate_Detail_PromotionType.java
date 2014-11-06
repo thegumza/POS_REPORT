@@ -4,11 +4,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
-import com.example.pos_report.R.id;
-import com.example.pos_report.R.layout;
 import com.example.pos_report.database.GetSumPromotionShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
@@ -26,7 +24,7 @@ import android.widget.ListView;
 public class SaleByDate_Detail_PromotionType extends Activity{
 	
 	//Number Format
-	final GlobalPropertyDao gpd = new GlobalPropertyDao(getApplicationContext());
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(this);
 	GlobalProperty format = gpd.getGlobalProperty();
 	String currencyformat = format.getCurrencyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);

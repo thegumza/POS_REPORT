@@ -17,9 +17,9 @@
         android:background="@color/dark_darker"
         android:orientation="vertical" >
 
-        <com.example.flatuilibrary.FlatTextView
+        <com.cengalabs.flatui.views.FlatTextView
             android:id="@+id/setting"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -27,81 +27,95 @@
             android:text="Setting"
             android:textSize="25dp"
             android:textColor="#ffffff"
-	        flatui:fl_fontWeight="regular" />
+            android:drawableLeft="@drawable/ic_settings_white_24dp"
+            android:drawablePadding="5dp"
+	        flatui:fl_fontExtension="ttf"
+            flatui:fl_fontFamily="roboto"
+            flatui:fl_fontWeight="bold" /> 
         
     </LinearLayout>
+
+    
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            
-            <com.example.flatuilibrary.FlatTextView
-            android:id="@+id/txtUDID"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UDID : "
-            android:padding="10dp" 
-            android:textSize="18dp"
-        	android:textColor="#000000"
-	        flatui:fl_fontWeight="regular" />
+            android:layout_weight="1" >
             
-
-            <com.example.flatuilibrary.FlatTextView
-                android:id="@+id/value_udid"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="SHOW UDID CODE"
-                android:textSize="18dp"
-                android:textColor="#000000"
-	        	flatui:fl_fontWeight="regular" />
-            
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-            
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txtIP"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.50"
-                android:padding="10dp"
-                android:layout_marginRight="12dp"
-                android:text="IP : " 
-                android:textSize="18dp" 
-        		android:textColor="#000000"
-	        	flatui:fl_fontWeight="regular"/>
+                android:layout_weight="0.2"
+                android:text="http:// "
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"
+                flatui:fl_fontExtension="ttf"
+                flatui:fl_fontFamily="roboto"
+                flatui:fl_fontWeight="light" />
 
-            <com.example.flatuilibrary.FlatEditText
+            <com.cengalabs.flatui.views.FlatEditText
                 android:id="@+id/value_ip"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-              	android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:ems="10"
                 android:gravity="left" 
-                android:textSize="18dp"
-        		android:textColor="#000000"
-        		flatui:fl_theme="@array/dark"
-        		flatui:fl_fieldStyle="box"
-	        	flatui:fl_fontWeight="regular" />
-            
+                android:textSize="20dp"
+        		android:textColor="#ffffff"
+        		flatui:fl_theme="@array/sea"
+        		flatui:fl_fieldStyle="flat"
+        		android:layout_marginRight="5dp"
+	        	flatui:fl_fontExtension="ttf"
+                flatui:fl_fontFamily="roboto"
+                flatui:fl_fontWeight="light" />
             
         </LinearLayout>
-
+		<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp" >
+            
+            
+            <com.cengalabs.flatui.views.FlatTextView
+                android:id="@+id/txtIP2"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:gravity="center"
+                android:text=" / "
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_marginLeft="5dp"
+                flatui:fl_fontExtension="ttf"
+                flatui:fl_fontFamily="roboto"
+                flatui:fl_fontWeight="light" />
+            
+            <com.cengalabs.flatui.views.FlatEditText
+                android:id="@+id/value_visual"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:ems="10"
+                android:gravity="left"
+                android:textSize="20dp"
+        		android:textColor="#ffffff"
+        		flatui:fl_theme="@array/sea"
+        	 	flatui:fl_fieldStyle="flat"
+        	 	android:layout_marginRight="5dp"
+	        	flatui:fl_fontExtension="ttf"
+                flatui:fl_fontFamily="roboto"
+                flatui:fl_fontWeight="light" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -112,46 +126,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-            
-            <com.example.flatuilibrary.FlatTextView
-                android:id="@+id/txtPath"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.50"
-                android:text="Visual : " 
-                android:textSize="18dp"
-        		android:textColor="#000000"
-	        	flatui:fl_fontWeight="regular" />
-            
-            <com.example.flatuilibrary.FlatEditText
-                android:id="@+id/value_visual"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:gravity="left"
-                android:textSize="18dp"
-        		android:textColor="#000000"
-        		flatui:fl_theme="@array/dark"
-        	 	flatui:fl_fieldStyle="box"
-	        	flatui:fl_fontWeight="regular"	/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <com.example.flatuilibrary.FlatButton
+    <com.cengalabs.flatui.views.FlatButton
         android:id="@+id/reset"
-       	android:layout_width="match_parent"
+       	android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Save" 
         android:layout_margin="15dp"
         android:textColor="@android:color/white"
-        flatui:fl_theme="@array/dark"
+        android:textSize="20dp"
+        flatui:fl_theme="@array/sea"
         flatui:fl_blockButtonEffectHeight="3dp"
-        flatui:fl_fontWeight="regular"
-        
+        flatui:fl_fontExtension="ttf"
+        flatui:fl_fontFamily="roboto"
+        flatui:fl_fontWeight="regular" 
+        android:drawableLeft="@drawable/ic_save_black_24dp"
+        android:drawablePadding="5dp" 
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
         />
 
 </LinearLayout>

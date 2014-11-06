@@ -11,9 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumPaymentShopDao;
@@ -41,12 +40,11 @@ public class SalebyDate_Payment_PieGraph extends Activity{
 	GlobalProperty format = gpd.getGlobalProperty();
 	String currencyformat = format.getCurrencyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+	String currencysymbol = format.getCurrencySymbol();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
         setContentView(R.layout.salebydate_payment_piegraph);
         
         months.add(0,"January");
@@ -68,28 +66,6 @@ public class SalebyDate_Payment_PieGraph extends Activity{
         ShopNameValue.setText(shopName+" ("+ year +" - "+ months.get(month-1) +")");
         mChart = (PieChart) findViewById(R.id.chart1);
 
-        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-		
-        mChart.setValueTypeface(tf);
-        mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-        
-        mChart.setHoleRadius(50f);
-        mChart.setDescription("");
-        mChart.setDrawYValues(true);
-        mChart.setDrawCenterText(true);
-        mChart.setDrawHoleEnabled(true);
-        // draws the corresponding description value into the slice
-        mChart.setDrawXValues(false);
-        mChart.setTouchEnabled(true);
-
-        // display percentage values
-        mChart.setUsePercentValues(true);
-        // mChart.setUnit(" โ�ฌ");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-
-        mChart.animateXY(1500, 1500);
 
 		
         final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(this);
@@ -102,30 +78,18 @@ public class SalebyDate_Payment_PieGraph extends Activity{
 		//double percent = (sp.getTotalPay()* 100) / totalpays;
 		
 		for (SumPaymentShop sp : spl) totalpay.add(Double.toString(sp.getTotalPay()));
-		for (SumPaymentShop sp : spl) paytype.add("("+(currencyformatter.format(sp.getTotalPay()*100 / sumtotalpay))+"%) "+sp.getPayTypeName()+" ("+(currencyformatter.format(sp.getTotalPay()))+")");
+		for (SumPaymentShop sp : spl) paytype.add("("+(currencyformatter.format(sp.getTotalPay()*100 / sumtotalpay))+"%) "
+		+sp.getPayTypeName()+" ("+(currencyformatter.format(sp.getTotalPay()))+" "+currencysymbol+")");
+		
 		String[] paytypeArr = new String[paytype.size()]; 
 		paytypeArr = paytype.toArray(paytypeArr);
 		
-        //String[] mParties = new String[] {
-               // "Party A", "Party B", "Party C", "Party D", "Party E"
-       // };
-
 
             ArrayList<Entry> yVals1 = new ArrayList<Entry>();
-            // ArrayList<Entry> yVals2 = new ArrayList<Entry>();
-
-            // IMPORTANT: In a PieChart, no values (Entry) should have the same
-            // xIndex (even if from different DataSets), since no values can be
-            // drawn above each other.
             for (int i = 0; i < paytype.size(); i++) {
             	float val = Float.parseFloat(totalpay.get(i));
                 yVals1.add(new Entry(val, i));
             }
-
-            // for (int i = mSeekBarX.getProgress() / 2; i <
-            // mSeekBarX.getProgress(); i++) {
-            // yVals2.add(new Entry((float) (Math.random() * mult) + mult / 5, i));
-            // }
 
             ArrayList<String> xVals = new ArrayList<String>();
 
@@ -135,20 +99,32 @@ public class SalebyDate_Payment_PieGraph extends Activity{
             set1.setColors(ColorTemplate.PASTEL_COLORS);
 
             PieData data = new PieData(xVals, set1);
-            mChart.setData(data);
-            // undo all highlights
-            mChart.highlightValues(null);
-
-            // set a text for the chart center
-            mChart.setCenterText("Total " + (int) mChart.getYValueSum());
-            //mChart.invalidate();
-            Legend l = mChart.getLegend();
-            l.setPosition(LegendPosition.RIGHT_OF_CHART);
-            l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(14f);
-            l.setXEntrySpace(7f);
-            l.setYEntrySpace(5f);
-            l.setTypeface(tf);
+            if(data.getYValCount() == 0){}
+            else{
+            	//Graph
+            	Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+        		mChart = (PieChart) findViewById(R.id.chart1);
+                mChart.setValueTypeface(tf);
+                mChart.setCenterTextTypeface(tf);
+            	mChart.setHoleRadius(50f);
+                mChart.setDescription("");
+                mChart.setDrawYValues(true);
+                mChart.setDrawCenterText(true);
+                mChart.setDrawHoleEnabled(true);
+                mChart.setDrawXValues(false);
+                mChart.setTouchEnabled(true);
+                mChart.setUsePercentValues(true);
+                mChart.animateXY(1500, 1500);
+                mChart.setData(data);
+                mChart.highlightValues(null);
+                mChart.setCenterText("Total "+currencyformatter.format(sumtotalpay)+" "+currencysymbol);
+                Legend l = mChart.getLegend();
+                l.setPosition(LegendPosition.RIGHT_OF_CHART);
+                l.setForm(LegendForm.CIRCLE);
+                l.setTextSize(14f);
+                l.setTypeface(tf);
+                l.setXEntrySpace(7f);
+                l.setYEntrySpace(5f);}
     }
 
     @Override
@@ -167,43 +143,6 @@ public class SalebyDate_Payment_PieGraph extends Activity{
                 else
                     mChart.setDrawYValues(true);
                 mChart.invalidate();
-                break;
-            }
-            case R.id.actionTogglePercent: {
-                if (mChart.isUsePercentValuesEnabled())
-                    mChart.setUsePercentValues(false);
-                else
-                    mChart.setUsePercentValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHole: {
-                if (mChart.isDrawHoleEnabled())
-                    mChart.setDrawHoleEnabled(false);
-                else
-                    mChart.setDrawHoleEnabled(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionDrawCenter: {
-                if (mChart.isDrawCenterTextEnabled())
-                    mChart.setDrawCenterText(false);
-                else
-                    mChart.setDrawCenterText(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleXVals: {
-                if (mChart.isDrawXValuesEnabled())
-                    mChart.setDrawXValues(false);
-                else
-                    mChart.setDrawXValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionSave: {
-                // mChart.saveToGallery("title"+System.currentTimeMillis());
-                mChart.saveToPath("title" + System.currentTimeMillis(), "");
                 break;
             }
             case R.id.animateX: {

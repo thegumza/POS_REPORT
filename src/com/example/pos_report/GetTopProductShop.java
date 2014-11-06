@@ -1,21 +1,11 @@
 package com.example.pos_report;
 
-import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.List;
-
 import org.ksoap2.serialization.PropertyInfo;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.example.pos_report.GetSaleProductShop.GetSaleProduct;
-import com.example.pos_report.database.GetTopProductShopDao;
-import com.example.pos_report.database.model.TopProductShop;
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 public class GetTopProductShop extends Ksoap2WebService{
 	
@@ -23,7 +13,6 @@ public class GetTopProductShop extends Ksoap2WebService{
 	public static final String GET_TOP_PRODUCT_OF_SHOP_FROM_MONTH_YEAR_METHOD = "WsDashBoard_GetTopMenuOfShopFromMonthYear";
 	
 	public static final int TIME_OUT = 10 * 1000;
-	private ProgressDialog pdia;
 	GetTopProduct mlistener;
 	
 	public GetTopProductShop(Context c,final int iShopID,final int iMonth,final int iYear,final String ProductGroupCode,final int iTopType,final int iTopNo,String deviceCode,GetTopProduct listener) {

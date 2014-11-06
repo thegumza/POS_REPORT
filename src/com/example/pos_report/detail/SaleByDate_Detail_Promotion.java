@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,19 +15,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
-import com.example.pos_report.R.id;
-import com.example.pos_report.R.layout;
-import com.example.pos_report.SaleByDate.PromotionlistAdapter;
-import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GetSumPromotionShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
-import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.model.SumPromotionShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -46,7 +39,7 @@ public class SaleByDate_Detail_Promotion extends Fragment {
 	GlobalProperty format = gpd.getGlobalProperty();
 	String currencyformat = format.getCurrencyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
-	
+	String currencysymbol = format.getCurrencySymbol();
 	
 	public static SaleByDate_Detail_Promotion newInstance(int sectionNumber) {
 		SaleByDate_Detail_Promotion fragment = new SaleByDate_Detail_Promotion();
@@ -84,11 +77,8 @@ public class SaleByDate_Detail_Promotion extends Fragment {
                 
         		
         		final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());
-        		
-        		//Set ListViewAdapter Promotion 
         		List<SumPromotionShop> Promotionlist = gpr.getPromoDetail();
         		listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
-        		
                 final GetSumPromotionShopDao gp = new GetSumPromotionShopDao(getActivity());
                 final SumPromotionShop gr = gpr.getSumDetailPromotion();
                 double totaldis = gr.getDiscount();
@@ -97,7 +87,9 @@ public class SaleByDate_Detail_Promotion extends Fragment {
         		ArrayList<String> promotionname = new ArrayList<String>() ;
         		ArrayList<String> totaldiscount = new ArrayList<String>() ;
         		for (SumPromotionShop ss : spl) totaldiscount.add(Double.toString(ss.getDiscount()));
-        		for (SumPromotionShop ss : spl) promotionname.add("("+(currencyformatter.format((ss.getDiscount()* 100) / totaldis))+"%)"+ss.getPromotionName()+" ("+(currencyformatter.format(ss.getDiscount()))+")");
+        		for (SumPromotionShop ss : spl) promotionname.add("("+(currencyformatter.format((ss.getDiscount()* 100) / totaldis))+"%) "
+        		+ss.getPromotionName()+" ("+(currencyformatter.format(ss.getDiscount()))+" "+currencysymbol+")");
+        		
         		String[] promotArr = new String[promotionname.size()];
         		promotArr = promotionname.toArray(promotArr);
         		
@@ -117,7 +109,11 @@ public class SaleByDate_Detail_Promotion extends Fragment {
                     PieData data = new PieData(xVals, set1);
                     if(data.getYValCount() == 0){}
                     else{
+                    	//Graph
+                    	Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
                     	mChart = (PieChart) rootView.findViewById(R.id.chart1);
+                        mChart.setValueTypeface(tf);
+                        mChart.setCenterTextTypeface(tf);
                     	mChart.setHoleRadius(50f);
                         mChart.setDescription("");
                         mChart.setDrawYValues(true);
@@ -129,11 +125,12 @@ public class SaleByDate_Detail_Promotion extends Fragment {
                         mChart.animateXY(1500, 1500);
 	                    mChart.setData(data);
 	                    mChart.highlightValues(null);
-	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
+	                    mChart.setCenterText("Total "+currencyformatter.format(totaldis)+" "+currencysymbol);
 	                    Legend l = mChart.getLegend();
 	                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
 	                    l.setForm(LegendForm.CIRCLE);
 	                    l.setTextSize(14f);
+	                    l.setTypeface(tf);
 	                    l.setXEntrySpace(7f);
 	                    l.setYEntrySpace(5f);}
         return rootView;

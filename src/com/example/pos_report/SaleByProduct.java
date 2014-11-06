@@ -8,17 +8,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import progress.menu.item.ProgressMenuItemHelper;
 
-import com.example.flatuilibrary.FlatButton;
-import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_report.SaleByDate.ShopSpinner;
+
+
+
+
+
+
+import com.cengalabs.flatui.views.FlatButton;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.database.GetSaleProductShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.ProductGroupDao;
-import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
 import com.example.pos_report.database.model.ProductGroup;
@@ -35,24 +38,20 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.internal.view.menu.MenuView.ItemView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -65,22 +64,21 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class SaleByProduct extends Fragment {
 	
-	private ExpandableListView elv;
+	private ExpandableListView  elv;
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	public static String URL;
 	private String ProductGroupCode="";
 	private static int ShopID,month,year,mode;
 	private int sumAmount;
-	private ListView listProduct,list_TopProduct;
+	private ListView list_TopProduct;
 	private FlatButton showReportBtn,showReportBtn2,showChart_product,showChart_TopProduct;
 	private FlatTextView text_sum_qty,text_sum_price,text_sum_percent,text_tableTopProductName;
-	private Double sumQty,sumTotalPrice,sumPercent,sumProduct,sumSalePrice;
+	private Double sumSalePrice;
 	private Spinner shopSelect,monthSelect, yearSelect,topProduct_productSelect, topProduct_modeSelect;
-	private ReportDatabase Database;
 	private ProgressDialog pdia;
 	private static String lastsaledate;
 	private static int CurrentShopID;
-	private int currentmonth,yearposition;
+	private int yearposition;
 	private String currentyear;
 	private static String shopName;
 	
@@ -91,6 +89,8 @@ public class SaleByProduct extends Fragment {
 	String qtyformat = format.getQtyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 	NumberFormat qtyformatter = new DecimalFormat(qtyformat);
+	String currencysymbol = format.getCurrencySymbol();
+	
 	 public static SaleByProduct newInstance(int sectionNumber) {
 		 SaleByProduct fragment = new SaleByProduct();
 			Bundle args = new Bundle();
@@ -125,7 +125,7 @@ public class SaleByProduct extends Fragment {
 	   text_tableTopProductName = (FlatTextView)rootView.findViewById(R.id.text_tableTopProductName);
 	  text_sum_qty = (FlatTextView)rootView.findViewById(R.id.text_sum_qty);
 	  text_sum_price = (FlatTextView)rootView.findViewById(R.id.text_sum_price);
-	  text_sum_percent = (FlatTextView)rootView.findViewById(R.id.text_sum_percent);
+	  //text_sum_percent = (FlatTextView)rootView.findViewById(R.id.text_sum_percent);
 	  
 	  //listProduct = (ListView)rootView.findViewById(R.id.listProduct);
 	  elv=(ExpandableListView)rootView.findViewById(R.id.elv);
@@ -150,28 +150,6 @@ public class SaleByProduct extends Fragment {
 		shopSelect.getItemAtPosition(0);
 		shopSelect.setSelection(0);
 		
-		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
-			
-			@Override
-			public void onSuccess(String result) {
-				lastsaledate = result;
-				month = Integer.parseInt(lastsaledate.substring(5, 7));
-				currentyear = (lastsaledate.substring(0,4));
-				monthSelect.setSelection(month-1);
-				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
-				yearposition = yearadapter.getPosition(currentyear);
-				yearSelect.setSelection(yearposition);
-				pdia.dismiss();
-			}
-
-			@Override
-			public void onLoad() {
-				pdia.setMessage("Loding...");
-				pdia.show();
-			}
-		}).execute(URL);
-			//Database = new ReportDatabase(getActivity());
-			
 		elv.setOnTouchListener(new ListView.OnTouchListener() {
 			   
 			@Override
@@ -197,7 +175,7 @@ public class SaleByProduct extends Fragment {
 		ProductGroup item;
 		 item = new ProductGroup();
 		 item.setProductGroupCode("");
-		 item.setProductGroupName("All Product");
+		 item.setProductGroupName("All");
 		 
 		 Productgroup = pg.getProductGroup();
 		 Productgroup.add(0,item);
@@ -344,7 +322,26 @@ public class SaleByProduct extends Fragment {
 		    	
 		    }
 		});
-		
+		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+			
+			@Override
+			public void onSuccess(String result) {
+				lastsaledate = result;
+				month = Integer.parseInt(lastsaledate.substring(5, 7));
+				currentyear = (lastsaledate.substring(0,4));
+				monthSelect.setSelection(month-1);
+				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
+				yearposition = yearadapter.getPosition(currentyear);
+				yearSelect.setSelection(yearposition);
+				pdia.dismiss();
+			}
+
+			@Override
+			public void onLoad() {
+				pdia.setMessage("Loding...");
+				pdia.show();
+			}
+		}).execute(URL);
 		return rootView;
 	
 }
@@ -501,6 +498,7 @@ public void onDataChange(){
 				
 				Salebyproduct = gs.getSaleProduct();
 
+				
 				elv.setAdapter(new ProductExpandableListAdapter(Salebyproduct));
 				
 			     int count = elv.getCount();
@@ -508,7 +506,8 @@ public void onDataChange(){
 			     elv.expandGroup(i);
 			     
 			    elv.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-			        public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+			        @Override
+					public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
 			                return true;
 			        }
 			    });
@@ -906,7 +905,8 @@ public void onTopDataChange(){
 					    
 					    return(convertView);
 					  }
-					 public View getChildView(int groupPosition,int childPosition, boolean isLastChild,
+					 @Override
+					public View getChildView(int groupPosition,int childPosition, boolean isLastChild,
 							View convertView, ViewGroup parent) {
 						ViewHolder  holder;
 						LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -935,44 +935,62 @@ public void onTopDataChange(){
 						String qtyformat = format.getQtyFormat();
 						NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 						NumberFormat qtyformatter = new DecimalFormat(qtyformat);
-						
-						if(ss.getProductName() == "Summary"){
-							/*holder.itemValue.setTextColor(Color.WHITE);
-							holder.qtyValue.setTextColor(Color.WHITE);
-							holder.priceValue.setTextColor(Color.WHITE);
-							holder.percentValue.setTextColor(Color.WHITE);*/
-							holder.itemValue.setBackgroundColor(Color.rgb(248,148,6));
-							holder.qtyValue.setBackgroundColor(Color.rgb(248,148,6));
-							holder.priceValue.setBackgroundColor(Color.rgb(248,148,6));
-							holder.percentValue.setBackgroundColor(Color.rgb(248,148,6));
-							
-							holder.itemValue.setText(ss.getProductName().toString());
-							holder.qtyValue.setText(qtyformatter.format(ss.getSumAmount()));
-							holder.priceValue.setText(currencyformatter.format(ss.getSumSalePrice()));
-						}
-						else{
-							
-							holder.itemValue.setBackgroundColor(Color.rgb(221,221,221));
-							holder.qtyValue.setBackgroundColor(Color.rgb(221,221,221));
-							holder.priceValue.setBackgroundColor(Color.rgb(221,221,221));
-							holder.percentValue.setBackgroundColor(Color.rgb(221,221,221));
-							
-						holder.itemValue.setText(ss.getProductName().toString());
-						holder.qtyValue.setText(qtyformatter.format(ss.getSumAmount()));
-						holder.priceValue.setText(currencyformatter.format(ss.getSumSalePrice()));
-						}
-						
 						SaleProductShop sum = new SaleProductShop();
 						sum = gsp.getSumProduct();
 						double totalprice = sum.getSumSalePrice();
 						double percent = (ss.getSumSalePrice()* 100) / totalprice;
-						holder.percentValue.setText(currencyformatter.format((percent)));
+						Typeface tfl = Typeface.createFromAsset(getActivity().getAssets(), "roboto_light.ttf");
+						Typeface tfb = Typeface.createFromAsset(getActivity().getAssets(), "roboto_regular.ttf");
+						if(ss.getProductName() == "Summary"){
+							holder.itemValue.setTextColor(Color.WHITE);
+							holder.qtyValue.setTextColor(Color.WHITE);
+							holder.priceValue.setTextColor(Color.WHITE);
+							holder.percentValue.setTextColor(Color.WHITE);
+							holder.itemValue.setGravity(Gravity.CENTER);
+							holder.itemValue.setTypeface(tfb);
+							holder.qtyValue.setTypeface(tfb);
+							holder.priceValue.setTypeface(tfb);
+							holder.percentValue.setTypeface(tfb);
+							holder.itemValue.setBackgroundColor(Color.rgb(135, 211, 124));
+							holder.qtyValue.setBackgroundColor(Color.rgb(135, 211, 124));
+							holder.priceValue.setBackgroundColor(Color.rgb(135, 211, 124));
+							holder.percentValue.setBackgroundColor(Color.rgb(135, 211, 124));
+							
+							holder.itemValue.setText(ss.getProductName().toString());
+							holder.qtyValue.setText("#Qty: "+qtyformatter.format(ss.getSumAmount()));
+							holder.priceValue.setText("Price: "+currencyformatter.format(ss.getSumSalePrice()));
+							holder.percentValue.setText(currencyformatter.format((percent))+"%");
+						}
+						else{
+							holder.itemValue.setTextColor(Color.BLACK);
+							holder.qtyValue.setTextColor(Color.BLACK);
+							holder.priceValue.setTextColor(Color.BLACK);
+							holder.percentValue.setTextColor(Color.BLACK);
+							holder.itemValue.setGravity(Gravity.LEFT);
+							holder.itemValue.setTypeface(tfl);
+							holder.qtyValue.setTypeface(tfl);
+							holder.priceValue.setTypeface(tfl);
+							holder.percentValue.setTypeface(tfl);
+							holder.itemValue.setBackgroundColor(Color.WHITE);
+							holder.qtyValue.setBackgroundColor(Color.WHITE);
+							holder.priceValue.setBackgroundColor(Color.WHITE);
+							holder.percentValue.setBackgroundColor(Color.WHITE);
+							
+						holder.itemValue.setText("Name: "+ss.getProductName().toString());
+						holder.qtyValue.setText("#Qty: "+qtyformatter.format(ss.getSumAmount()));
+						holder.priceValue.setText("Price: "+currencyformatter.format(ss.getSumSalePrice()));
+						holder.percentValue.setText(currencyformatter.format((percent))+"%");
+						}
+						
+						
+						
 						SaleProductShop s = gsp.getSumProduct();
 						sumAmount = s.getSumAmount();
 						sumSalePrice = s.getSumSalePrice();
 						text_sum_qty.setText(qtyformatter.format(sumAmount));
-						text_sum_price.setText(currencyformatter.format((sumSalePrice)));
-						text_sum_percent.setText("100%");
+						text_sum_price.setText(currencyformatter.format((sumSalePrice))+" "+currencysymbol);
+						//text_sum_percent.setText("(100%)");
+						
 					return convertView;
 						
 					}
@@ -982,7 +1000,7 @@ public void onTopDataChange(){
 							int childPosition) {
 						return true;
 					}
-					}
+				}
 				
 				
 

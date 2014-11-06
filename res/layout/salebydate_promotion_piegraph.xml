@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@color/fbutton_color_turquoise" >
+        android:background="@color/orange_primary" >
         
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/shopNameValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,11 +39,11 @@
             android:id="@+id/headTablePromotion"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_turquoise"
+            android:background="@color/orange_primary"
             android:orientation="horizontal"
             android:layout_marginBottom="2dp" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_tablePromotion"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
 	            android:text=""
 	            android:textColor="#ffffff"
 	            android:textSize="20dp"
-	            android:background="@color/fbutton_color_turquoise"
+	            android:background="@color/orange_primary"
 	            android:textStyle="bold"
 	            android:layout_marginBottom="2dp"
 	            flatui:fl_fontWeight="regular" />

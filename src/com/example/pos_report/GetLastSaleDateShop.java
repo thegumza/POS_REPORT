@@ -4,7 +4,6 @@ import org.ksoap2.serialization.PropertyInfo;
 
 import com.google.gson.JsonSyntaxException;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.text.TextUtils;
 

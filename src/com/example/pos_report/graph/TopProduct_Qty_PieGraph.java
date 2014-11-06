@@ -14,19 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByProduct;
 import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
-import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.model.TopProductShop;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.interfaces.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.Highlight;
 import com.github.mikephil.charting.utils.Legend;
@@ -45,6 +43,7 @@ public class TopProduct_Qty_PieGraph extends Activity{
 	GlobalProperty format = gpd.getGlobalProperty();
 	String currencyformat = format.getCurrencyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+	String currencysymbol = format.getCurrencySymbol();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,20 +69,7 @@ public class TopProduct_Qty_PieGraph extends Activity{
         txtproduct.setText("Top 10 Product by QTY");
 
         mChart = (PieChart) findViewById(R.id.chart1);
-        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-        mChart.setValueTypeface(tf);
-        mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-        mChart.setHoleRadius(40f);
-        mChart.setDescription("");
-        mChart.setDrawYValues(true);
-        mChart.setDrawCenterText(true);
-        mChart.setDrawHoleEnabled(true);
-        mChart.setDrawXValues(false);
-        mChart.setTouchEnabled(true);
-        mChart.setUsePercentValues(true);
-        mChart.animateXY(1500, 1500);
-
+        
         final GetTopProductShopDao gt = new GetTopProductShopDao(this);
 		final List<TopProductShop> ts = gt.getTopQtyProduct();
 		final TopProductShop gsp = gt.getSumTopProduct();
@@ -93,7 +79,9 @@ public class TopProduct_Qty_PieGraph extends Activity{
 		double sumtotalpay = gsp.getSumSalePrice();
 		
 		for (TopProductShop tps : ts) saleprice.add(Double.toString(tps.getSumSalePrice()));
-		for (TopProductShop tps : ts) productname.add("("+(currencyformatter.format(tps.getSumSalePrice()*100 / sumtotalpay))+"%) "+tps.getProductName()+" ("+(currencyformatter.format(tps.getSumSalePrice()))+")");
+		for (TopProductShop tps : ts) productname.add("("+(currencyformatter.format(tps.getSumSalePrice()*100 / sumtotalpay))+"%) "
+		+tps.getProductName()+" ("+(currencyformatter.format(tps.getSumSalePrice()))+" "+currencysymbol+")");
+		
 		String[] productnameArr = new String[productname.size()];
 		productnameArr = productname.toArray(productnameArr);
 		
@@ -108,19 +96,34 @@ public class TopProduct_Qty_PieGraph extends Activity{
             for (int i = 0; i < productname.size(); i++)
                 xVals.add(productnameArr[i]);
             PieDataSet set1 = new PieDataSet(yVals1, "");
-            set1.setSliceSpace(3f);
             set1.setColors(ColorTemplate.PASTEL_COLORS);
             PieData data = new PieData(xVals, set1);
-            mChart.setData(data);
-            mChart.highlightValues(null);
-            mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
-            Legend l = mChart.getLegend();
-            l.setPosition(LegendPosition.RIGHT_OF_CHART);
-            l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(14f);
-            l.setXEntrySpace(7f);
-            l.setYEntrySpace(5f);
-            l.setTypeface(tf);
+            if(data.getYValCount() == 0){}
+            else{
+            	//Graph
+            	Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+            	mChart = (PieChart) findViewById(R.id.chart1);
+                mChart.setValueTypeface(tf);
+                mChart.setCenterTextTypeface(tf);
+            	mChart.setHoleRadius(50f);
+                mChart.setDescription("");
+                mChart.setDrawYValues(true);
+                mChart.setDrawCenterText(true);
+                mChart.setDrawHoleEnabled(true);
+                mChart.setDrawXValues(false);
+                mChart.setTouchEnabled(true);
+                mChart.setUsePercentValues(true);
+                mChart.animateXY(1500, 1500);
+                mChart.setData(data);
+                mChart.highlightValues(null);
+                mChart.setCenterText("Total "+currencyformatter.format(sumtotalpay)+" "+currencysymbol);
+                Legend l = mChart.getLegend();
+                l.setPosition(LegendPosition.RIGHT_OF_CHART);
+                l.setForm(LegendForm.CIRCLE);
+                l.setTextSize(14f);
+                l.setTypeface(tf);
+                l.setXEntrySpace(7f);
+                l.setYEntrySpace(5f);}
             
     }
 
@@ -140,43 +143,6 @@ public class TopProduct_Qty_PieGraph extends Activity{
                 else
                     mChart.setDrawYValues(true);
                 mChart.invalidate();
-                break;
-            }
-            case R.id.actionTogglePercent: {
-                if (mChart.isUsePercentValuesEnabled())
-                    mChart.setUsePercentValues(false);
-                else
-                    mChart.setUsePercentValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHole: {
-                if (mChart.isDrawHoleEnabled())
-                    mChart.setDrawHoleEnabled(false);
-                else
-                    mChart.setDrawHoleEnabled(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionDrawCenter: {
-                if (mChart.isDrawCenterTextEnabled())
-                    mChart.setDrawCenterText(false);
-                else
-                    mChart.setDrawCenterText(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleXVals: {
-                if (mChart.isDrawXValuesEnabled())
-                    mChart.setDrawXValues(false);
-                else
-                    mChart.setDrawXValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionSave: {
-                // mChart.saveToGallery("title"+System.currentTimeMillis());
-                mChart.saveToPath("title" + System.currentTimeMillis(), "");
                 break;
             }
             case R.id.animateX: {

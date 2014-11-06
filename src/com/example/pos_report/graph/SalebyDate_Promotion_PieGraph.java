@@ -11,9 +11,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.GetSumPromotionShopDao;
@@ -41,6 +40,7 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
 	GlobalProperty format = gpd.getGlobalProperty();
 	String currencyformat = format.getCurrencyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+	String currencysymbol = format.getCurrencySymbol();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,20 +67,6 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
         
         mChart = (PieChart) findViewById(R.id.chart1);
 
-        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-		
-        mChart.setValueTypeface(tf);
-        mChart.setCenterTextTypeface(tf);
-        mChart.setHoleRadius(50f);
-        mChart.setDescription("");
-        mChart.setDrawYValues(true);
-        mChart.setDrawCenterText(true);
-        mChart.setDrawHoleEnabled(true);
-        mChart.setDrawXValues(false);
-        mChart.setTouchEnabled(true);
-        mChart.setUsePercentValues(true);
-        mChart.animateXY(1500, 1500);
-
         final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(this);
 		final List<SumPromotionShop> spr = gpr.getSumPromoList();
 		ArrayList<String> promotionname = new ArrayList<String>() ;
@@ -89,7 +75,8 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
 		double totaldis = gr.getDiscount();
 		//double percent = (spr.getDiscount()* 100) / totaldis;
 		for (SumPromotionShop sp : spr) totaldiscount.add(Double.toString(sp.getDiscount()));
-		for (SumPromotionShop sp : spr) promotionname.add("("+(currencyformatter.format((sp.getDiscount()* 100) / totaldis))+"%)"+sp.getPromotionName()+" ("+(currencyformatter.format(sp.getDiscount()))+")");
+		for (SumPromotionShop sp : spr) promotionname.add("("+(currencyformatter.format((sp.getDiscount()* 100) / totaldis))+"%)"
+		+sp.getPromotionName()+" ("+(currencyformatter.format(sp.getDiscount()))+" "+currencysymbol+")");
 		
 		
 		String[] pronameArr = new String[promotionname.size()];
@@ -109,17 +96,33 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
 
             PieDataSet set1 = new PieDataSet(yVals1, "");
             set1.setColors(ColorTemplate.PASTEL_COLORS);
-            mChart.highlightValues(null);
             PieData data = new PieData(xVals, set1);
-            mChart.setData(data);
-
-            mChart.setCenterText("Total " + (int) mChart.getYValueSum());
-            Legend l = mChart.getLegend();
-            l.setPosition(LegendPosition.RIGHT_OF_CHART);
-            l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(14f);
-            l.setXEntrySpace(7f);
-            l.setYEntrySpace(5f);
+            if(data.getYValCount() == 0){}
+            else{
+            	//Graph
+            	Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+            	mChart = (PieChart) findViewById(R.id.chart1);
+                mChart.setValueTypeface(tf);
+                mChart.setCenterTextTypeface(tf);
+            	mChart.setHoleRadius(50f);
+                mChart.setDescription("");
+                mChart.setDrawYValues(true);
+                mChart.setDrawCenterText(true);
+                mChart.setDrawHoleEnabled(true);
+                mChart.setDrawXValues(false);
+                mChart.setTouchEnabled(true);
+                mChart.setUsePercentValues(true);
+                mChart.animateXY(1500, 1500);
+                mChart.setData(data);
+                mChart.highlightValues(null);
+                mChart.setCenterText("Total "+currencyformatter.format(totaldis)+" "+currencysymbol);
+                Legend l = mChart.getLegend();
+                l.setPosition(LegendPosition.RIGHT_OF_CHART);
+                l.setForm(LegendForm.CIRCLE);
+                l.setTextSize(14f);
+                l.setTypeface(tf);
+                l.setXEntrySpace(7f);
+                l.setYEntrySpace(5f);}
     }
 
     @Override
@@ -138,43 +141,6 @@ public class SalebyDate_Promotion_PieGraph extends Activity{
                 else
                     mChart.setDrawYValues(true);
                 mChart.invalidate();
-                break;
-            }
-            case R.id.actionTogglePercent: {
-                if (mChart.isUsePercentValuesEnabled())
-                    mChart.setUsePercentValues(false);
-                else
-                    mChart.setUsePercentValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHole: {
-                if (mChart.isDrawHoleEnabled())
-                    mChart.setDrawHoleEnabled(false);
-                else
-                    mChart.setDrawHoleEnabled(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionDrawCenter: {
-                if (mChart.isDrawCenterTextEnabled())
-                    mChart.setDrawCenterText(false);
-                else
-                    mChart.setDrawCenterText(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleXVals: {
-                if (mChart.isDrawXValuesEnabled())
-                    mChart.setDrawXValues(false);
-                else
-                    mChart.setDrawXValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionSave: {
-                // mChart.saveToGallery("title"+System.currentTimeMillis());
-                mChart.saveToPath("title" + System.currentTimeMillis(), "");
                 break;
             }
             case R.id.animateX: {

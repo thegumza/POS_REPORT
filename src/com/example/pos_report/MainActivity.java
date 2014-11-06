@@ -1,29 +1,18 @@
 package com.example.pos_report;
 
-import java.util.List;
-
 import progress.menu.item.ProgressMenuItemHelper;
-
-import com.example.flatuilibrary.FlatTextView;
-import com.example.pos_report.database.model.ShopProperty;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-
 
 public class MainActivity extends ActionBarActivity implements
 	NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -38,8 +27,9 @@ public class MainActivity extends ActionBarActivity implements
 		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
+		
 		mTitle = getTitle();
-
+		
 		// Set up the drawer.
 		mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
 				(DrawerLayout) findViewById(R.id.drawer_layout));
@@ -51,28 +41,24 @@ public class MainActivity extends ActionBarActivity implements
 	public void onNavigationDrawerItemSelected(final int position) {
 		// update the main content by replacing fragments
 		final FragmentManager fragmentManager = getFragmentManager();
-		/*fragmentManager
-				.beginTransaction()
-				.replace(R.id.container,PlaceholderFragment.newInstance(position + 1)).commit();*/
 			
 		if (position == 0) {
 			fragmentManager.beginTransaction()
 			.replace(R.id.container, MainDashBoard.newInstance(position + 1))
 			.commit();
+			setTitle("Main DashBoard");
 			
 			  } else if (position == 1) {
-				  
 				  fragmentManager.beginTransaction()
 					.replace(R.id.container, SaleByDate.newInstance(position + 1))
 					.commit();
-				  
+				  	setTitle("SaleByDate");
 			  }
 			  else if (position == 2) {
-				  
 				  fragmentManager.beginTransaction()
 					.replace(R.id.container, SaleByProduct.newInstance(position + 1))
 					.commit();
-				  
+				  setTitle("SaleByProduct");
 			  }
 			  else if (position == 3) {
 				  AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -80,14 +66,16 @@ public class MainActivity extends ActionBarActivity implements
 		            builder1.setCancelable(true);
 		            builder1.setPositiveButton("Yes",
 		                    new DialogInterface.OnClickListener() {
-		                public void onClick(DialogInterface dialog, int id) {
+		                @Override
+						public void onClick(DialogInterface dialog, int id) {
 		                    dialog.cancel();
 		                    finish();
 		                }
 		            });
 		            builder1.setNegativeButton("Cancel",
 		                    new DialogInterface.OnClickListener() {
-		                public void onClick(DialogInterface dialog, int id) {
+		                @Override
+						public void onClick(DialogInterface dialog, int id) {
 		                    dialog.cancel();
 		                }
 		            });
@@ -120,6 +108,7 @@ public class MainActivity extends ActionBarActivity implements
 			break;
 		case 4:
 			mTitle = getString(R.string.title_logout);
+			break;
 		}
 	}
 

@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/boxReportShow_payment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center" >
         <LinearLayout
@@ -19,7 +19,7 @@
         android:background="@color/fbutton_color_amethyst" >
         
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/shopNameValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:layout_marginBottom="2dp" >
             
             
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/payTypeValue"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_payment"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_payment_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_head_payment_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -100,15 +100,14 @@
 	            flatui:fl_fontWeight="regular" />
         
         </LinearLayout>
-        
         <ListView
             android:id="@+id/listPaytype"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
+            android:layout_weight="1"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
         </ListView>
-        
         
         <LinearLayout
             android:id="@+id/summaryTablePayment"
@@ -118,7 +117,7 @@
             android:weightSum="1"
             android:background="@color/fbutton_color_amethyst" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_paytype"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -130,7 +129,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_paytype_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
@@ -142,7 +141,7 @@
 	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_paytype_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"

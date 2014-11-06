@@ -10,9 +10,9 @@
     <application 
          android:allowBackup="true"
          android:icon="@drawable/ic_pos" 
-         android:label="@string/app_name" 
          android:theme="@style/Theme.AppCompat.Light.DarkActionBar"> 
-        <activity android:name=".POS_Login" android:label="@string/app_name" android:screenOrientation="portrait">
+        <activity android:name="com.example.pos_report.POS_Login" android:screenOrientation="portrait">
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +21,11 @@
         </activity>
         		
                 <activity android:label="@string/app_name" android:name="com.example.pos_report.graph.SalebyProduct_Graph" android:screenOrientation="portrait" />
-        <activity android:label="@string/app_name" android:name="com.example.pos_report.SaleByDateDetail" android:screenOrientation="portrait" />
-         <activity android:label="@string/app_name" android:name="com.example.pos_report.SaleByDate" android:screenOrientation="portrait">
+        <activity  android:name="com.example.pos_report.SaleByDateDetail" android:screenOrientation="portrait" />
+         <activity  android:name="com.example.pos_report.SaleByDate" android:screenOrientation="portrait">
              <meta-data android:name="com.example.pos_report.SaleByDate" android:value="com.example.pos_report.SaleByDateDetail" />
              </activity>
-             <activity android:name=".MainActivity" android:label="@string/app_name" android:screenOrientation="portrait"/>
+             <activity android:name=".MainActivity" android:label="@string/title_section1" android:screenOrientation="portrait"/>
              <activity android:label="@string/app_name" android:name="com.example.pos_report.graph.MainDashBoard_Promotion_PieGraph" android:screenOrientation="portrait" />
              <activity android:label="@string/app_name" android:name="com.example.pos_report.graph.MainDashBoard_Payment_PieGraph" android:screenOrientation="portrait" />
          <activity android:label="@string/app_name" android:name="com.example.pos_report.detail.SaleByDate_Detail_PromotionType" android:screenOrientation="portrait" />

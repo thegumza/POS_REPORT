@@ -1,11 +1,7 @@
 package com.example.pos_report.detail;
 
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Collection;
-import java.util.List;
-
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,22 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.TopProductPagerAdapter;
-import com.example.pos_report.R.id;
-import com.example.pos_report.R.layout;
-import com.example.pos_report.database.GetSumProductShopDao;
-import com.example.pos_report.database.GetTopProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
-import com.example.pos_report.database.model.SumProductShop;
-import com.example.pos_report.database.model.TopProductShop;
-import com.github.mikephil.charting.charts.PieChart;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 public class SaleByDate_Detail_TopProduct extends Fragment {
 	

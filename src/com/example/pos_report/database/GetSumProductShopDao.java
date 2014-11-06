@@ -5,10 +5,8 @@ import java.util.List;
 
 import com.example.pos_report.SaleByDate;
 import com.example.pos_report.database.model.SumProductShop;
-import com.example.pos_report.database.model.TopProductShop;
 import com.example.pos_report.database.table.ProductItemTable;
 import com.example.pos_report.database.table.SumData_ProductReportTable;
-import com.example.pos_report.database.table.SumData_TopProductReportTable;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -69,7 +67,7 @@ public class GetSumProductShopDao extends ReportDatabase{
 	//Insert Data to List From SQLite Database
 		public List<SumProductShop> getTopQtyProduct(){
 			List<SumProductShop> getsumproducttshop = new ArrayList <SumProductShop>();
-			String SPSql = "Select ProductItem."+ProductItemTable.COLUMN_PRODUCT_NAME +",Qty,SalePrice From "+ SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" JOIN "+ProductItemTable.TABLE_PRODUCT_ITEM+" USING (ProductID) WHERE SaleDate='"+Saledate+"' ORDER BY Qty DESC";
+			String SPSql = "Select ProductItem."+ProductItemTable.COLUMN_PRODUCT_NAME +",Qty,SalePrice From "+ SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" JOIN "+ProductItemTable.TABLE_PRODUCT_ITEM+" USING (ProductID) WHERE SaleDate='"+Saledate+"' ORDER BY Qty DESC LIMIT 10";
 			Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
 			if (cursor.moveToFirst()){
 				do{
@@ -86,7 +84,7 @@ public class GetSumProductShopDao extends ReportDatabase{
 		//Insert Data to List From SQLite Database
 				public List<SumProductShop> getTopSaleProduct(){
 					List<SumProductShop> getsumproducttshop = new ArrayList <SumProductShop>();
-					String SPSql = "Select ProductItem."+ProductItemTable.COLUMN_PRODUCT_NAME +",Qty,SalePrice From "+ SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" JOIN "+ProductItemTable.TABLE_PRODUCT_ITEM+" USING (ProductID) WHERE SaleDate='"+Saledate+"' ORDER BY SalePrice DESC";
+					String SPSql = "Select ProductItem."+ProductItemTable.COLUMN_PRODUCT_NAME +",Qty,SalePrice From "+ SumData_ProductReportTable.TABLE_SUMDATA_PRODUCTREPORT+" JOIN "+ProductItemTable.TABLE_PRODUCT_ITEM+" USING (ProductID) WHERE SaleDate='"+Saledate+"' ORDER BY SalePrice DESC LIMIT 10";
 					Cursor cursor =  getReadableDatabase().rawQuery(SPSql, null);
 					if (cursor.moveToFirst()){
 						do{

@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.pos_report.SaleByDate;
-import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.model.SumPromotionShop;
-import com.example.pos_report.database.table.PayTypeTable;
 import com.example.pos_report.database.table.PromotionTable;
-import com.example.pos_report.database.table.SumData_PaymentReportTable;
 import com.example.pos_report.database.table.SumData_PromotionReportTable;
 
 import android.content.ContentValues;

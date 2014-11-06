@@ -14,10 +14,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:background="@color/HEADGROUP_COLOR" >
+        android:background="@color/grass_primary" >
         
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/shopNameValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,11 +35,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/HEADGROUP_COLOR"
+        android:background="@color/grass_primary"
         android:orientation="vertical"
         android:layout_marginTop="2dp" >
 
-        <com.example.flatuilibrary.FlatTextView
+        <com.cengalabs.flatui.views.FlatTextView
             android:id="@+id/txtproduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

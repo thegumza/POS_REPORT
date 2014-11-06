@@ -9,8 +9,8 @@ import java.util.List;
 
 import progress.menu.item.ProgressMenuItemHelper;
 
-import com.example.flatuilibrary.FlatButton;
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatButton;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.GetSumTransactionShop.GetSumTransacTion;
 import com.example.pos_report.database.GetSumPaymentShopDao;
 import com.example.pos_report.database.GetSumProductShopDao;
@@ -42,6 +42,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,7 +57,6 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 
 
 public class SaleByDate extends Fragment{
@@ -68,7 +68,7 @@ public class SaleByDate extends Fragment{
 	private FlatButton showChart_sale,showChart_payment,showChart_promotion;
 	private static int ShopID ,month,year;
 	private static int currentShopID;
-	private static String Date,payTypeName,promotionName,monthName;
+	private static String Date,payTypeName,promotionName;
 	private static int TotalBill,TotalCust;
 	private static double TotalVat,TotalRetail,TotalDis,TotalSale;
 	private static int payTypeID,promotionID;
@@ -78,13 +78,17 @@ public class SaleByDate extends Fragment{
 	public static String URL;
 	private ListView listSale,listPayment,listPromotion;
 	private ProgressDialog  pdia;
-	private String lastsaledate;
+	private String lastsaledate,currentmonthyear;
 	private static String shopName;
-	private String ProductGroupCode="";
 	private ProgressMenuItemHelper progressHelper;
 	private static int CurrentShopID;
-	private int currentmonth,yearposition;
+	private int yearposition;
 	private String currentyear;
+	final GlobalPropertyDao gpd = new GlobalPropertyDao(getActivity());
+	GlobalProperty format = gpd.getGlobalProperty();
+	String currencyformat = format.getCurrencyFormat();
+	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+	String currencysymbol = format.getCurrencySymbol();
 	
 	 public static SaleByDate newInstance(int sectionNumber) {
 		 SaleByDate fragment = new SaleByDate();
@@ -114,7 +118,7 @@ public class SaleByDate extends Fragment{
 	   pdia = new ProgressDialog(getActivity());
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
-	   pdia.setTitle("Sale By Date");
+	   
 	  	text_sum_totalBill = (FlatTextView)rootView.findViewById(R.id.text_sum_totalBill);
 		text_sum_discount = (FlatTextView)rootView.findViewById(R.id.text_sum_discount);
 		text_sum_salePrice = (FlatTextView)rootView.findViewById(R.id.text_sum_salePrice);
@@ -136,14 +140,6 @@ public class SaleByDate extends Fragment{
 		 yearSelect.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_activated_1, years));
 		 
 		 
-		/*ShopPropertyDao sp = new ShopPropertyDao(getActivity());
-
-		final List<ShopProperty> Shoplist = sp.getShopList();
-		shopSelect.setAdapter(new ShopSpinner(Shoplist));
-		ArrayList<Integer> saledate = new ArrayList<Integer>() ;
-		for (ShopProperty st : Shoplist) saledate.add(st.getShopID());
-		shopSelect.getItemAtPosition(0);
-		shopSelect.setSelection(0);*/
 		 ShopPropertyDao sp = new ShopPropertyDao(getActivity());
 
 			final List<ShopProperty> Shoplist = sp.getShopList();
@@ -155,27 +151,6 @@ public class SaleByDate extends Fragment{
 			shopSelect.getItemAtPosition(0);
 			shopSelect.setSelection(0);
 			
-			new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
-				
-				@Override
-				public void onSuccess(String result) {
-					lastsaledate = result;
-					month = Integer.parseInt(lastsaledate.substring(5, 7));
-					currentyear = (lastsaledate.substring(0,4));
-					monthSelect.setSelection(month-1);
-					ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
-					yearposition = yearadapter.getPosition(currentyear);
-					yearSelect.setSelection(yearposition);
-					onChangeData();
-					pdia.dismiss();
-				}
-
-				@Override
-				public void onLoad() {
-			        pdia.setMessage("Loading...");
-			        pdia.show();
-				}
-			}).execute(URL);
 		
 		
 		
@@ -259,6 +234,7 @@ public class SaleByDate extends Fragment{
 				ShopProperty  Shoplist = (ShopProperty) parent.getItemAtPosition(position);
 				ShopID = Shoplist.getShopID();
 				onChangeData();
+				Log.d("OnChangeData", "Shop Working");
 			}
 
 			@Override
@@ -273,8 +249,8 @@ public class SaleByDate extends Fragment{
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				month = Integer.valueOf(position+1);
-				//monthName = parent.getItemAtPosition(position+1).toString();
 				onChangeData();
+				Log.d("OnChangeData", "Month Working");
 			}
 
 			@Override
@@ -291,6 +267,7 @@ public class SaleByDate extends Fragment{
 					int position, long id) {
 				year = Integer.parseInt(parent.getItemAtPosition(position).toString());
 				onChangeData();
+				Log.d("OnChangeData", "Year Working");
 			}
 
 			@Override
@@ -299,14 +276,7 @@ public class SaleByDate extends Fragment{
 			}
 		});
 		
-		showReport = (FlatButton)rootView.findViewById(R.id.btnShowSaleReport);
 		
-		showReport.setOnClickListener(new View.OnClickListener() {
-		    @Override
-			public void onClick(View v) {
-		    	onChangeData();
-		    }
-		});
 		
 		showChart_sale = (FlatButton)rootView.findViewById(R.id.showChart_sale);
 		
@@ -348,6 +318,27 @@ public class SaleByDate extends Fragment{
 		    	
 		    }
 		});
+		new GetLastSaleDateShop(getActivity(),CurrentShopID, "123",new GetLastSaleDateShop.GetLastSaleDate() {
+			
+			@Override
+			public void onSuccess(String result) {
+				lastsaledate = result;
+				currentmonthyear=result.substring(0, 7);
+				month = Integer.parseInt(lastsaledate.substring(5, 7));
+				currentyear = (lastsaledate.substring(0,4));
+				monthSelect.setSelection(month-1);
+				ArrayAdapter<String> yearadapter = (ArrayAdapter<String>) yearSelect.getAdapter();
+				yearposition = yearadapter.getPosition(currentyear);
+				yearSelect.setSelection(yearposition);
+				pdia.dismiss();
+			}
+
+			@Override
+			public void onLoad() {
+		        pdia.setMessage("Loading...");
+		        pdia.show();
+			}
+		}).execute(URL);
 		
 	return rootView;
 	
@@ -413,7 +404,7 @@ public class SaleByDate extends Fragment{
 	}
 
 
-	@Override
+	 @Override
 	 public void onAttach(Activity activity) {
 	  super.onAttach(activity);
 	  super.onAttach(activity);
@@ -422,13 +413,9 @@ public class SaleByDate extends Fragment{
 	 }
 	 
 		public void onChangeData(){
-			/*
-			final GetSumTransactionShopDao gt = new GetSumTransactionShopDao(getActivity());
-			final GetSumPaymentShopDao gp = new GetSumPaymentShopDao(getActivity());
-			final GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());*/
 			//Send Parameter to Web Service
 	    	new GetSumTransactionShop(getActivity(),ShopID , month, year, "123",new GetSumTransacTion() {
-				//not sure
+	    		
 				@Override
 				public void onSuccess(String result) {
 					Gson gson = new Gson();
@@ -443,6 +430,7 @@ public class SaleByDate extends Fragment{
 						//Set ListViewAdapter Salebydate
 				    	List<SumTransactionShop> Salebydate = gt.getSaleDate();
 						listSale.setAdapter(new SaleListAdapter(Salebydate));
+						Log.d("ListView", "Set List Saledate");
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
@@ -472,7 +460,7 @@ public class SaleByDate extends Fragment{
 						//Set ListViewAdapter Payment
 						List<SumPaymentShop> Paymentlist = gp.getPaymentlist();
 						listPayment.setAdapter(new PaymentlistAdapter(Paymentlist));
-						
+						Log.d("ListView", "Set List Payment");
 						
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
@@ -501,11 +489,9 @@ public class SaleByDate extends Fragment{
 						// insert GetSumTransactionShop data into database
 						GetSumPromotionShopDao gpr = new GetSumPromotionShopDao(getActivity());
 						gpr.insertPromoShopData(spr);
-						
-						//Set ListViewAdapter Promotion 
 						List<SumPromotionShop> Promotionlist = gpr.getSumPromoList();
 						listPromotion.setAdapter(new PromotionlistAdapter(Promotionlist));
-						
+						Log.d("ListView", "Set List Promotion");
 					} catch (JsonSyntaxException e) {
 						e.printStackTrace();
 					}
@@ -518,6 +504,8 @@ public class SaleByDate extends Fragment{
 					progressHelper.startProgress();
 				}
 			}).execute(URL);
+	    	
+	    	
 	    	new GetSumProductShop(getActivity(),ShopID , month, year, "123",new GetSumProductShop.GetSumProduct() {
         		
         		@Override
@@ -535,13 +523,12 @@ public class SaleByDate extends Fragment{
         			} catch (JsonSyntaxException e) {
         				e.printStackTrace();
         			}
-        			pdia.dismiss();
+        			progressHelper.stopProgress();
         		}
         		
         		@Override
         		public void onLoad() {
-        			pdia.setMessage("Loading...");
-        	        pdia.show();
+        			progressHelper.startProgress();
         		}
         	}).execute(URL);
 	    	
@@ -572,14 +559,26 @@ public class SaleByDate extends Fragment{
 				return position;
 			}
 			
+			private class ViewHolder {
+				FlatTextView textView;
+			}
+			
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
+				ViewHolder  holder;
 				LayoutInflater inflater = getActivity().getLayoutInflater();
+				
+			if(convertView == null){
 				convertView = inflater.inflate(R.layout.spinner_item, parent,false);
-				FlatTextView textView = (FlatTextView)convertView.findViewById(R.id.textView1);
+				holder = new ViewHolder();
+				holder.textView = (FlatTextView)convertView.findViewById(R.id.textView1);
+				convertView.setTag(holder);
+				}else{
+					holder=(ViewHolder)convertView.getTag();
+				}
 				ShopProperty sp = Shoplist.get(position);
 				shopName = sp.getShopName();
-				textView.setText(sp.getShopName());
+				holder.textView.setText(sp.getShopName());
 				return convertView;
 			}}
 	 
@@ -611,14 +610,24 @@ public class SaleByDate extends Fragment{
 				// 
 				return position;
 			}
-			
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				LayoutInflater inflater = getActivity().getLayoutInflater();
-				convertView = inflater.inflate(R.layout.spinner_product, parent,false);
-				FlatTextView TextView = (FlatTextView)convertView.findViewById(R.id.textView1);
-				ProductGroup gp = Productgrouplist.get(position);
-				TextView.setText(gp.getProductGroupName());
+			private class ViewHolder {
+				FlatTextView textView;
+			}
+				@Override
+				public View getView(int position, View convertView, ViewGroup parent) {
+					ViewHolder  holder;
+					LayoutInflater inflater = getActivity().getLayoutInflater();
+					
+				if(convertView == null){
+					convertView = inflater.inflate(R.layout.spinner_product, parent,false);
+					holder = new ViewHolder();
+					holder.textView = (FlatTextView)convertView.findViewById(R.id.textView1);
+					convertView.setTag(holder);
+					}else{
+						holder=(ViewHolder)convertView.getTag();
+					}
+					ProductGroup gp = Productgrouplist.get(position);
+					holder.textView.setText(gp.getProductGroupName());
 				return convertView;
 			}}
 	 
@@ -677,13 +686,13 @@ public class SaleByDate extends Fragment{
 						NumberFormat currencyformatter = new DecimalFormat(currencyformat);
 						NumberFormat qtyformatter = new DecimalFormat(qtyformat);
 						
-						holder.dateValue.setText(st.getSaleDate());
-						holder.totalBill.setText(qtyformatter.format(st.getTotalBill()));
-						holder.discountValue.setText(currencyformatter.format(st.getDiscount()));
-						holder.priceValue.setText(currencyformatter.format((st.getSalePrice())));
+						holder.dateValue.setText("Date: "+st.getSaleDate());
+						holder.totalBill.setText("#Bill: "+qtyformatter.format(st.getTotalBill()));
+						holder.discountValue.setText("Discount: "+currencyformatter.format(st.getDiscount()));
+						holder.priceValue.setText("Price: "+currencyformatter.format((st.getSalePrice())));
 						text_sum_totalBill.setText(Integer.toString(Sumsale.getTotalBill()));
-						text_sum_discount.setText(currencyformatter.format(Sumsale.getDiscount()));
-						text_sum_salePrice.setText(currencyformatter.format(Sumsale.getSalePrice()));
+						text_sum_discount.setText(currencyformatter.format(Sumsale.getDiscount())+" "+currencysymbol);
+						text_sum_salePrice.setText(currencyformatter.format(Sumsale.getSalePrice())+" "+currencysymbol);
 						
 						
 					return convertView;
@@ -748,8 +757,7 @@ public class SaleByDate extends Fragment{
 					double totalpay = gsp.getTotalPay();
 					double percent = (sp.getTotalPay()* 100) / totalpay;
 					holder.percentPaymentValue.setText(currencyformatter.format(percent));
-					text_sum_payment_amount.setText(currencyformatter.format(gsp.getTotalPay()));
-					text_sum_payment_percent.setText("100%");
+					text_sum_payment_amount.setText(currencyformatter.format(gsp.getTotalPay())+" "+currencysymbol);
 					
 				return convertView;
 					}}
@@ -811,8 +819,7 @@ public class SaleByDate extends Fragment{
 					double totaldis = gpr.getDiscount();
 					double percent = (spr.getDiscount()* 100) / totaldis;
 					holder.percentPromotionValue.setText(currencyformatter.format(percent));
-					text_sum_promo_amount.setText(currencyformatter.format(gpr.getDiscount()));
-					text_sum_promo_percent.setText("100%");
+					text_sum_promo_amount.setText(currencyformatter.format(gpr.getDiscount())+" "+currencysymbol);
 				return convertView;
 					}
 	 

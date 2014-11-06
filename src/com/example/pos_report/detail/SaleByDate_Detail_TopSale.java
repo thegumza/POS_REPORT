@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,11 +14,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByDate;
-import com.example.pos_report.R.id;
-import com.example.pos_report.R.layout;
 import com.example.pos_report.database.GetSumProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
@@ -38,6 +37,7 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 	GlobalProperty format = gpd.getGlobalProperty();
 	String currencyformat = format.getCurrencyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
+	String currencysymbol = format.getCurrencySymbol();
 	
 	String shopName = SaleByDate.getShopName();
 	String payTypeName = SaleByDate.getPayTypeName();
@@ -77,7 +77,9 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 				double sumtotalpay = gsp.getSalePrice();
 				
 				for (SumProductShop tps : ts) saleprice.add(Double.toString(tps.getSalePrice()));
-				for (SumProductShop tps : ts) productname.add("("+(currencyformatter.format(tps.getSalePrice()*100 / sumtotalpay))+"%) "+tps.getProductName()+" ("+(currencyformatter.format(tps.getSalePrice()))+")");
+				for (SumProductShop tps : ts) productname.add("("+(currencyformatter.format(tps.getSalePrice()*100 / sumtotalpay))+"%) "
+				+tps.getProductName()+" ("+(currencyformatter.format(tps.getSalePrice()))+" "+currencysymbol+")");
+				
 				String[] productnameArr = new String[productname.size()];
 				productnameArr = productname.toArray(productnameArr);
 				
@@ -97,7 +99,12 @@ public class SaleByDate_Detail_TopSale extends Fragment{
 		            PieData data = new PieData(xVals, set1);
                     if(data.getYValCount() == 0){}
                     else{
+                    	//Graph
+                    	Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
                     	mChart = (PieChart) rootView.findViewById(R.id.chart1);
+                        mChart.setValueTypeface(tf);
+                        mChart.setCenterTextSize(10f);
+                        mChart.setCenterTextTypeface(tf);
                     	mChart.setHoleRadius(50f);
                         mChart.setDescription("");
                         mChart.setDrawYValues(true);
@@ -109,11 +116,12 @@ public class SaleByDate_Detail_TopSale extends Fragment{
                         mChart.animateXY(1500, 1500);
 	                    mChart.setData(data);
 	                    mChart.highlightValues(null);
-	                    mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
+	                    mChart.setCenterText("Total "+currencyformatter.format(sumtotalpay)+" "+currencysymbol);
 	                    Legend l = mChart.getLegend();
 	                    l.setPosition(LegendPosition.RIGHT_OF_CHART);
 	                    l.setForm(LegendForm.CIRCLE);
 	                    l.setTextSize(14f);
+	                    l.setTypeface(tf);
 	                    l.setXEntrySpace(7f);
 	                    l.setYEntrySpace(5f);}
                 return rootView;

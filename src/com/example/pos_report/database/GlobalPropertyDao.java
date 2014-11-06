@@ -57,6 +57,7 @@ public class GlobalPropertyDao extends ReportDatabase{
 						
 						gp.setCurrencyFormat(cursor.getString(cursor.getColumnIndex(GlobalPropertyTable.COLUMN_CURRENCY_FORMAT)));
 						gp.setQtyFormat(cursor.getString(cursor.getColumnIndex(GlobalPropertyTable.COLUMN_QTY_FORMAT)));
+						gp.setCurrencySymbol(cursor.getString(cursor.getColumnIndex(GlobalPropertyTable.COLUMN_CURRENCY_SYMBOL)));
 					}
 					return gp;
 		

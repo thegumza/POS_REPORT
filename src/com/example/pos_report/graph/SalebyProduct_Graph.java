@@ -12,16 +12,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.flatuilibrary.FlatTextView;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.R;
 import com.example.pos_report.SaleByProduct;
 import com.example.pos_report.database.GetSaleProductShopDao;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.model.GlobalProperty;
-import com.example.pos_report.database.model.ProductGroup;
-import com.example.pos_report.database.model.ProductModel;
 import com.example.pos_report.database.model.SaleProductShop;
-import com.example.pos_report.database.model.ProductModel.ProductNameModel;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -44,12 +41,10 @@ public class SalebyProduct_Graph extends Activity{
 	GlobalProperty format = gpd.getGlobalProperty();
 	String currencyformat = format.getCurrencyFormat();
 	NumberFormat currencyformatter = new DecimalFormat(currencyformat);
-	
+	String currencysymbol = format.getCurrencySymbol();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);*/
         setContentView(R.layout.salebyproduct_piegraph);
         
 
@@ -73,29 +68,6 @@ public class SalebyProduct_Graph extends Activity{
         
         mChart = (PieChart) findViewById(R.id.chart1);
 
-        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-
-        mChart.setValueTypeface(tf);
-        mChart.setCenterTextTypeface(Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf"));
-	
-        mChart.setHoleRadius(50f);
-        mChart.setDescription("");
-        mChart.setDrawYValues(true);
-        mChart.setDrawCenterText(true);
-        mChart.setDrawHoleEnabled(true);
-
-        // draws the corresponding description value into the slice
-        mChart.setDrawXValues(false);
-        mChart.setTouchEnabled(true);
-
-        // display percentage values
-        mChart.setUsePercentValues(true);
-        // mChart.setUnit(" €");
-        // mChart.setDrawUnitsInChart(true);
-
-        // add a selection listener
-
-        mChart.animateXY(1500, 1500);
 
 		
         final GetSaleProductShopDao gp = new GetSaleProductShopDao(this);
@@ -108,7 +80,8 @@ public class SalebyProduct_Graph extends Activity{
 		sum = gp.getSumProduct();
 		double totalproductprice = sum.getSumSalePrice();
 		//double percent = (ss.getSumSalePrice()* 100) / totalprice;
-		for (SaleProductShop pmm : sp) productdeptname.add("("+(currencyformatter.format((pmm.getSumSalePrice()* 100)/totalproductprice))+"%) "+(pmm.getProductDeptName())+" ("+(currencyformatter.format(pmm.getSumSalePrice()))+")");
+		for (SaleProductShop pmm : sp) productdeptname.add("("+(currencyformatter.format((pmm.getSumSalePrice()* 100)/totalproductprice))+"%) "
+		+(pmm.getProductDeptName())+" ("+(currencyformatter.format(pmm.getSumSalePrice()))+" "+currencysymbol+")");
 		
 		for (SaleProductShop pmm : sp) totalprice.add(Double.toString(pmm.getSumSalePrice()));
 		
@@ -126,23 +99,33 @@ public class SalebyProduct_Graph extends Activity{
             for (int i = 0; i < productdeptname.size(); i++)
                 xVals.add(deptArr[i]);
             PieDataSet set1 = new PieDataSet(yVals1, "");
-            set1.setSliceSpace(3f);
             set1.setColors(ColorTemplate.PASTEL_COLORS);
-
             PieData data = new PieData(xVals, set1);
-            mChart.setData(data);
-
-            mChart.highlightValues(null);
-
-            mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
-            
-            Legend l = mChart.getLegend();
-            l.setPosition(LegendPosition.RIGHT_OF_CHART);
-            l.setForm(LegendForm.CIRCLE);
-            l.setTextSize(12f);
-            l.setXEntrySpace(7f);
-            l.setYEntrySpace(5f);
-            l.setTypeface(tf);
+            if(data.getYValCount() == 0){}
+            else{
+            	//Graph
+            	Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
+                mChart.setValueTypeface(tf);
+                mChart.setCenterTextTypeface(tf);
+        		mChart = (PieChart) findViewById(R.id.chart1);
+            	mChart.setHoleRadius(50f);
+                mChart.setDescription("");
+                mChart.setDrawYValues(true);
+                mChart.setDrawCenterText(true);
+                mChart.setDrawHoleEnabled(true);
+                mChart.setDrawXValues(false);
+                mChart.setTouchEnabled(false);
+                mChart.setUsePercentValues(true);
+                mChart.animateXY(1500, 1500);
+                mChart.setData(data);
+                mChart.highlightValues(null);
+                mChart.setCenterText("Total Price " + (int) mChart.getYValueSum());
+                Legend l = mChart.getLegend();
+                l.setPosition(LegendPosition.RIGHT_OF_CHART);
+                l.setForm(LegendForm.CIRCLE);
+                l.setTextSize(14f);
+                l.setXEntrySpace(7f);
+                l.setYEntrySpace(5f);}
     }
 
     @Override
@@ -161,43 +144,6 @@ public class SalebyProduct_Graph extends Activity{
                 else
                     mChart.setDrawYValues(true);
                 mChart.invalidate();
-                break;
-            }
-            case R.id.actionTogglePercent: {
-                if (mChart.isUsePercentValuesEnabled())
-                    mChart.setUsePercentValues(false);
-                else
-                    mChart.setUsePercentValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleHole: {
-                if (mChart.isDrawHoleEnabled())
-                    mChart.setDrawHoleEnabled(false);
-                else
-                    mChart.setDrawHoleEnabled(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionDrawCenter: {
-                if (mChart.isDrawCenterTextEnabled())
-                    mChart.setDrawCenterText(false);
-                else
-                    mChart.setDrawCenterText(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionToggleXVals: {
-                if (mChart.isDrawXValuesEnabled())
-                    mChart.setDrawXValues(false);
-                else
-                    mChart.setDrawXValues(true);
-                mChart.invalidate();
-                break;
-            }
-            case R.id.actionSave: {
-                // mChart.saveToGallery("title"+System.currentTimeMillis());
-                mChart.saveToPath("title" + System.currentTimeMillis(), "");
                 break;
             }
             case R.id.animateX: {

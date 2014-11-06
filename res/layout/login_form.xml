@@ -31,27 +31,29 @@
             android:orientation="vertical" >
 					
 
-                <com.example.flatuilibrary.FlatTextView
+                <com.cengalabs.flatui.views.FlatTextView
                     android:id="@+id/txtUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:text="Username: "
-                    android:textSize="16dp"
-                    flatui:fl_fontWeight="bold"
-                    flatui:fl_fontFamily="quark"
-                    flatui:fl_fontExtension="otf" />
+                    android:textSize="18dp"
+                    flatui:fl_fontWeight="regular"
+                    flatui:fl_fontFamily="roboto"
+                    flatui:fl_fontExtension="ttf"
+                    android:textColor="#000000" />
 
-                <com.example.flatuilibrary.FlatTextView
+                <com.cengalabs.flatui.views.FlatTextView
                     android:id="@+id/txtPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:text="Password: "
-                    android:textSize="16dp"
-                    flatui:fl_fontExtension="otf"
-                    flatui:fl_fontFamily="quark"
-                    flatui:fl_fontWeight="bold" />
+                    android:textSize="18dp"
+                    flatui:fl_fontExtension="ttf"
+                    flatui:fl_fontFamily="roboto"
+                    flatui:fl_fontWeight="regular"
+                    android:textColor="#000000" />
                 
                 
             </LinearLayout>
@@ -62,8 +64,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                
-				<com.example.flatuilibrary.FlatEditText
+				<com.cengalabs.flatui.views.FlatEditText
                 android:id="@+id/edtUserName"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
@@ -76,7 +77,7 @@
         		flatui:fl_theme="@array/snow"
         		flatui:fl_fieldStyle="box" />
 				
-                <com.example.flatuilibrary.FlatEditText
+                <com.cengalabs.flatui.views.FlatEditText
                     android:id="@+id/edtPassword"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
@@ -93,7 +94,7 @@
         </LinearLayout>
     </LinearLayout>
 
-        <com.example.flatuilibrary.FlatButton
+        <com.cengalabs.flatui.views.FlatButton
             android:id="@+id/btnLogin"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -101,10 +102,49 @@
             android:textColor="#ffffff"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            flatui:fl_blockButtonEffectHeight="3dp"
-            flatui:fl_theme="@array/orange"
+            flatui:fl_blockButtonEffectHeight="5dp"
+            flatui:fl_theme="@array/sea"
+            flatui:fl_fontExtension="ttf"
+            flatui:fl_fontFamily="roboto"
             flatui:fl_fontWeight="regular" />
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="5dp" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="10dp" >
+            
+            <com.cengalabs.flatui.views.FlatTextView
+            android:id="@+id/txtUDID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UDID : "
+            android:textSize="18dp"
+        	android:textColor="#000000"
+	        flatui:fl_fontExtension="ttf"
+            flatui:fl_fontFamily="roboto"
+            flatui:fl_fontWeight="regular" />
+            
+
+            <com.cengalabs.flatui.views.FlatTextView
+                android:id="@+id/value_udid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SHOW UDID CODE"
+                android:textSize="18dp"
+                android:textColor="#000000"
+	        	flatui:fl_fontExtension="ttf"
+            flatui:fl_fontFamily="roboto"
+            flatui:fl_fontWeight="regular" />
+            
+        </LinearLayout>
+
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -116,34 +156,43 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp" >
                 
-                <com.example.flatuilibrary.FlatButton
+                <com.cengalabs.flatui.views.FlatButton
 		            android:id="@+id/btnUpdate"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:text="Database"
-		            android:textColor="#ffffff"
+		            android:text="Update"
+		            android:textColor="#000000"
 		            android:layout_gravity="bottom|left"
 		            android:layout_margin="10dp"
-		            flatui:fl_blockButtonEffectHeight="3dp"
-		            flatui:fl_theme="@array/orange"
-		            flatui:fl_fontWeight="regular"
-		             />
+		            android:drawableLeft="@drawable/ic_system_update_black_24dp"
+		            android:drawablePadding="5dp"
+		            flatui:fl_blockButtonEffectHeight="5dp"
+            		flatui:fl_theme="@array/sea"
+            		flatui:fl_fontExtension="ttf"
+            flatui:fl_fontFamily="roboto"
+            flatui:fl_fontWeight="regular" />
+                
 			<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                 android:gravity="right" >
-                <com.example.flatuilibrary.FlatButton
-                    android:id="@+id/btnSetting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:text="Setting"
-                    android:textColor="#ffffff"
-                    android:layout_margin="10dp"
-                    flatui:fl_blockButtonEffectHeight="3dp"
-                    flatui:fl_fontWeight="regular"
-                    flatui:fl_theme="@array/orange" />
+                
+                <com.cengalabs.flatui.views.FlatButton
+		            android:id="@+id/btnSetting"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="Setting"
+		            android:textColor="#000000" 
+		            android:layout_gravity="bottom|left"
+		            android:layout_margin="10dp"
+		            android:drawableLeft="@drawable/ic_settings_black_24dp"
+		            android:drawablePadding="5dp"
+		            flatui:fl_blockButtonEffectHeight="5dp"
+            		flatui:fl_theme="@array/sea"
+            		flatui:fl_fontExtension="ttf"
+            flatui:fl_fontFamily="roboto"
+            flatui:fl_fontWeight="regular" />
                 </LinearLayout>
             </LinearLayout>
 

@@ -6,8 +6,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.flatuilibrary.FlatButton;
-import com.example.flatuilibrary.FlatEditText;
+import com.cengalabs.flatui.views.FlatButton;
+import com.cengalabs.flatui.views.FlatEditText;
+import com.cengalabs.flatui.views.FlatTextView;
 import com.example.pos_report.database.GlobalPropertyDao;
 import com.example.pos_report.database.PayTypeDao;
 import com.example.pos_report.database.ProductDeptDao;
@@ -18,39 +19,35 @@ import com.example.pos_report.database.ReportDatabase;
 import com.example.pos_report.database.ShopPropertyDao;
 import com.example.pos_report.database.StaffsDao;
 import com.example.pos_report.database.model.AllProductData;
-import com.example.pos_report.database.model.SaleProductShop;
 import com.example.pos_report.database.model.ShopData;
 import com.example.pos_report.database.model.Staffs;
-import com.example.pos_report.database.model.SumPaymentShop;
-import com.example.pos_report.database.model.TopProductShop;
-import com.example.pos_report.database.table.StaffsTable;
-import com.example.pos_report.database.table.SumData_PaymentReportTable;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings.Secure;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
+
 
 public class POS_Login extends Activity {
 	private static ProgressDialog  pdia;
-	FlatButton btnLogin,btnUpdate,btnSetting;
+	FlatButton btnLogin;
 	public static String URL;
 	private static ReportDatabase Database;
 	private AlertDialog ald;
 	private FlatEditText edtuserName,edtpassWord;
-	String userName,passWord; 
-	String enPass;
+	private static String userName;
+	private String passWord; 
+	String enPass,udid;
+	FlatButton btnUpdate,btnSetting;
+	FlatTextView setting_udid;
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
 		getActionBar().hide();
@@ -59,19 +56,18 @@ public class POS_Login extends Activity {
        //final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
       
        Database = new ReportDatabase(this);
-  	   /*String path_ip = sharedPreferences.getString("path_ip", "");
-  	   String path_visual = sharedPreferences.getString("path_visual", "");
-  	   URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";*/
   	   pdia = new ProgressDialog(this);
 	   pdia.setCancelable(true);
 	   pdia.setIndeterminate(true);
 	    
-       
+	   	udid = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
         btnLogin = (FlatButton)findViewById(R.id.btnLogin);
         btnUpdate = (FlatButton)findViewById(R.id.btnUpdate);
         btnSetting = (FlatButton)findViewById(R.id.btnSetting);
         edtuserName = (FlatEditText)findViewById(R.id.edtUserName);
         edtpassWord = (FlatEditText)findViewById(R.id.edtPassword);
+        setting_udid = (FlatTextView) findViewById(R.id.value_udid);
+        setting_udid.setText(udid);
         
         btnLogin.setOnClickListener(new View.OnClickListener() {
 		    @Override
@@ -199,10 +195,6 @@ public class POS_Login extends Activity {
 					
 					pdia.dismiss();
 					
-					
-					
-					
-							
 				} catch (JsonSyntaxException e) {
 					e.printStackTrace();
 				}
@@ -238,21 +230,9 @@ public class POS_Login extends Activity {
         byte[] sha1hash = md.digest();
         return convertToHex(sha1hash);
     }
- 
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-			super.onResume();
-			final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		  	String path_ip = sharedPreferences.getString("path_ip", "");
-		  	String path_visual = sharedPreferences.getString("path_visual", "");
-		  	URL = "http://"+path_ip+"/"+path_visual+"/ws_dashboard.asmx?WSDL";
-	  	   
+
+	public static String getUserName() {
+		return userName;
 	}
-
-
-    
-	
-    
-	
+ 
 }

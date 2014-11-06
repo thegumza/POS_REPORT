@@ -24,7 +24,7 @@
             android:weightSum="1"
             >
             
-	<com.example.flatuilibrary.FlatTextView
+	<com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_tableDateName"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
             
-			<com.example.flatuilibrary.FlatTextView
+			<com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txtsaledate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000" />
 			
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txttotalbill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000" />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txttotalcust"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000" />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txttotalvat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,7 +131,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000" />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txttotalretail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000" />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txttotaldis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000" />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/txttotalsale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
                 
-             <com.example.flatuilibrary.FlatTextView
+             <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/SaleDateValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -183,27 +183,29 @@
                 android:textSize="20dp"
         		android:textColor="#000000"  />
                 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/TotalBillValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:drawableRight="@drawable/ic_content_paste_black_24dp"
                 android:padding="5dp"
                 android:text=""
                 android:textSize="20dp"
         		android:textColor="#000000"  />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/ToTalCustValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:drawableRight="@drawable/ic_person_black_24dp"
                 android:padding="5dp"
                 android:text=""
                 android:textSize="20dp"
-        		android:textColor="#000000"  />
+        		android:textColor="#000000" />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/TotalVatValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -213,7 +215,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000"  />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/TotalRetailValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +225,7 @@
                 android:textSize="20dp"
         		android:textColor="#000000"  />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/TotalDisValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -233,7 +235,7 @@
                 android:textSize="20dp" 
         		android:textColor="#000000" />
 
-            <com.example.flatuilibrary.FlatTextView
+            <com.cengalabs.flatui.views.FlatTextView
                 android:id="@+id/TotalSaleValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -251,83 +253,52 @@
 	 <LinearLayout
         android:id="@+id/boxReportShow_payment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
         android:paddingTop="10dp" >
         
 	        <LinearLayout
             android:id="@+id/headTablepayment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
             
-	        <com.example.flatuilibrary.FlatTextView
-	        android:layout_width="match_parent"
+	        <com.cengalabs.flatui.views.FlatTextView
+	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
-	        android:minHeight="30dp"
-	        android:textSize="20dp"
+	        android:textSize="25dp"
 	        android:textStyle="bold"
 	        android:text="Payment"
+	        android:layout_weight="0.85"
 	        android:gravity="center"
+	        android:layout_gravity="center"
             android:textColor="@android:color/white"
             android:background="@color/deep_primary"
             flatui:fl_fontWeight="regular" />
 	        
+	        <com.cengalabs.flatui.views.FlatButton
+		    android:id="@+id/showChart_payment"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:gravity="center"
+		    android:layout_margin="3dp"
+		    android:drawableLeft="@drawable/ic_data_usage_black_24dp"
+		    android:layout_weight="0.15"
+		    flatui:fl_blockButtonEffectHeight="3dp"
+		    flatui:fl_theme="@array/snow" />
+	        
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/headTablePayment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/deep_primary"
-            android:orientation="horizontal"
-            android:weightSum="1" >
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_head_payment"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.4"
-	            android:text="Payment"
-	            android:textColor="#ffffff"
-	            android:gravity="center"
-	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular" />
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_head_payment_amount"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.3"
-	            android:text="Amount"
-	            android:textColor="#ffffff"
-	            android:gravity="center"
-	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular" />
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_head_payment_percent"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.3"
-	            android:text="%"
-	            android:textColor="#ffffff"
-	            android:gravity="center"
-	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular" />
         
-        </LinearLayout>
         
         <ListView
             android:id="@+id/listPayment"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="200dp"
             android:background="@color/snow_dark"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
@@ -338,145 +309,100 @@
             android:id="@+id/summaryTablePayment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/snow_dark"
+            android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_payment"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.4"
 	            android:text="Summary"
-	            android:textColor="#000000"
+	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_payment_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
 	            android:text=""
-	            android:textColor="#000000"
+	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_payment_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
 	            android:text=""
-	            android:textColor="#000000"
+	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
         
         </LinearLayout>
         
     </LinearLayout>
-<com.example.flatuilibrary.FlatButton
-	        android:id="@+id/showChart_payment"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/selectZone"
-	        android:layout_below="@+id/selectZone"
-	        android:minHeight="30dp"
-	        android:textSize="16dp"
-	        android:textStyle="bold"
-	        android:text="Payment Chart"
-	        android:layout_marginTop="10dp"
-            android:textColor="@android:color/white"
-            flatui:fl_theme="@array/grape"
-            flatui:fl_textAppearance="light"
-            flatui:fl_blockButtonEffectHeight="3dp"
-            flatui:fl_fontWeight="regular" />
+
+
+
 <LinearLayout
         android:id="@+id/boxReportShow_promotion"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
         android:paddingTop="10dp" >
         
 	        <LinearLayout
             android:id="@+id/headTablepromo"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginBottom="2dp" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
-	        android:layout_width="match_parent"
+	        <com.cengalabs.flatui.views.FlatTextView
+	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
-	        android:minHeight="30dp"
-	        android:textSize="20dp"
+	        android:layout_weight="0.85"
+	        android:textSize="25dp"
 	        android:textStyle="bold"
 	        android:text="Promotion"
             android:textColor="@android:color/white"
             android:gravity="center"
+            android:layout_gravity="center"
             android:background="@color/deep_primary"
             flatui:fl_fontWeight="regular" />
 	        
+	        <com.cengalabs.flatui.views.FlatButton
+			    android:id="@+id/showChart_promotion"
+			    android:layout_width="0dp"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center"
+		    	android:gravity="center"
+			    android:layout_margin="3dp"
+			    android:drawableLeft="@drawable/ic_data_usage_black_24dp"
+			    android:layout_weight="0.15"
+			    flatui:fl_blockButtonEffectHeight="3dp"
+			    flatui:fl_theme="@array/snow" />
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/headTablePromotion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/deep_primary"
-            android:orientation="horizontal"
-            android:weightSum="1" >
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_head_promotion"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.4"
-	            android:text="Promotion"
-	            android:textColor="#ffffff"
-	            android:gravity="center"
-	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular" />
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_head_promo_amount"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.3"
-	            android:text="Amount"
-	            android:textColor="#ffffff"
-	            android:gravity="center"
-	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular"/>
-	        
-	        <com.example.flatuilibrary.FlatTextView
-	            android:id="@+id/text_head_promo_percent"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="0.3"
-	            android:text="%"
-	            android:textColor="#ffffff"
-	            android:gravity="center"
-	            android:textStyle="bold"
-	            android:textSize="18dp"
-	            flatui:fl_fontWeight="regular"/>
-        
-        </LinearLayout>
+       
         
         <ListView
             android:id="@+id/listPromotion"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="200dp"
             android:background="@color/snow_dark"
             android:paddingLeft="5dp"
             android:paddingRight="5dp" >
@@ -487,65 +413,49 @@
             android:id="@+id/summaryTablePromotion"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/snow_dark"
+            android:background="@color/deep_primary"
             android:orientation="horizontal"
             android:weightSum="1" >
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_promotion"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.4"
 	            android:text="Summary"
-	            android:textColor="#000000"
+	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_promo_amount"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
 	            android:text=""
-	            android:textColor="#000000"
+	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
 	        
-	        <com.example.flatuilibrary.FlatTextView
+	        <com.cengalabs.flatui.views.FlatTextView
 	            android:id="@+id/text_sum_promo_percent"
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="0.3"
 	            android:text=""
-	            android:textColor="#000000"
+	            android:textColor="#ffffff"
 	            android:gravity="center"
 	            android:textStyle="bold"
-	            android:textSize="18dp"
+	            android:textSize="20dp"
 	            flatui:fl_fontWeight="regular" />
         
         </LinearLayout>
         
     </LinearLayout>
-    	<com.example.flatuilibrary.FlatButton
-	        android:id="@+id/showChart_promotion"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignLeft="@+id/selectZone"
-	        android:layout_below="@+id/selectZone"
-	        android:minHeight="30dp"
-	        android:textSize="16dp"
-	        android:textStyle="bold"
-	        android:text="Promotion Chart"
-	        android:layout_marginTop="10dp"
-            android:textColor="@android:color/white"
-            flatui:fl_theme="@array/grass"
-            flatui:fl_textAppearance="light"
-            flatui:fl_blockButtonEffectHeight="3dp"
-            flatui:fl_fontWeight="regular" />
 
     	
 </LinearLayout>

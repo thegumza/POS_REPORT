@@ -7,11 +7,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.example.pos_report.POS_Login;
 import com.example.pos_report.database.model.Staffs;
-import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.table.StaffsTable;
-import com.example.pos_report.database.table.SumData_PaymentReportTable;
 
 public class StaffsDao extends ReportDatabase{
 

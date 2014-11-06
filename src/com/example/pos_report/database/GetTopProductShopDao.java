@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.pos_report.SaleByDate;
-import com.example.pos_report.database.model.SumPaymentShop;
 import com.example.pos_report.database.model.TopProductShop;
-import com.example.pos_report.database.table.SumData_PaymentReportTable;
 import com.example.pos_report.database.table.SumData_ProductReportTable;
 import com.example.pos_report.database.table.SumData_TopProductReportTable;
 

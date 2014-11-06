@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/typePaymentValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:textColor="#000000"
         android:textSize="20dp" />
 
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/amountPaymentValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -27,12 +27,12 @@
         android:textColor="#000000"
         android:textSize="20dp" />
     
-    <com.example.flatuilibrary.FlatTextView
+    <com.cengalabs.flatui.views.FlatTextView
         android:id="@+id/percentPaymentValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.33"
-        android:gravity="center"
+        android:gravity="right"
         android:singleLine="true"
         android:text="##"
         android:textColor="#000000"
